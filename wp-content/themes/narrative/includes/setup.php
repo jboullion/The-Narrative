@@ -59,12 +59,15 @@ function remove_admin_bar() {
 add_action('init', 'sp_register_cpts');
 function sp_register_cpts() {
 
-	sp_register_cpt(array('name' => 'video', 'icon' => 'dashicons-format-video', 'position' => 30 ));
+	sp_register_cpt(array('name' => 'channel', 'icon' => 'dashicons-format-video', 'position' => 30 ));
+	//sp_register_cpt(array('name' => 'video', 'icon' => 'dashicons-format-video', 'position' => 30 ));
+
+	sp_register_taxonomy('genre', 'channels', 'Genre');
 
 	// Woocommerce Taxonomies 
-	sp_register_taxonomy('channel', 'videos', 'Channel');
-	sp_register_taxonomy('genre', 'videos', 'Genre');
-	sp_register_taxonomy('topic', 'videos', 'Topic');
+	// sp_register_taxonomy('channel', 'videos', 'Channel');
+	// sp_register_taxonomy('genre', 'videos', 'Genre');
+	// sp_register_taxonomy('topic', 'videos', 'Topic');
 
 	//unregister_taxonomy_for_object_type('post_tag', 'post');
 	//unregister_taxonomy_for_object_type('product_tag', 'product');
