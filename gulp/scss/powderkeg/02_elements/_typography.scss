@@ -1,0 +1,123 @@
+// h1,h2,h3,h4,h5,h6,
+// .h1,.h2,.h3,.h4,.h5,.h6 {
+// 	color: $white;
+// 	font-family: $header-font;
+// 	margin-bottom: 20px;
+// 	margin-top: 0;
+// }
+
+// h1,.h1 {
+// 	font-size: 5.5rem;
+// 	font-weight: bold;
+// 	line-height: 1.2;
+// 	@include media-breakpoint-down(sm) { font-size:4.8rem; }
+// 	@include media-breakpoint-down(xs) { font-size:4rem; }
+// }
+
+// h2,.h2 {
+// 	font-size: 4.5rem;
+// 	font-weight: 400;
+// 	line-height: 1.2;
+// 	@include media-breakpoint-down(xs) { font-size:3rem; }
+// }
+
+// h3,.h3 {
+// 	font-size: 3.4rem;
+// 	font-weight: 700;
+// 	line-height: 1.5;
+
+// 	a {
+// 		color: $primary;
+// 		font-size: 1.5rem; 
+// 		float: right;
+// 		line-height: 50px;
+// 		text-decoration: none;
+
+// 		&:hover {
+// 			text-decoration: none;
+// 		}
+// 	}
+
+// 	@include media-breakpoint-down(sm) { 
+// 		a {
+// 			float: none;
+// 			display: block;
+// 		}
+// 	}
+// }
+
+// h4,.h4 {
+// 	color: $black;
+// 	font-size: 2.5rem;
+// 	font-weight: 400;
+// 	line-height: 1.7;
+// }
+
+// h5,.h5 {
+// 	color: $blue;
+// 	font-size: 2rem;
+// 	font-weight: bold;
+// 	line-height: 1.4;
+// 	letter-spacing: 0.1em;
+// 	text-transform: uppercase;
+// }
+
+// h6,.h6 {
+// 	color: $black;
+// 	font-weight: 400;
+// 	font-size: 1.3rem;
+// 	line-height:1.5;
+	
+// }
+
+// p, li, td, th
+// .default-font-style {
+// 	color: $text-color;
+// 	font-family: $opensans;
+// 	font-size: 1.5rem;
+// 	line-height: 1.7;
+// }
+
+// p,
+// .default-font-style {
+// 	margin-bottom: 20px;
+// }
+
+// ul,ol {
+// 	margin-bottom: 20px;
+// }
+
+// li {
+// 	margin-bottom: 10px;
+// }
+
+// html {
+// 	font-size:$root-font-size;
+// 	line-height:1.5;
+// }
+
+// a {
+// 	color: $anchor-color;
+// 	text-decoration: none;
+
+// 	&:focus,
+// 	&:active {
+// 		color:$anchor-color;
+// 	}
+
+// 	&:hover{
+// 		color:$anchor-hover;
+// 	}
+// }
+
+// ::-webkit-input-placeholder{ @include placeholder-styles($gray-400); }
+// :-moz-placeholder { @include placeholder-styles($gray-400); }
+// ::-moz-placeholder { @include placeholder-styles($gray-400); }
+// :-ms-input-placeholder { @include placeholder-styles($gray-400); }
+
+// ::-moz-selection { @include selection-styles($orange); }
+// ::selection { @include selection-styles($orange); }
+
+// .fa-facebook-f { color: $facebook; }
+// .fa-twitter { color: $twitter; }
+// .fa-linkedin-in { color: $linkedin; }

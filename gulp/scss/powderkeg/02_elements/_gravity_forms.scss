@@ -1,0 +1,427 @@
+// .site-form,
+// .account-form,
+// .gform_wrapper { 
+// 	font-family: $body-font;
+
+// 	input[type=search],
+// 	input[type=password],
+// 	input[type=number],
+// 	input[type=text],
+// 	input[type=email],
+// 	input[type=tel],
+// 	input[type=date],
+// 	input[type=time],
+// 	input[type=url],
+// 	input.input-text,
+// 	select,textarea	{ 
+// 		border: 1px solid $gray-200;
+// 		box-shadow: none;
+
+// 		&:focus { 
+// 			box-shadow: none;
+// 		}
+// 	}
+
+// 	input[type=date] {
+// 		padding: 16px 20px 16px 20px;
+// 	}
+
+// 	ul { 
+// 		margin: 0px; 
+
+// 		&.gform_fields { 
+
+// 			margin-left: 0; 
+// 			padding-left: 0;
+
+// 			li { 
+// 				list-style: none; 
+// 				padding-top: 20px;
+// 				&:before		{ 
+// 					display: none; 
+// 				}
+
+// 				&.gfield_html { 
+// 					clear: left;
+// 					padding-top: 50px;
+// 				}
+// 			}
+// 		}
+// 	}
+
+// 	.gform_heading { 
+// 		margin-bottom: 20px;
+
+// 		span.gform_description {  
+
+// 		}
+// 	}
+
+
+// 	li.gfield.gform_hidden { 
+// 		min-height: 0px; 
+// 	}
+
+// 	.top_label .gfield_label,
+// 	label { 
+		
+// 	}
+
+// 	.gfield_required { 
+// 		color: $error !important;
+// 	}
+
+// 	.input-group {
+// 		border: 0;
+
+// 		input,
+// 		textarea,
+// 		select,
+// 		.input-group-text {
+// 			//border: 0;
+// 		}
+
+// 		.input-group-prepend,
+// 		.input-group-append {
+			
+// 			i {
+// 				color: $primary;
+// 				font-weight: normal;
+// 				padding: 2.2rem 2rem;
+// 			}
+// 		}
+// 	}
+	
+ 
+// 	select { 
+// 		position:relative; 
+// 		cursor: pointer; 
+// 		display: inline-block; 
+// 		padding: 19px 40px 19px 20px;
+// 		outline: none; 
+// 		-webkit-appearance: none;
+// 		-moz-appearance: none; 
+// 		-ms-appearance: none;
+// 		width: 100%; 
+// 		max-width:100%;
+
+// 		&:-moz-focusring { 
+// 			color: transparent; 
+// 			text-shadow: 0 0 0 #000;
+// 		}
+
+// 		&.error { 
+// 			border: 1px solid $red; 
+// 		}
+
+// 		&:focus, &.active { 
+// 			//border-color:$red; 
+// 		}
+
+// 		&.placeholder { 
+// 			color:$red; 
+// 		}
+
+// 		option { 
+// 			padding: 4px 15px; 
+
+// 			&:disabled { 
+// 				display: none; 
+// 			}
+// 		}
+// 	}
+
+// 	.ginput_container { 
+	
+// 		padding-right: 30px;
+// 		width: 100%; 
+
+// 		input {
+// 			width: 100%;
+// 		}
+
+// 	}
+
+// 	.ginput_container_date {
+// 		position: relative;
+
+// 		&:before { 
+// 			@include awesome-input("\f133");
+// 		}
+// 	}
+
+// 	.ginput_container_password {
+// 		> span {
+// 			position: relative;
+// 		}
+
+// 		button {
+// 			position: absolute;
+// 			top: 0;
+// 			right: 0;
+// 		}
+// 	}
+
+// 	.address_state,
+// 	.ginput_container_select { 
+// 		position: relative;
+// 		&:before { 
+// 			@include awesome-input("\f107");
+// 		}
+// 	}
+
+// 	.ginput_container_checkbox .gfield_checkbox,
+// 	.ginput_container_radio .gfield_radio { 
+// 		padding-left: 0; 
+// 		padding-top: 0px;
+// 		margin-left: 0;
+
+// 		li { 
+// 			clear: left; 
+// 			padding-top: 0; 
+// 		}
+
+// 		> label { 
+// 			display: none; 
+// 		}
+
+// 		label { 
+// 			width: auto; 
+// 			padding: 0px; 
+// 			font-weight: normal; 
+// 			text-transform: none; 
+// 			position: relative; 
+// 		}
+
+// 		input { 
+// 			display: none;
+
+// 			+ label { 
+// 				@include user-select(none); 
+// 				cursor: pointer; 
+// 				font-family: $body-font; 
+// 				font-weight: none; 
+// 				padding-left: 30px; 
+// 				text-transform: normal;
+				
+
+// 				&:before { 
+// 					font-family: $font-awesome;
+// 					font-weight: normal; 
+// 					position: absolute; 
+// 					left: 0px; 
+// 					text-align: center;
+// 					width: 1.25em; 
+// 				}
+// 			}
+
+// 			&:checked + label:before { 
+// 				color: $primary; 
+// 				margin-right: 6.5px;
+// 			}
+// 		}
+// 	}
+
+// 	.ginput_container_checkbox {
+// 		.gfield_checkbox { 
+// 			input { 
+// 				+ label {
+// 					&:before { 
+// 						content: "\f0c8";
+// 					}
+// 				}
+
+// 				&:checked + label:before { 
+// 					content: "\f14a";
+// 				}
+// 			}
+// 		}
+// 	}
+
+// 	.ginput_container_radio {
+// 		.gfield_radio { 
+// 			input { 
+// 				+ label { 
+// 					&:before { 
+// 						content: "\f111"; 
+// 					}
+// 				}
+
+// 				&:checked + label:before { 
+// 					content: "\f192"; 
+// 				}
+// 			}
+// 		}
+// 	}
+
+// 	/* AKA HONEYPOT */
+// 	.gform_validation_container { 
+// 		height: 1px; 
+// 		text-indent: -9999px;
+// 	}
+
+// 	.validation_error			{ 
+// 		color: $error !important; 
+// 		margin-bottom: 10px; 
+// 		font-weight: bold; 
+// 		font-size: 20px; 
+// 		line-height: 30px; 
+// 		font-family: $body-font;
+// 	}
+
+// 	.ginput_recaptcha > div		{ width: 100% !important; }
+
+// 	.full { 
+// 		clear: left; 
+// 	}
+
+// 	.half						{ float: left; clear: none; 
+// 		&.right					{ float: right; 
+// 			textarea			{ height: 238px; }
+// 		}
+
+// 		@media (min-width: $screen-lg-min)  { width: 50%; }
+// 		@media (min-width: $screen-md-min) and (max-width: $screen-md-max)  { width: 50%; }
+// 		@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) { width: 100%; }
+// 		@media (max-width: $screen-xs-max)  { width: 100%; }
+// 	}
+
+// 	.quarter					{ float: left; clear: none; 
+// 		&.right					{ float: right; 
+// 			textarea			{ height: 238px; }
+// 		}
+
+// 		@media (min-width: $screen-lg-min)  { width: 25%; }
+// 		@media (min-width: $screen-md-min) and (max-width: $screen-md-max)  { width: 25%; }
+// 		@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) { width: 50%; }
+// 		@media (max-width: $screen-xs-max)  { width: 100%; }
+// 	}
+
+// 	.gfield_error				{ 
+// 		input, textarea			{ border: 1px solid red; }
+// 	}
+
+// 	.hidden {
+// 		display: none;
+// 	}
+
+// 	div.gform_card_icon {
+// 		margin-right: 4px;
+// 		text-indent: -9000px;
+// 		background-image: url($img-path+'credit-cards.png');
+// 		background-repeat: no-repeat;
+// 		width: 71px;
+// 		height: 44px;
+// 		float: left;
+// 		margin-bottom: 20px;
+// 	}
+
+// 	.ginput_card_security_code_icon {
+// 		display: none;
+// 	}
+
+// 	.gform_card_icon_amex {
+
+// 	}
+
+// 	.gform_card_icon_discover {
+// 		background-position: -83px 0;
+// 	}
+
+// 	.gform_card_icon_mastercard {
+// 		background-position: -166px 0;
+// 	}
+
+// 	.gform_card_icon_visa {
+// 		background-position: -249px 0;
+// 	}
+
+// 	.ginput_container_creditcard {
+// 		padding: 0;
+		
+
+// 		label {
+// 			clear: left;
+// 			margin-top: 20px;
+// 		}
+
+// 		input, select {
+// 			//margin-bottom: 30px;
+// 		}
+
+// 		.ginput_full {
+// 			clear: left;
+// 			display: block;
+// 			// padding-right: 30px;
+// 		}
+
+// 		.ginput_card_expiration_container {
+// 			display: flex;
+// 			flex-wrap: wrap;
+
+// 			select {
+// 				width: 48%;
+
+// 				&:first-child {
+// 					margin-right: 4%;
+// 				}
+// 			}
+
+// 			label {
+// 				width: 100%;
+// 			}
+// 		}
+// 	}
+
+// }
+
+// .gform_footer					{ 
+// 	clear: left; 
+// 	padding: 0 24px 30px;
+
+// 	button,
+// 	input						{ @extend .btn; @extend .btn-primary; }
+
+// 	@media (max-width: $screen-xs-max)  { padding-left: 0; }
+// }
+
+// .gfield_description				{ font-size: 0.8em; font-style: italic; line-height: 1.6;
+// 	&.validation_message		{ color: $error !important; }
+// }
+
+// /* General GF Date Picker */
+// #ui-datepicker-div				{ background: #FFF; border: 1px solid #ddd; border-radius:4px; @include box-shadow(0px 3px 5px 0px rgba(50, 50, 50, 0.75)); display:none; padding:20px; width:300px; 
+
+// 	a							{ text-decoration: none; }
+
+// 	.ui-icon					{ color: transparent; cursor: pointer; font-size: 0px; }
+// 	.ui-icon:before				{ color: $anchor-color; font-family:"Font Awesome 5 Pro","FontAwesome"; font-size: 18px; }
+
+// 	.ui-datepicker-prev			{ float: left; width: 10%;
+// 		.ui-icon:before			{ content:'\f060'; }
+// 		&.ui-state-disabled		{ display:none; }
+// 	}
+// 	.ui-datepicker-next			{ float: right; width: 10%;
+// 		.ui-icon:before			{ content:'\f061'; float: right; }
+// 		&.ui-state-disabled		{ display:none; }
+// 	}
+
+// 	.ui-datepicker-title		{ 
+// 		select					{ float: left;  width: 70%; }
+
+// 		.ui-datepicker-month	{ margin: 0px 5% 6px; }
+// 		.ui-datepicker-year		{ margin: 0px 15% 6px; }
+// 	}
+
+// 	.ui-datepicker-today		{ background-color: $primary; border-radius: 4px;
+// 		a						{ color: #FFF; }
+// 	}
+
+// 	table						{ width: 100%; 
+// 		td, th					{ text-align: center; }
+// 		td						{ 
+// 			a					{ display: block; padding: 5px; }
+// 		}
+// 	} 
+
+// }

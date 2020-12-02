@@ -1,0 +1,74 @@
+//FONT MANIPULATION CLASSES
+.txt-antialiased { -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; font-smoothing:antialiased; }
+.txt-noselect { @include user-select(none); cursor:default; } 
+
+.txt-white { color: $white !important; }
+.white-back { background-color: $white; }
+
+.setup-background { background-position: center center; background-size: cover; background-repeat: no-repeat; }
+.contain-background { background-position: center center; background-size: contain; background-repeat: no-repeat; }
+
+.container-fluid { 
+    max-width: 1440px;
+    padding: 15px;
+}
+
+//FONT FAMILY CLASSES
+.fontawesome { font-family: $font-awesome; }
+
+.font-audiowide { font-family: $audiowide; }
+
+.todo { box-shadow: 0 0 25px 0px rgba($pink, 0.7); }
+
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+}
+
+// A wrapper for video iframes to force 19:9 ratio
+.pk-video { 
+    position: relative; 
+    padding-bottom: 56.25%; /* 16:9 */ 
+    padding-top: 25px;
+    height: 0; 
+
+    iframe { 
+        border: 0; 
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        max-width: 100% !important; 
+        height: 100%; 
+        min-height: 0 !important; 
+    }
+}
+
+// A wrapper for each section can be used to apply background images or other styles that do not affect layout
+.wrapper { 
+    position: relative; 
+
+	> .container { 
+        padding: 15px; 
+
+		&.no-padding { 
+            padding: 0px;
+        }
+
+		&.no-side-padding { 
+            padding-left: 0px; 
+            padding-right: 0px; 
+        }
+
+    }
+
+    @include media-breakpoint-up('lg') { 
+        .container.wide { 
+            max-width: 1560px; 
+        }
+    }
+}

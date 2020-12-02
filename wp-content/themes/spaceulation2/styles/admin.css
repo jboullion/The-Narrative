@@ -1,0 +1,77 @@
+.acf-field input[type="text"],
+.acf-field input[type="url"],
+.acf-field input[type="email"] { line-height:20px !important; }
+
+.pk-sortable	{ counter-reset:sortable_counter; margin:0; padding:0; }
+.pk-sortable li	{ background:#eee; border:1px solid #aaa; cursor:move; line-height:18px; min-height:18px; padding:5px 10px; }
+.pk-sortable li &:not(.ui-state-highlight)	{ counter-increment:sortable_counter; }
+.pk-sortable li &:not(.ui-state-highlight)&:before { content:counter(sortable_counter) "."; }
+.pk-sortable li.ui-state-highlight	{ opacity:0.3; }
+
+.acf-fields .acf-field.optional > .acf-label label:after { content:"(Optional)"; color:#db0000; font-size:10px; font-weight:bold; margin-left:5px; }
+/*Hide the unit size if it is a downloadable product*/
+.woocommerce_variable_attributes .pk-unit-size { display:none; }
+.woocommerce_variable_attributes .show_if_variation_downloadable[style="display: none;"] + .pk-unit-size { display:block; }
+/*Hide Parent Link dropdown*/
+#newlink-type_parent { display:none; }
+body.edit-tags-php.taxonomy-link-type .form-field.term-parent-wrap { display:none; }
+body.term-php.taxonomy-link-type .form-field.term-parent-wrap { display:none; }
+
+/* Easier Debugging in the admin */
+pre.pk-print { margin-left: 200px; }
+
+/* This is for the acf font awesome plugin to show the icons correctly in the backend */
+.acf-input .icon_preview i { display:block; }
+i { font-family:'Font Awesome 5 Pro'; font-style:normal; line-height:1; }
+.fal { font-family: 'Font Awesome 5 Pro'; font-weight: 300; }
+.far { font-family: 'Font Awesome 5 Pro'; font-weight: 400; }
+.fa, .fas { font-family: 'Font Awesome 5 Pro'; font-weight: 900; }
+.fab { font-family: 'Font Awesome 5 Brands'; }
+
+@font-face {
+  font-family: 'Font Awesome 5 Pro';
+  font-style: normal;
+  font-weight: 300;
+  src: url('./fonts/fa-light-300.eot');
+  src: url('./fonts/fa-light-300.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/fa-light-300.woff2') format('woff2'),
+  url('./fonts/fa-light-300.woff') format('woff'),
+  url('./fonts/fa-light-300.ttf') format('truetype'),
+  url('./fonts/fa-light-300.svg#fontawesome') format('svg');
+}
+
+@font-face {
+  font-family: 'Font Awesome 5 Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/fa-regular-400.eot');
+  src: url('./fonts/fa-regular-400.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/fa-regular-400.woff2') format('woff2'),
+  url('./fonts/fa-regular-400.woff') format('woff'),
+  url('./fonts/fa-regular-400.ttf') format('truetype'),
+  url('./fonts/fa-regular-400.svg#fontawesome') format('svg');
+}
+
+@font-face {
+  font-family: 'Font Awesome 5 Pro';
+  font-style: normal;
+  font-weight: 900;
+  src: url('./fonts/fa-solid-900.eot');
+  src: url('./fonts/fa-solid-900.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/fa-solid-900.woff2') format('woff2'),
+  url('./fonts/fa-solid-900.woff') format('woff'),
+  url('./fonts/fa-solid-900.ttf') format('truetype'),
+  url('./fonts/fa-solid-900.svg#fontawesome') format('svg');
+}
+
+@font-face {
+  font-family: 'Font Awesome 5 Brands';
+  font-style: normal;
+  font-weight: normal;
+  src: url('./fonts/fa-brands-400.eot');
+  src: url('./fonts/fa-brands-400.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/fa-brands-400.woff2') format('woff2'),
+  url('./fonts/fa-brands-400.woff') format('woff'),
+  url('./fonts/fa-brands-400.ttf') format('truetype'),
+  url('./fonts/fa-brands-400.svg#fontawesome') format('svg');
+}

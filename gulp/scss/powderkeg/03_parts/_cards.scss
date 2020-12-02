@@ -1,0 +1,55 @@
+a.card {
+	text-decoration: none;
+}
+
+.card {
+	border-radius: 0 !important;
+
+	.card-img, 
+	.card-img-top {
+		border-radius: 0 !important;
+	}
+
+	.media {
+		img {
+			border-radius: 50%;
+		}
+	}
+}
+
+.card.video {
+	border: 0;
+	background-color: transparent;
+	color: $white;
+
+	svg.bi {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+		width: 30px;
+		height: 30px;
+		color: red;
+	}
+
+	svg.bi-suit-heart {
+		
+	}
+
+	svg.bi-suit-heart-fill {
+
+	}
+
+	.card-body {
+		padding: 10px 0;
+	}
+
+	h5 {
+		font-size: 1rem;
+		line-height: 1.5rem;
+		max-height: 3rem;
+	}
+
+	h6 {
+		
+	}
+}

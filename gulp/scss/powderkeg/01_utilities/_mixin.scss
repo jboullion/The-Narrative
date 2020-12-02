@@ -1,0 +1,58 @@
+@mixin user-select($select) {
+	-webkit-user-select: $select;
+	-moz-user-select: $select;
+	-ms-user-select: $select; // IE10+
+	user-select: $select;
+}
+
+/*
+*  Used to place an transparent layer over an element, usually an image. (Note: must be wrapped in position: relative;). Utilizes the rgba() function.
+*  
+*  Usage: @include overlay(color value, decimal) 
+*  color: Can be word or hex value 
+*  opacity : Must be between 0 and 1 inclusive
+*
+*/
+@mixin overlay( $bg-color : #000, $opacity : 0.5 ){ 
+		background-color: rgba($bg-color, $opacity);
+		height: 100%; 
+		left: 0px; 
+		position: absolute; 
+		top: 0px; 
+		width: 100%;  
+		z-index: 2; 
+}
+
+
+//need to use mixin because pseudo elements don't play well with @extend
+@mixin placeholder-styles($color) {
+	color: $color;
+	font-family: $ubuntu;
+	font-size: inherit;
+	font-style: italic;
+	opacity: 1;
+}
+
+//need to use mixin because pseudo elements don't play well with @extend
+@mixin selection-styles($color) {
+	color: black;
+	background: $color;
+	background: rgba($color, 0.9);
+}
+
+
+//Add Font awesome to an element's :before psudo element
+@mixin awesome-input($content: '\f133', $fontsize: 2rem, $right: 50px, $color: $blue){
+	content:$content;
+	color: $color; 
+	font-size:$fontsize; 
+	font-weight: normal;
+	line-height:1; 
+	font-family: $font-awesome; 
+	pointer-events: none; 
+	position: absolute; 
+	right:$right; 
+	top:50%; 
+	margin-top: -($fontsize / 2); 
+	z-index:1;
+}

@@ -1,0 +1,265 @@
+/***************************
+
+ * Vendor
+
+***************************/
+/* 
+@import "./powderkeg/01_utilities/pk-bootstrap-overrides";
+
+
+@import "./variables"; 
+@import "./bootswatch"; 
+@import "./fontawesome5/fontawesome";
+*/
+/*!
+ * Bootstrap v4.4.1 (https://getbootstrap.com)
+ * Copyright 2011-2019 The Bootstrap Authors
+ * Copyright 2011-2019 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+/* This is just a container to call the main bootstrap.scss file */
+/*!
+ * Bootstrap v4.4.1 (https://getbootstrap.com/)
+ * Copyright 2011-2019 The Bootstrap Authors
+ * Copyright 2011-2019 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+/***************************
+
+ * Utilities
+
+***************************/
+/*
+*  Used to place an transparent layer over an element, usually an image. (Note: must be wrapped in position: relative;). Utilizes the rgba() function.
+*  
+*  Usage: @include overlay(color value, decimal) 
+*  color: Can be word or hex value 
+*  opacity : Must be between 0 and 1 inclusive
+*
+*/
+.txt-antialiased, body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased; }
+
+.txt-noselect {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default; }
+
+.txt-white {
+  color: #fff !important; }
+
+.white-back {
+  background-color: #fff; }
+
+.setup-background {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat; }
+
+.contain-background {
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat; }
+
+.container-fluid {
+  max-width: 1440px;
+  padding: 15px; }
+
+.fontawesome {
+  font-family: "Font Awesome 5 Pro", "FontAwesome"; }
+
+.font-audiowide {
+  font-family: "Audiowide", sans-serif; }
+
+.todo {
+  box-shadow: 0 0 25px 0px rgba(232, 62, 140, 0.7); }
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: -webkit-box; }
+
+.pk-video {
+  position: relative;
+  padding-bottom: 56.25%;
+  /* 16:9 */
+  padding-top: 25px;
+  height: 0; }
+  .pk-video iframe {
+    border: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100% !important;
+    height: 100%;
+    min-height: 0 !important; }
+
+.wrapper {
+  position: relative; }
+  .wrapper > .container {
+    padding: 15px; }
+    .wrapper > .container.no-padding {
+      padding: 0px; }
+    .wrapper > .container.no-side-padding {
+      padding-left: 0px;
+      padding-right: 0px; }
+  @media (min-width: 992px) {
+    .wrapper .container.wide {
+      max-width: 1560px; } }
+
+.print-only {
+  display: none; }
+
+@media print {
+  body, html, .container, .section, .wrapper {
+    overflow: visible;
+    max-width: 1200px !important;
+    width: 100%; }
+  .no-print {
+    display: none !important; }
+  .print-only {
+    display: block !important; }
+  .print-full {
+    width: 100% !important; }
+  a[href]:after,
+  a:link:after,
+  a:visited:after {
+    content: ""; } }
+
+/* FireFox */
+@-moz-document url-prefix() {}/***************************
+
+ * Plugins
+
+***************************/
+/***************************
+
+ * Elements
+
+***************************/
+/*
+@import "./powderkeg/02_elements/typography";
+*/
+/**
+ * More personalized "Common" styles
+ */
+/*
+@import "./powderkeg/common/wppagenavi";
+@import "./powderkeg/common/forms";
+@import "./powderkeg/common/tables";
+@import "./powderkeg/common/slick-slider";
+@import "./powderkeg/common/events"; 
+@import "./powderkeg/common/modals";
+@import "./powderkeg/common/woocommerce"; 
+*/
+/***************************
+
+ * Parts
+
+***************************/
+#header {
+  background-color: #202020; }
+  #header .container-fluid {
+    padding: 0 15px; }
+
+a.card {
+  text-decoration: none; }
+
+.card {
+  border-radius: 0 !important; }
+  .card .card-img,
+  .card .card-img-top {
+    border-radius: 0 !important; }
+  .card .media img {
+    border-radius: 50%; }
+
+.card.video {
+  border: 0;
+  background-color: transparent;
+  color: #fff; }
+  .card.video svg.bi {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    color: red; }
+  .card.video .card-body {
+    padding: 10px 0; }
+  .card.video h5 {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    max-height: 3rem; }
+
+.lity-iframe .lity-container,
+.lity-youtube .lity-container,
+.lity-vimeo .lity-container,
+.lity-facebookvideo .lity-container,
+.lity-googlemaps .lity-container {
+  width: 100%;
+  padding: 0 15px;
+  max-width: 1440px; }
+
+/*@import "./powderkeg/03_parts/media";*/
+/***************************
+
+ * Pages
+
+***************************/
+/**
+ * Some elements could be on any page but don't necessarily qualify for their own SCSS template
+ */
+html {
+  scroll-behavior: smooth;
+  position: relative; }
+
+body {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative; }
+
+img {
+  max-height: 100%;
+  max-width: 100%;
+  height: auto; }
+
+a:focus,
+button:focus,
+input:focus {
+  outline: 0 !important; }
+
+hr {
+  margin: 40px 0px; }
+
+/* styles for the entry / content areas */
+.entry,
+.content {
+  /*
+	ul, ol 					{ margin-bottom: 20px; display: block; padding-left: 30px; overflow: hidden;
+		li 					{ margin-bottom: 10px; }
+	}
+
+	ul 						{ 
+		li 					{ list-style: none;
+			&:before 		{  font-family: 'Font Awesome 5 Pro'; content: '\f111'; margin:0 15px 0 -20px; color: $text-color; font-size: 0.6rem; position: relative; top: -3px; }
+		}
+	}
+	*/ }
+
+.close {
+  opacity: 1; }
+
+.modal {
+  padding: 0 !important; }
+
+@media (max-width: 767.98px) {
+  .modal-dialog {
+    margin: 1rem; } }
