@@ -472,7 +472,7 @@
 	 */
 	function sp_get_youtube_id($url){
 		if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match)) {
-		    return $match[1];
+			return $match[1];
 		}
 
 		return '';

@@ -1,8 +1,10 @@
-#header {
-	background-color: $gray-700;
-	
-	.container-fluid {
-		padding: 0 15px;
-	}
+#primary-nav {
 
+	.btn {
+		padding: 5px 20px;
+	}
+	svg {
+		color: white;
+		width: 18px;
+	}
 }

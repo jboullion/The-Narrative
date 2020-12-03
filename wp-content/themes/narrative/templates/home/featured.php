@@ -2,65 +2,85 @@
 	$fields = sp_get('fields');
 	$options = sp_get('options');
 
-	$featured_image = sp_get_featured_image();
-	if(empty($featured_image)){
-		$featured_image = $options['default_featured_image']['url'];
-	}
+	// $featured_image = sp_get_featured_image();
+	// if(empty($featured_image)){
+	// 	$featured_image = $options['default_featured_image']['url'];
+	// }
 
-	$args = array(
-		'posts_per_page' => 3,
-		'post_type' => 'videos',
-		'orderby' => 'date'
-	);
+	// $args = array(
+	// 	'posts_per_page' => 3,
+	// 	'post_type' => 'videos',
+	// 	'orderby' => 'date'
+	// );
 
-	$videos = get_posts($args);
+	// $videos = get_posts($args);
 
 ?>
-<section id="featured" class="wrapper no-print setup-background" style="background-image: url(<?php echo $featured_image; ?>);">
+<section id="featured" class="wrapper no-print">
 	<div class="container-fluid">
-		<div class="row channel">
-			<div class="col-xl-9">
-				<h2>Recommended</h2>
-				<div id="featured-carousel" class="carousel slide" data-ride="carousel">
-					<ol class="carousel-indicators">
-						<?php 
-							if(! empty($videos)){
-								foreach($videos as $vkey => $video){
-									echo '<li data-target="#featured-carousel" data-slide-to="'.$vkey.'" class="'.($vkey===0?'active':'').'"></li>';
-								}
-							}
-						?>
-					</ol>
-					<div class="carousel-inner">
-						<?php 
-							if(! empty($videos)){
-								foreach($videos as $vkey => $video){
-									sp_display_video_slide($video, ($vkey===0));
-								}
-							}
-						?>
+		<div class="row">
+			<div class="col-12">
+				<div class="featured-slider">
+			
+					<div class="featured-slide">
+						<div class="row">
+							
+							<div class="col-lg-9 col-md-12">
+								<img src="https://img.youtube.com/vi/OpSmCKe27WE/maxresdefault.jpg" alt="Image Title">
+							</div>
+							<div class="col-lg-3 col-md-12">
+								<div class="title-card">
+									<img src="https://yt3.ggpht.com/ytc/AAUvwniXNmPnZ3ngeNhVvkYCsugH81w4E1OxtTuX_A5nbg=s48-c-k-c0xffffffff-no-rj" />
+									<h4>Lex Friedman</h4>
+									<p>Lex talks about life and stuff</p>
+								</div>
+							</div>
+						</div>
 					</div>
-					<a class="carousel-control-prev" href="#featured-carousel" role="button" data-slide="prev">
-						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-						<span class="sr-only">Previous</span>
-					</a>
-					<a class="carousel-control-next" href="#featured-carousel" role="button" data-slide="next">
-						<span class="carousel-control-next-icon" aria-hidden="true"></span>
-						<span class="sr-only">Next</span>
-					</a>
-				</div>
-			</div>
-			<div class="col-xl-3 d-none d-xl-block">
-				<div class="list-group">
-					<a href="#" class="list-group-item list-group-item-action active">
-						Cras justo odio
-					</a>
-					<a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-					<a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-					<a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-					<a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Vestibulum at eros</a>
+					<div class="featured-slide">
+						<div class="row">
+							
+							<div class="col-lg-9 col-md-12">
+								<img src="https://img.youtube.com/vi/yuVqfKYbGvE/maxresdefault.jpg" alt="Image Title">
+							</div>
+							<div class="col-lg-3 col-md-12">
+								<div class="title-card">
+									<img src="https://yt3.ggpht.com/ytc/AAUvwnjtuSqZGv6oDCr6AiYoflFufDyLl8RgMGJJ-S_z=s88-c-k-c0x00ffffff-no-rj" />
+									<h4>The Origins Podcast</h4>
+									<p>Lawrance Krauss talks about life and stuff</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="featured-slide">
+						<div class="row">
+							
+							<div class="col-lg-9 col-md-12">
+								<img src="https://img.youtube.com/vi/-t1_ffaFXao/maxresdefault.jpg" alt="Image Title">
+							</div>
+							<div class="col-lg-3 col-md-12">
+								<div class="title-card">
+									<img src="https://yt3.ggpht.com/ytc/AAUvwniXNmPnZ3ngeNhVvkYCsugH81w4E1OxtTuX_A5nbg=s48-c-k-c0xffffffff-no-rj" />
+									<h4>Lex Friedman</h4>
+									<p>Lex talks about life and stuff</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+<script>
+	var featuredSlider = tns({
+		container: '.featured-slider',
+		//center: true,
+		//mouseDrag: true,
+		nav: false,
+		loop: true,
+		items: 1,
+		controlsText: ["&lsaquo;", "&rsaquo;"]
+	});
+</script>

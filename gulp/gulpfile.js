@@ -6,7 +6,7 @@
  */
 
 //THIS SHOULD MATCH YOUR THEME NAME
-var THEME = 'spaceulation2';
+var THEME = 'narrative';
 
 
 var gulp = require('gulp');
@@ -174,7 +174,7 @@ function reload(done) {
 // Add browsersync initialization at the start of the watch task
 function watch() {
     browserSync.init({
-        proxy: "http://"+THEME+".local"
+        proxy: "http://localhost/"+THEME
     });
 
     gulp.watch(paths.styles.watch, gulp.series(style));

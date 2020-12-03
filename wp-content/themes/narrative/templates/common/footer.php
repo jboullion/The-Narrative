@@ -2,12 +2,10 @@
 	$options = sp_get('options');
 ?>
 <footer id="footer">
-	<div class="container-fluid">
+	<div class="container-fluid text-center">
 		<div class="row">
 			<div class="col-lg-12">
-			<p>&copy; <?php echo date('Y').' '.get_bloginfo('name'); ?></p>
-			<!-- https://bootswatch.com/cyborg/ -->
-
+			<p><?php echo get_bloginfo('description'); //get_bloginfo('name').' - '. ?></p>
 			</div>
 		</div>
 	</div>

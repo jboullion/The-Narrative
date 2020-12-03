@@ -42,29 +42,16 @@ function sp_display_video_slide($video, $active = false){ //, $channel_id =''
  * 
  * @param object $video The video post object
  */
-function sp_display_video_card($video){ //, $channel_id =''
-	$video_id = get_field('youtube_id', $video->ID);
+function sp_display_video_card($video_id, $title ){ 
 	$video_img = sp_get_video_img_url($video_id);
 
-	$channels = get_the_terms( $video->ID, 'channel' );
-	if(! empty($channels)){
-		$channel_name = $channels[0]->name;
-		$channel_image = get_field('channel_image', 'channel_'.$channels[0]->term_id );
-		$channel_img = '<img src="'.$channel_image['url'].'" class="mr-3" alt="'.$channel_name.'" width="50" height="50">';
-	}else{
-		$channel_name = '';
-		$channel_img = '<div class="channel-default font-audiowide">S</div>';//  array('url' => 'https://via.placeholder.com/36/09f.png/fff');
-	}
-
-	// '.bs_heart_icon().'
-	echo '<a href="//www.youtube.com/watch?v='.$video_id.'" class="card video h-100 mb-4" data-lity>
-			<img src="'.$video_img.'" class="card-img-top" alt="'.$video->post_title.'">
+	echo '<a href="//www.youtube.com/watch?v='.$video_id.'" class="card video h-100" data-lity>
+			<img src="'.$video_img.'" class="card-img-top" alt="'.$title.'">
 			<div class="card-body">
 				<div class="media">
-					'.$channel_img.'
 					<div class="media-body">
-						<h5 class="ellipsis">'.$video->post_title.'</h5>
-						<h6 class="text-muted">'.$channel_name.'</h6>
+						<p class="ellipsis">'.$title.'</p>
+						<p class="small mb-0">1 day ago</p>
 					</div>
 				</div>
 			</div>
@@ -109,4 +96,7 @@ function sp_display_channel_row($channel){
 		</div>
 	</div>';
 }
+
+
+
 

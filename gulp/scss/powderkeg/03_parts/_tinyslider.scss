@@ -1,0 +1,13 @@
+.tns-outer {
+	position: relative;
+	
+	.tns-controls {
+		&:focus {
+			border: 0;
+		}
+	}
+
+	.tns-nav {
+		display: none;
+	}
+}

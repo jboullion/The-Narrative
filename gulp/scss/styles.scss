@@ -9,9 +9,11 @@
 
 @import "./variables"; 
 @import "./bootswatch"; 
-@import "./fontawesome5/fontawesome";
+
+
 */
 @import "./bootstrapv4"; 
+@import "./fontawesome5/fontawesome";
 
 
 /***************************
@@ -39,8 +41,9 @@
 ***************************/
 @import "./powderkeg/02_elements/buttons";
 @import "./powderkeg/02_elements/forms";
-@import "./powderkeg/02_elements/gravity_forms";
+
 /*
+@import "./powderkeg/02_elements/gravity_forms";
 @import "./powderkeg/02_elements/typography";
 */
 
@@ -67,6 +70,7 @@
 @import "./powderkeg/03_parts/footer";
 @import "./powderkeg/03_parts/cards";
 @import "./powderkeg/03_parts/lity";
+@import "./powderkeg/03_parts/tinyslider";
 /*@import "./powderkeg/03_parts/media";*/
 
 
