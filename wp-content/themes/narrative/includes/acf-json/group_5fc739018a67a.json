@@ -3,6 +3,25 @@
     "title": "Channel Information",
     "fields": [
         {
+            "key": "field_5fc9ace80c917",
+            "label": "Host",
+            "name": "host",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
             "key": "field_5fc7390872e4d",
             "label": "Channel ID",
             "name": "channel_id",
@@ -20,6 +39,44 @@
             "prepend": "",
             "append": "",
             "maxlength": ""
+        },
+        {
+            "key": "field_5fc9b8844e129",
+            "label": "Cached Video List",
+            "name": "cached_video_list",
+            "type": "textarea",
+            "instructions": "Save a cache of the channel list here so we don't use up our quota",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_5fc9d0948331a",
+            "label": "Cached Channel Info",
+            "name": "cached_channel_info",
+            "type": "textarea",
+            "instructions": "Save a cache of the channel info here so we don't use up our quota",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
         }
     ],
     "location": [
@@ -37,7 +94,7 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "active": 1,
+    "active": true,
     "description": "",
-    "modified": 1606891807
+    "modified": 1607061669
 }

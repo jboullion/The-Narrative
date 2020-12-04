@@ -1,36 +1,16 @@
 <?php 
-	$fields = sp_get('fields');
-	$options = sp_get('options');
+	$fields = jb_get('fields');
+	$options = jb_get('options');
 
+	$channel_args = array(
+		'post_type' => 'channels',
+		'orderby' => 'RANDOM'
+	);
+
+	$channels = get_posts($channel_args);
 ?>
-<section id="channels" class="wrapper no-print">
-	<div class="container-fluid">
-		<div class="channel row">
-			<div class="col-lg-3">
-				<div class="title-card">
-					<img src="https://yt3.ggpht.com/ytc/AAUvwniXNmPnZ3ngeNhVvkYCsugH81w4E1OxtTuX_A5nbg=s88-c-k-c0x00ffffff-no-rj" />
-					<h4>Lex Friedman</h4>
-					<p>Lex talks about life and stuff</p>
-				</div>
-			</div>
-			<div class="col-lg-9">
-				<div class="channel-1">
-					<?php sp_display_video_card('8Kh9HoCsmrw', 'Consciousness may emerge from neural networks | Manolis Kellis and Lex Fridman'); ?>
-					<?php sp_display_video_card('8Kh9HoCsmrw', 'Consciousness may emerge from neural networks | Manolis Kellis and Lex Fridman'); ?>
-					<?php sp_display_video_card('8Kh9HoCsmrw', 'Consciousness may emerge from neural networks | Manolis Kellis and Lex Fridman'); ?>
-					<?php sp_display_video_card('8Kh9HoCsmrw', 'Consciousness may emerge from neural networks | Manolis Kellis and Lex Fridman'); ?>
-					<?php sp_display_video_card('8Kh9HoCsmrw', 'Consciousness may emerge from neural networks | Manolis Kellis and Lex Fridman'); ?>
-					<?php sp_display_video_card('8Kh9HoCsmrw', 'Consciousness may emerge from neural networks | Manolis Kellis and Lex Fridman'); ?>
-					<?php sp_display_video_card('8Kh9HoCsmrw', 'Consciousness may emerge from neural networks | Manolis Kellis and Lex Fridman'); ?>
-					<?php sp_display_video_card('8Kh9HoCsmrw', 'Consciousness may emerge from neural networks | Manolis Kellis and Lex Fridman'); ?>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
 <script>
 	var sliderOptions = {
-		container: '.channel-1',
 		nav: false,
 		loop: false,
 		swipeAngle: false,
@@ -43,18 +23,74 @@
 			900: {
 				items: 3
 			},
-			1100: {
+			1200: {
 				items: 4
+			},
+			1500: {
+				items: 5
 			},
 			
 		}
 	};
-
-	var slider1 = tns(sliderOptions);
-
-	sliderOptions.container = '.channel-2';
-	var slider2 = tns(sliderOptions);
-
-	sliderOptions.container = '.channel-3';
-	var slider3 = tns(sliderOptions);
 </script>
+<section id="channels" class="wrapper no-print">
+	<div class="container-fluid">
+		<?php 
+			if(! empty($channels)){
+				foreach($channels as $channel_key => $channel){
+					
+					$channel_id = get_field('channel_id', $channel->ID);
+					$channel_info = jb_get_yt_channel_info($channel_id, $channel->ID);
+					$channel_videos = jb_get_yt_channel_videos($channel_id, $channel->ID);
+					
+					// '.apply_filters('the_content', $channel->post_content).'
+					if( ! empty($channel_info->items[0]) && ! empty($channel_videos->items)){
+						echo '<div class="channel row">
+							<div class="col-lg-3">
+								<div class="title-card">
+									<img src="'.$channel_info->items[0]->snippet->thumbnails->default->url.'" />
+									<h4>'.$channel->post_title.'</h4>
+									
+								</div>
+							</div>
+							<div class="col-lg-9">
+								<div class="channel-'.$channel_key.'">';
+						
+						foreach($channel_videos->items as $video){
+							// TODO: Should we move this information into the display video function?
+							if(empty($video->id->videoId)) continue;
+
+							$video_id = $video->id->videoId;
+							$title = $video->snippet->title;
+							$description = $video->snippet->description;
+							$date = date('F j, Y', strtotime($video->snippet->publishTime));
+
+							echo jb_display_video_card($video_id, $title, $date);
+
+						}
+
+						echo '	</div>
+							</div>
+						</div>';
+
+						?>
+						<script>
+							// TODO: May want to remove built in nav and use custom navs
+							//slider.goTo('prev');
+							//slider.goTo('next');
+
+							sliderOptions.container = '.channel-<?php echo $channel_key; ?>';
+
+							var slider<?php echo $channel_key; ?> = tns(sliderOptions);
+						</script>
+						<?php 
+					}
+
+					
+					//break;
+				}
+			}
+		?>
+		
+	</div>
+</section>

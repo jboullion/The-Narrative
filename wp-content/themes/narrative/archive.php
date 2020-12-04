@@ -23,7 +23,7 @@
 					//DO STUFF
 					do_action( 'woocommerce_shop_loop' );
 
-					sp_display_list_program();
+					jb_display_list_program();
 				endwhile; 
 				
 				echo '<div class="pagination">';

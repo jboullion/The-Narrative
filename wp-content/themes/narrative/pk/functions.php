@@ -8,7 +8,7 @@
 		
 		// if WooCommerce, attempt to find "My Account" page
 		if(class_exists('WooCommerce')) {
-			$url = sp_get_link(get_option('woocommerce_myaccount_page_id'));
+			$url = jb_get_link(get_option('woocommerce_myaccount_page_id'));
 		}
 		
 		// logout & redirect user

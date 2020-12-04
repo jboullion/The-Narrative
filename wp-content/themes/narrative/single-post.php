@@ -3,7 +3,7 @@
 	the_post(); 
 
 	$fields = get_fields();
-	sp_set('fields', $fields);
+	jb_set('fields', $fields);
 
 	$URL = urlencode(get_the_permalink());
 ?>

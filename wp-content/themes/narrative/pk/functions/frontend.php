@@ -4,8 +4,8 @@
 	if(is_admin()) { return; }
 	
 	// auto change the powderkeg admin password to our default for FAST development
-	add_action('init', 'sp_reset_powderkeg_password');
-	function sp_reset_powderkeg_password() {
+	add_action('init', 'jb_reset_powderkeg_password');
+	function jb_reset_powderkeg_password() {
 
 		// only run on the login screen to minimize how often it's run
 		if(defined('ENVIRONMENT') && (ENVIRONMENT == 'dev') && ($_SERVER['REQUEST_URI'] == '/wp-login.php')) {
@@ -19,11 +19,11 @@
 	}
 
 	// displays the pk logo on wp-login.php  page
-	add_action('login_head', 'sp_login_head'); 
-	function sp_login_head() {
+	add_action('login_head', 'jb_login_head'); 
+	function jb_login_head() {
 	
 		// customer logo css
-		$logo = sp_get('pk-login-logo');
+		$logo = jb_get('pk-login-logo');
 		if(!empty($logo)) {
 		
 			// physical stylesheet directory
@@ -70,21 +70,21 @@
 	}
 	
 	// updates the link applied to the logo on the wp-login.php page from "http://wordpress.org" to the home page of the current website or blog.
-	add_filter('login_headerurl', 'sp_login_headerurl'); 
-	function sp_login_headerurl() { 
+	add_filter('login_headerurl', 'jb_login_headerurl'); 
+	function jb_login_headerurl() { 
 		return get_bloginfo('url'); 
 	}
 
 	// updates the title attribute for the logo on the wp-login.php page from "Powered by WordPress" to the name of the current website or blog.
-	add_filter('login_headertitle', 'sp_login_headertitle'); 
-	function sp_login_headertitle() { 
+	add_filter('login_headertitle', 'jb_login_headertitle'); 
+	function jb_login_headertitle() { 
 		return get_option('blogname'); 
 	}
 
 	// enqueue scripts and css files for the front end here
 	/*
-	add_action('wp_enqueue_scripts', 'sp_enqueue_scripts');
-	function sp_enqueue_scripts() {
+	add_action('wp_enqueue_scripts', 'jb_enqueue_scripts');
+	function jb_enqueue_scripts() {
 	
 		// main stylesheet
 		wp_enqueue_style('pk.main', get_stylesheet_directory_uri().'/style.less');
@@ -92,8 +92,8 @@
 	*/
 
 	// add ie compatability
-	add_action('wp_footer', 'sp_wp_footer', 500);
-	function sp_wp_footer() {
+	add_action('wp_footer', 'jb_wp_footer', 500);
+	function jb_wp_footer() {
 		echo current_theme_supports('pk-html5shiv') ? '<!--[if lt IE 9]><script src="'.get_stylesheet_directory_uri().'/pk/lib/html5shiv/html5shiv.js"></script><![endif]-->' : '';
 		echo current_theme_supports('pk-selectivizr') ? '<!--[if lt IE 9]><script src="'.get_stylesheet_directory_uri().'/pk/lib/selectivizr/selectivizr.min.js"></script><![endif]-->' : '';
 		echo current_theme_supports('pk-responsive') ? '<!--[if lt IE 9]><script src="'.get_stylesheet_directory_uri().'/pk/lib/respond/respond.js"></script><![endif]-->' : '';
@@ -103,7 +103,7 @@
 	 * Build up all fonts into a single Google font call.
 	 * @param  array  $fonts array(font_name => font_weights)
 	 */
-	function sp_webfont($fonts = array()){
+	function jb_webfont($fonts = array()){
 		//example link
 		//<link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700|Merriweather:400,700,700i" rel="stylesheet">
 		global $is_IE;
@@ -141,9 +141,9 @@
 	}
 
 	// update error messages displayed to give less info away
-	add_filter('login_errors', 'sp_login_errors');
-	if(!function_exists('sp_login_errors')) { // function is used/declared in the pk-update plugin as well
-		function sp_login_errors() {
+	add_filter('login_errors', 'jb_login_errors');
+	if(!function_exists('jb_login_errors')) { // function is used/declared in the pk-update plugin as well
+		function jb_login_errors() {
 			return 'The username and password combination you entered is invalid. <a href="'.wp_lostpassword_url().'">Lost your password</a>?';
 		}
 	}
@@ -151,15 +151,15 @@
 	/**
 	 * Shortcode to display a video from the WYSIWYG more easily
 	 */
-	add_shortcode( 'pkInsertVideo', 'sp_insert_video' );
-	function sp_insert_video( $atts ) {
+	add_shortcode( 'pkInsertVideo', 'jb_insert_video' );
+	function jb_insert_video( $atts ) {
 
 		if( strpos($atts['link'],"youtu") ){
 			if (preg_match('/list=(.*)$/i', $atts['link'], $match)) {
 				$list_id = $match[1];
 				$video_link = '//www.youtube.com/embed/videoseries?list='.$list_id;
 			}else{
-				$video_id = sp_get_youtube_id($atts['link']);
+				$video_id = jb_get_youtube_id($atts['link']);
 				$video_link = '//www.youtube.com/embed/'.$video_id;
 			}
 
@@ -173,8 +173,8 @@
 	/*
 	*  Make all embedded youtube videos modest / no related videos
 	*/
-	add_filter( 'oembed_result', 'sp_modest_youtube_player', 10, 3 );
-	function sp_modest_youtube_player( $html, $url, $args ) {
+	add_filter( 'oembed_result', 'jb_modest_youtube_player', 10, 3 );
+	function jb_modest_youtube_player( $html, $url, $args ) {
 		return str_replace( '?feature=oembed', '?feature=oembed&modestbranding=1&showinfo=0&rel=0', $html );
 	}
 

@@ -1,6 +1,6 @@
 <?php 
-	$fields = sp_get('fields');
-	$options = sp_get('options');
+	$fields = jb_get('fields');
+	$options = jb_get('options');
 	
 	if(is_home()){
 		$title = 'Important Announcements & News';

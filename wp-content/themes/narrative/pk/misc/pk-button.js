@@ -10,13 +10,13 @@
          */
         init : function(ed, url) {
         	var win = null;
-	        	var sp_button_form = '<div id="pk-button-form"><table>'+
+	        	var jb_button_form = '<div id="pk-button-form"><table>'+
 	        	'<tr><td><label for="pk-button-title">Title</label></td><td><input type="text" value="" id="pk-button-title" name="pk-button-title"/></td></tr>'+
 	        	'<tr><td><label for="pk-button-link">Link</label></td><td><input type="text" value="" id="pk-button-link" name="pk-button-link"/></td></tr>'+
 	        	'</table></div>';
 	        	
-	        	var sp_button_title = '';
-	        	var sp_button_link = '';
+	        	var jb_button_title = '';
+	        	var jb_button_link = '';
             	
  			ed.addButton('pkButtonBTN', {
                 title : 'Add a Button',
@@ -29,13 +29,13 @@
 					title: 'Add a Button',
 					body: [{
 						type: 'container',
-						html: sp_button_form
+						html: jb_button_form
 					}],
 					onsubmit: function(e) {
-						sp_button_title = jQuery('#pk-button-title').val();
-						sp_button_link = jQuery('#pk-button-link').val();
-                        //return_text = '<a href="'+sp_button_link+'" class="btn btn-primary" >'+sp_button_title+'</a>';
-						return_text = '[pkButton link="'+sp_button_link+'" title="'+sp_button_title+'"]';
+						jb_button_title = jQuery('#pk-button-title').val();
+						jb_button_link = jQuery('#pk-button-link').val();
+                        //return_text = '<a href="'+jb_button_link+'" class="btn btn-primary" >'+jb_button_title+'</a>';
+						return_text = '[pkButton link="'+jb_button_link+'" title="'+jb_button_title+'"]';
                 		ed.execCommand('mceInsertContent', 0, return_text);
 					}
 				});

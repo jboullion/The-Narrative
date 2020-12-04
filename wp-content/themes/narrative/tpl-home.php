@@ -4,9 +4,9 @@
 	the_post();
 
 	$fields = get_fields();
-	sp_set('fields', $fields);
+	jb_set('fields', $fields);
 
-	// sp_get_youtube_id($url);
+	// jb_get_youtube_id($url);
 ?>
 <main id="home-page" class="page">
 	

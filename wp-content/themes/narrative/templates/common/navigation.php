@@ -1,5 +1,5 @@
 <?php 
-	$options = sp_get('options');
+	$options = jb_get('options');
 ?>
 <div id="navigation">
 	<button type="button" id="nav-close" class="btn">

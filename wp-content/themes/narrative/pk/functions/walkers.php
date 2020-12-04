@@ -1,7 +1,7 @@
 <?php
 
 // breadcrumb walker
-class sp_Breadcrumb_Walker extends Walker_Nav_Menu {
+class jb_Breadcrumb_Walker extends Walker_Nav_Menu {
 
 	// start level
 	function start_lvl(&$output, $depth = 0, $args = array()) { return; }
@@ -17,19 +17,19 @@ class sp_Breadcrumb_Walker extends Walker_Nav_Menu {
 		$title = apply_filters('the_title', $element->title, $element->ID);
 		
 		// prefix first item
-		if($first && !empty($args->sp_first)) {
-			$output .= $args->sp_first;
+		if($first && !empty($args->jb_first)) {
+			$output .= $args->jb_first;
 			$first = false;
 		}
 
 		// show delimiter if set and not first element
-		if(!$first && !empty($args->sp_delimiter)) { $output .= $args->sp_delimiter; }
+		if(!$first && !empty($args->jb_delimiter)) { $output .= $args->jb_delimiter; }
 		
 		// unset first flag
 		$first = false;
 		
 		// show only title if current item
-		if(empty($args->sp_link_current) && in_array('current-menu-item', $element->classes)) {
+		if(empty($args->jb_link_current) && in_array('current-menu-item', $element->classes)) {
 			$output .= '<span class="current">'.$title.'</span>';
 			return;
 		}

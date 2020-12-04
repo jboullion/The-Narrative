@@ -10,7 +10,7 @@
          */
         init : function(ed, url) {
         	var win = null;
-	        	var sp_video_form = '<div id="insert-video-form"><table>'+
+	        	var jb_video_form = '<div id="insert-video-form"><table>'+
 	        	'<tr><td><label for="pk-video-title">Title</label></td><td><input type="text" value="" id="pk-video-title" name="pk-video-title"/></td></tr>'+
 	        	'<tr><td><label for="pk-video-link">Link</label></td><td><input type="text" value="" id="pk-video-link" name="pk-video-link"/></td></tr>'+
                 '<tr><td colspan="2"><label><input type="radio" name="align" value="" checked="checked" />No Align</label></td></tr>'+
@@ -18,9 +18,9 @@
                 '<tr><td colspan="2"><label><input type="radio" name="align" value="alignright" />Right Align</label></td></tr>'+
 	        	'</table></div>';
 	        	
-	        	var sp_video_title = '';
-	        	var sp_video_link = '';
-                var sp_video_align = '';
+	        	var jb_video_title = '';
+	        	var jb_video_link = '';
+                var jb_video_align = '';
             	
  			ed.addButton('pkInsertVideo', {
                 title : 'Insert Video',
@@ -33,14 +33,14 @@
 					title: 'Setup a Video',
 					body: [{
 						type: 'container',
-						html: sp_video_form
+						html: jb_video_form
 					}],
 					onsubmit: function(e) {
-						sp_video_title = jQuery('#pk-video-title').val();
-						sp_video_link = jQuery('#pk-video-link').val();
-                        sp_video_align = jQuery("input:radio[name='align']:checked").val();
+						jb_video_title = jQuery('#pk-video-title').val();
+						jb_video_link = jQuery('#pk-video-link').val();
+                        jb_video_align = jQuery("input:radio[name='align']:checked").val();
 
-						return_text = '[pkInsertVideo link="'+sp_video_link+'" title="'+sp_video_title+'" align="'+sp_video_align+'"]';
+						return_text = '[pkInsertVideo link="'+jb_video_link+'" title="'+jb_video_title+'" align="'+jb_video_align+'"]';
                 		ed.execCommand('mceInsertContent', 0, return_text);
 					}
 				});

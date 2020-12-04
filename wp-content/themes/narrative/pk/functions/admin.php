@@ -4,8 +4,8 @@
 	if(!is_admin()) { return; }
 	
 	// removes unnessary WordPress dashboard widgets
-	add_action('wp_dashboard_setup', 'sp_remove_dashboard_widgets');
-	function sp_remove_dashboard_widgets() {
+	add_action('wp_dashboard_setup', 'jb_remove_dashboard_widgets');
+	function jb_remove_dashboard_widgets() {
 		remove_meta_box('dashboard_quick_press', 'dashboard', 'side');
 		remove_meta_box('dashboard_recent_drafts', 'dashboard', 'side');
 		remove_meta_box('dashboard_primary', 'dashboard', 'side');
@@ -22,8 +22,8 @@
 	add_filter('admin_footer_text', 'remove_footer_admin');
 	
 	// displays custom error message whenever passed via the URL string variable 'pke'
-	add_action('admin_notices', 'sp_custom_messages');
-	function sp_custom_messages() {
+	add_action('admin_notices', 'jb_custom_messages');
+	function jb_custom_messages() {
 		if($_GET['pke']) {
 			echo '<div class="error"><p>'.$_GET['pke'].'</p></div>';
 		}
@@ -33,8 +33,8 @@
 	}
 	
 	// restrict admins from being edited by the common folk
-	add_action('admin_head', 'sp_restrict_user_edit');
-	function sp_restrict_user_edit() {
+	add_action('admin_head', 'jb_restrict_user_edit');
+	function jb_restrict_user_edit() {
 		global $current_screen;
 		
 		$error_key = '';
@@ -50,7 +50,7 @@
 		}
 		
 		if($edit_user_id) {
-			if(!sp_is_admin()) {
+			if(!jb_is_admin()) {
 				$edit_user = get_userdata($edit_user_id);
 				if(in_array('administrator', $edit_user->roles)) {
 					header('Location: /wp-admin/users.php?pke='.urlencode('You do not have the required permissions to '.$error_key.' that user.')); exit();
@@ -60,11 +60,11 @@
 	}
 	
 	// removes the role of administrator from the user role dropdown
-	add_action('editable_roles', 'sp_update_roles_dropdown');
-	function sp_update_roles_dropdown($roles){
+	add_action('editable_roles', 'jb_update_roles_dropdown');
+	function jb_update_roles_dropdown($roles){
 		ksort($roles);
 		
-		if(!sp_is_admin()) {
+		if(!jb_is_admin()) {
 			unset($roles['administrator']);
 		}
 		
@@ -72,8 +72,8 @@
 	}
 	
 	// enqueue scripts and css files for the back end here
-	add_action('admin_enqueue_scripts', 'sp_admin_enqueue_scripts');
-	function sp_admin_enqueue_scripts() {
+	add_action('admin_enqueue_scripts', 'jb_admin_enqueue_scripts');
+	function jb_admin_enqueue_scripts() {
 	
 		wp_enqueue_style('pk.style.admin', get_stylesheet_directory_uri().'/styles/admin.css');
 	}
@@ -83,8 +83,8 @@
 	 *
 	 * This requires the post type to be registered with the unicode for the menu_icon (ex: f107)
 	 */
-	//add_action('admin_head', 'sp_fontawesome_dashboard_setup');
-	function sp_fontawesome_dashboard_setup(){
+	//add_action('admin_head', 'jb_fontawesome_dashboard_setup');
+	function jb_fontawesome_dashboard_setup(){
 		
 		//don't get the built in post types
 		$args = array(

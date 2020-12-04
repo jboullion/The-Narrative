@@ -16,7 +16,7 @@
 }
 
 #login h1 a {
-	background-image:url(<?php echo sp_theme_relative($logo); ?>) !important;
+	background-image:url(<?php echo jb_theme_relative($logo); ?>) !important;
 	background-size:<?php echo $width; ?>px <?php echo $height; ?>px !important;
 	width:<?php echo $width; ?>px !important;
 	height:<?php echo $height; ?>px !important;

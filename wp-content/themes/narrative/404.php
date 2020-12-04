@@ -2,9 +2,9 @@
 	get_header(); 
 
 	$fields = get_fields();
-	sp_set('fields', $fields);
+	jb_set('fields', $fields);
 
-	$options = sp_get('options');
+	$options = jb_get('options');
 ?>
 <main id="default-page" class="page">
 	<?php get_template_part('templates/common/featured'); ?>

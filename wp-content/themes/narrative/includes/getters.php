@@ -8,7 +8,7 @@
  *
  * @param int $video_id The id of the video
  */
-function sp_get_video_img_url($video_id, $size = 'mqdefault'){
+function jb_get_video_img_url($video_id, $size = 'mqdefault'){
 	//0,1,2,3,default,hqdefault,mqdefault,sddefault,maxresdefault
 	return 'https://img.youtube.com/vi/'.$video_id.'/'.$size.'.jpg';
 }
@@ -19,7 +19,7 @@ function sp_get_video_img_url($video_id, $size = 'mqdefault'){
  *
  * @param int $video_id The id of the video
  */
-function sp_get_taxonomy_terms($taxonomy, $count = 6, $random = false){
+function jb_get_taxonomy_terms($taxonomy, $count = 6, $random = false){
 
 	$args = array(
 		'taxonomy' => $taxonomy,
@@ -47,29 +47,67 @@ function sp_get_taxonomy_terms($taxonomy, $count = 6, $random = false){
 
 }
 
-// function sp_get_yt_video_info($video_id){
-// 	$yt_id = pk_get('yt-api-key');
+function jb_get_yt_video_info($video_id){
+	$yt_id = jb_get('yt-api-key');
 
-// 	$url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$video_id.'&key='.$yt_id;
+	$url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$video_id.'&key='.$yt_id;
 
-// 	$ch = curl_init();
-// 	curl_setopt( $ch, CURLOPT_URL, $url );
-// 	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+	$result = file_get_contents($url);
 
-// 	// TODO: setup check on what we return?
-// 	return json_decode( curl_exec( $ch ) );
-// }
+	// TODO: setup check on what we return?
+	return json_decode( $result );
+}
 
 
-// function sp_get_yt_channel_info($channel_id){
-// 	$yt_id = pk_get('yt-api-key');
-	
-// 	$url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$channel_id.'&key='.$yt_id;
+function jb_get_yt_channel_videos($channel_id, $channel_post_id){
+	$yt_id = jb_get('yt-api-key');
 
-// 	$ch = curl_init();
-// 	curl_setopt( $ch, CURLOPT_URL, $url );
-// 	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+	// Should we use the cached version of this channel's info?
+	$channel_cache = get_transient( 'videos_'.$channel_id );
+	if(! empty($channel_cache)) {
+		$channel_videos = get_field('cached_video_list', $channel_post_id);
 
-// 	// TODO: setup check on what we return?
-// 	return json_decode( curl_exec( $ch ) );
-// }
+		if(! empty($channel_videos)){
+			return $channel_videos;
+		}
+	}
+
+	$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults=20';
+
+	$result = file_get_contents($url);
+
+	// If we have a result, cache the info for 1 day
+	if(! empty($result)){
+		set_transient( 'videos_'.$channel_id, 1, DAY_IN_SECONDS );
+		update_field('field_5fc9b8844e129', json_decode( $result ), $channel_post_id);
+	}
+
+	return json_decode( $result );
+}
+
+
+function jb_get_yt_channel_info($channel_id, $channel_post_id){
+	$yt_id = jb_get('yt-api-key');
+
+	// Should we use the cached version of this channel's info?
+	$channel_cache = get_transient( 'channel_'.$channel_id );
+	if(! empty($channel_cache)) {
+		$channel_info = get_field('cached_channel_info', $channel_post_id);
+
+		if(! empty($channel_info)){
+			return $channel_info;
+		}
+	}
+
+	$url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$channel_id.'&key='.$yt_id;
+
+	$result = file_get_contents($url);
+
+	// If we have a result, cache the info for 1 day
+	if(! empty($result)){
+		set_transient( 'channel_'.$channel_id, 1, DAY_IN_SECONDS );
+		update_field('field_5fc9d0948331a', json_decode( $result ), $channel_post_id);
+	}
+
+	return json_decode( $result );
+}

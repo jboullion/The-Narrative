@@ -1,8 +1,8 @@
 <?php 
-	$fields = sp_get('fields');
-	$options = sp_get('options');
+	$fields = jb_get('fields');
+	$options = jb_get('options');
 
-	// $featured_image = sp_get_featured_image();
+	// $featured_image = jb_get_featured_image();
 	// if(empty($featured_image)){
 	// 	$featured_image = $options['default_featured_image']['url'];
 	// }

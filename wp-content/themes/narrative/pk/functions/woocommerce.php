@@ -1,7 +1,7 @@
 <?php
 	// add "Shop Manager" role to "webadmin" user upon plugin activation
-	register_activation_hook('woocommerce/woocommerce.php', 'sp_woocommerce_activation', 9999);
-	function sp_woocommerce_activation() {
+	register_activation_hook('woocommerce/woocommerce.php', 'jb_woocommerce_activation', 9999);
+	function jb_woocommerce_activation() {
 		$user = get_user_by('login', 'webadmin');
 		if(is_object($user)) {
 			$caps = get_user_meta($user->ID, 'wp_capabilities', true);
@@ -30,9 +30,9 @@
 	 * field is left in place, browsers offer to save the phone number/password combination
 	 * for the account, rather than the email/password combination
 	 */
-	add_filter('woocommerce_checkout_fields' , 'sp_update_fields');
-	if(!function_exists('sp_update_fields')) {
-		function sp_update_fields( $fields ) {
+	add_filter('woocommerce_checkout_fields' , 'jb_update_fields');
+	if(!function_exists('jb_update_fields')) {
+		function jb_update_fields( $fields ) {
 			
 			$fields['billing']['billing_city']['label'] = 'City';
 			$fields['billing']['billing_city']['placeholder'] = 'City';

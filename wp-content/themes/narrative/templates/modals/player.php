@@ -1,5 +1,5 @@
 <?php 
-	$options = sp_get('options');
+	$options = jb_get('options');
 ?>
 <div id="player-modal" class="modal" tabindex="-1" role="dialog">
 	<div class="modal-dialog">

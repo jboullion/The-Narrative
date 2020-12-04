@@ -1,7 +1,7 @@
 jQuery(document).ready(function($) {
 
 	// icon list
-	var sp_icon_list = ["glass",	"music",	"search",	"envelope",	"heart",	"star",	"star",	"user",	"film",	"th-large",	"th",
+	var jb_icon_list = ["glass",	"music",	"search",	"envelope",	"heart",	"star",	"star",	"user",	"film",	"th-large",	"th",
 	"th-list",	"check",	"times",	"search-plus",	"search-minus",	"power-off",	"signal",	"gear",
 	"trash",	"home",	"file",	"clock",	"road",	"download",	"arrow-circle-down",	"arrow-circle-up",	"inbox",
 	"play-circle",	"rotate-right",	"refresh",	"list-alt",
@@ -37,15 +37,15 @@ jQuery(document).ready(function($) {
 	"renren","pagelines","stack-exchange","arrow-circle-right","arrow-circle-left","toggle-left","dot-circle","wheelchair","vimeo-square","turkish-lira","plus-square"];
 	
 	// generate icon set
-	var sp_icon_set = '';
-	for(var i = 0; i < sp_icon_list.length; i++) {
-		var icon = sp_icon_list[i];
-		sp_icon_set += '<li><i class="far fa-'+icon+'">&nbsp;</i></li>';
+	var jb_icon_set = '';
+	for(var i = 0; i < jb_icon_list.length; i++) {
+		var icon = jb_icon_list[i];
+		jb_icon_set += '<li><i class="far fa-'+icon+'">&nbsp;</i></li>';
 	}
-	sp_icon_set = '<div id="pk-icon-set"><ul>'+sp_icon_set+'</ul></div>';
+	jb_icon_set = '<div id="pk-icon-set"><ul>'+jb_icon_set+'</ul></div>';
 	
 	// add editor plugin
-	tinymce.PluginManager.add('sp_icon', function(editor, url) {
+	tinymce.PluginManager.add('jb_icon', function(editor, url) {
 		var win = null;
 		var sel = '';
 		
@@ -57,7 +57,7 @@ jQuery(document).ready(function($) {
 		});
 		
 		// add button
-		editor.addButton('sp_icon_list', {
+		editor.addButton('jb_icon_list', {
 			text: '',
 			icon: 'mce-ico pk-icons-icon fab fa-font-awesome',
 			
@@ -67,7 +67,7 @@ jQuery(document).ready(function($) {
 					title: 'Choose an Icon',
 					body: [{
 						type: 'container',
-						html: sp_icon_set,
+						html: jb_icon_set,
 						css: 'pk-editor-icons.css'
 					}],
 					onsubmit: function(e) {

@@ -1,5 +1,5 @@
 <?php 
-	$options = sp_get('options');
+	$options = jb_get('options');
 ?>
 <footer id="footer">
 	<div class="container-fluid text-center">

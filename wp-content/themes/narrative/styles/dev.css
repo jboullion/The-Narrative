@@ -2594,8 +2594,8 @@ readers do not read off random characters that represent icons */
     #featured .featured-slider .featured-slide .title-card img {
       border-radius: 50%;
       margin-bottom: 20px;
-      width: 80px;
-      height: 80px; }
+      width: 88px;
+      height: 88px; }
   #featured .tns-outer .tns-controls {
     position: absolute;
     right: 0;
@@ -2609,14 +2609,17 @@ readers do not read off random characters that represent icons */
       margin: 0px 30px; }
 
 #channels .channel {
-  margin-bottom: 30px; }
+  border-bottom: 1px solid #495057;
+  padding-bottom: 50px;
+  margin-bottom: 50px; }
   #channels .channel .title-card {
+    margin-bottom: 20px;
     text-align: center; }
     #channels .channel .title-card img {
       border-radius: 50%;
       margin-bottom: 20px;
-      width: 80px;
-      height: 80px; }
+      width: 88px;
+      height: 88px; }
 
 #channels .tns-outer .tns-controls {
   position: absolute;
@@ -2629,3 +2632,11 @@ readers do not read off random characters that represent icons */
     border: 0;
     font-size: 3rem;
     width: 50%; }
+
+.container-fluid {
+  max-width: 1750px; }
+
+#content .container {
+  padding: 100px 15px; }
+  #content .container p {
+    font-size: 18px; }

@@ -6,7 +6,7 @@
 /**
  * Display the last couple errors from WPDB
  */
-function sp_wpdb_errors($wpdb){
-	sp_print($wpdb->last_query);
-	sp_print($wpdb->last_error);
+function jb_wpdb_errors($wpdb){
+	jb_print($wpdb->last_query);
+	jb_print($wpdb->last_error);
 }

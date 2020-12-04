@@ -6,9 +6,9 @@
 /**
  * Display a featured slide
  */
-function sp_display_video_slide($video, $active = false){ //, $channel_id =''
+function jb_display_video_slide($video, $active = false){ //, $channel_id =''
 	$video_id = get_field('youtube_id', $video->ID);
-	$video_img = sp_get_video_img_url($video_id, 'maxresdefault');
+	$video_img = jb_get_video_img_url($video_id, 'maxresdefault');
 
 	$channels = get_the_terms( $video->ID, 'channel' );
 	if(! empty($channels)){
@@ -42,8 +42,8 @@ function sp_display_video_slide($video, $active = false){ //, $channel_id =''
  * 
  * @param object $video The video post object
  */
-function sp_display_video_card($video_id, $title ){ 
-	$video_img = sp_get_video_img_url($video_id);
+function jb_display_video_card($video_id, $title, $date ){ 
+	$video_img = jb_get_video_img_url($video_id);
 
 	echo '<a href="//www.youtube.com/watch?v='.$video_id.'" class="card video h-100" data-lity>
 			<img src="'.$video_img.'" class="card-img-top" alt="'.$title.'">
@@ -51,7 +51,7 @@ function sp_display_video_card($video_id, $title ){
 				<div class="media">
 					<div class="media-body">
 						<p class="ellipsis">'.$title.'</p>
-						<p class="small mb-0">1 day ago</p>
+						<p class="small mb-0">'.$date.'</p>
 					</div>
 				</div>
 			</div>
@@ -62,7 +62,7 @@ function sp_display_video_card($video_id, $title ){
 /**
  * Display a channel row
  */
-function sp_display_channel_row($channel){
+function jb_display_channel_row($channel){
 	$args = array(
 		'post_type' => 'videos',
 		'orderby' => 'date',
@@ -87,7 +87,7 @@ function sp_display_channel_row($channel){
 	if(! empty($videos)){
 		foreach($videos as $video){
 			echo '<div class="col-sm-6 col-lg-3">';
-			sp_display_video_card($video);
+			jb_display_video_card($video);
 			echo '</div>';
 		}
 	}

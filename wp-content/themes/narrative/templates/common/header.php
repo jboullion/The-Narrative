@@ -1,8 +1,9 @@
 <?php 
-	$options = sp_get('options');
+	$options = jb_get('options');
 ?>
 <nav id="primary-nav" class="navbar navbar-expand-lg navbar-dark bg-primary">
-	<a class="navbar-brand" href="#"><?php echo get_bloginfo('name'); ?></a>
+	<!-- navbar-dark bg-primary -->
+	<a class="navbar-brand" href="<?php echo home_url(); ?>"><?php echo get_bloginfo('name'); ?></a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 		<?php echo bs_bar_icon(); ?>
 	</button>

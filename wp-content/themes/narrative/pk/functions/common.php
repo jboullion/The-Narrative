@@ -1,7 +1,7 @@
 <?php
 	
 	// prints out an array with <pre> tags
-	function sp_print($input, $force = false) { 
+	function jb_print($input, $force = false) { 
 		if(ENVIRONMENT != 'live' || $force === true){
 			echo '<pre class="pk-print">'.print_r($input, true).'</pre>'; 
 		}
@@ -29,16 +29,16 @@
 	// 	}
 	// }
 
-	//short function call for sp_print
+	//short function call for jb_print
 	function pkp($input, $force = false) { 
-		sp_print($input, $force);
+		jb_print($input, $force);
 	}
 
 	// remove 'http(s)://' from any passed url
-	function sp_filter_http($input) { return preg_replace('/^http[s]?:\/\/([^\/]*)/i', '', $input); }
+	function jb_filter_http($input) { return preg_replace('/^http[s]?:\/\/([^\/]*)/i', '', $input); }
 		
 	// recursively cycles through the post hierarchy to find all children infinte levels down
-	function sp_get_all_children($parent_post = null, $orderby = 'menu_order', $order = 'ASC', $num_posts = '-1') {
+	function jb_get_all_children($parent_post = null, $orderby = 'menu_order', $order = 'ASC', $num_posts = '-1') {
 		global $post;
 		
 		if(!$parent_post) { $parent_post = $post; }
@@ -46,14 +46,14 @@
 		
 		if(count($children = get_posts(array('numberposts'=>$num_posts, 'order'=>$order, 'orderby'=> $orderby, 'post_parent'=>$parent_post->ID, 'post_type'=>$parent_post->post_type)))) {
 			foreach($children as &$c) {
-				$c->children = sp_get_all_children($c);
+				$c->children = jb_get_all_children($c);
 			}
 			return $children;
 		}
 	}
 	
 	// cycles through the current post hierarchy to find the parent post
-	function sp_get_post_hierarchy($parent_post = '') {
+	function jb_get_post_hierarchy($parent_post = '') {
 		
 		// if an id isn't provided, use the current post
 		if(!$parent_post) { global $post; $parent_post = $post; }
@@ -65,25 +65,25 @@
 		while($parent_post->post_parent) { $parent_post = get_post($parent_post->post_parent); }
 		
 		// "climb" back down to get the children
-		$parent_post->children = sp_get_all_children($parent_post);
+		$parent_post->children = jb_get_all_children($parent_post);
 		
 		// return an array of all the pages
 		return $parent_post;
 	}
 	
 	// checks to see if the current user is super admin
-	function sp_is_admin() {
+	function jb_is_admin() {
 		global $current_user;
 		return in_array('administrator', $current_user->roles);
 	}
 
 	// checks where a user is logged in via cookie (is_user_logged_in() seemed to be unreliable)
-	function sp_is_user_logged_in() {
+	function jb_is_user_logged_in() {
 		return wp_validate_auth_cookie('', apply_filters('auth_redirect_scheme', ''));
 	}
 
 	//checks if the user is superadmin OR webadmin
-	function sp_is_site_admin($user = null){
+	function jb_is_site_admin($user = null){
 		global $current_user;
 
 		if( ! empty($current_user->roles) &&
@@ -97,7 +97,7 @@
 	}
 	
 	// uses wordpress' paginate_links function with some default variables
-	function sp_paginate_links($args = array()) {
+	function jb_paginate_links($args = array()) {
 		global $wp_query;
 		
 		$args = wp_parse_args($args, array('total'=>$wp_query->max_num_pages));
@@ -126,48 +126,48 @@
 	}
 	
 	// filters any passed string through the_content wordpress filter (will process any shortcodes, etc...)
-	function sp_the_content($input) {
+	function jb_the_content($input) {
 		return apply_filters('the_content', $input);
 	}
 	
 	// get relative url of specified file, relative to the theme folder
-	function sp_theme_relative($file) { return sp_filter_http(sp_theme_full($file)); }
+	function jb_theme_relative($file) { return jb_filter_http(jb_theme_full($file)); }
 
 	// get absolute url of specified file, relative to the theme folder
-	function sp_theme_full($file) { return get_stylesheet_directory_uri().'/'.$file; }
+	function jb_theme_full($file) { return get_stylesheet_directory_uri().'/'.$file; }
 
 	// function to get time relative to timezone set in admin
-	function sp_time() { return current_time('timestamp'); }
+	function jb_time() { return current_time('timestamp'); }
 	
 	// function to get datetime relative to timezone set in admin
-	function sp_datetime() { return current_time('mysql'); }
+	function jb_datetime() { return current_time('mysql'); }
 	
 	// get image url, of specified size, by id, image array or image object
-	function sp_get_image($id, $size='full') {
+	function jb_get_image($id, $size='full') {
 		$url = '';
 		if(is_numeric($id)) {
 			$image = wp_get_attachment_image_src($id, $size);
 			if(is_array($image) && (count($image) > 0)) {
-				$url = sp_filter_http($image[0]);
+				$url = jb_filter_http($image[0]);
 			}
 		} else if(is_array($id) || is_object($id)) {
 			$info = (array)$id;
 			if(($size == 'full') && !empty($info['url'])) {
-				$url = sp_filter_http($info['url']);
+				$url = jb_filter_http($info['url']);
 			} else if(isset($info['sizes']) && is_array($info['sizes']) && !empty($info['sizes'][$size])) {
-				$url = sp_filter_http($info['sizes'][$size]);
+				$url = jb_filter_http($info['sizes'][$size]);
 			}
 		}
 		return $url;
 	}
 
 	// get url of post id
-	function sp_get_link($id) {
-		return sp_filter_http(get_permalink($id));
+	function jb_get_link($id) {
+		return jb_filter_http(get_permalink($id));
 	}
 	
 	// format the phone numbers to be uniform through the site
-	function sp_format_phone($phone, $extension = '', $formats = array()) {
+	function jb_format_phone($phone, $extension = '', $formats = array()) {
 		$formats = wp_parse_args($formats, array('format-7'=>'$1-$2',
 															  'format-10'=>"($1) $2-$3",
 															  'format-11'=>"$1 ($2) $3-$4"));
@@ -183,8 +183,8 @@
 		return $phone.($extension ? ' ext. '.$extension : '');
 	}
 	
-	// register a custom post type: ex: sp_register_cpt(array('name' => 'FAQ', 'icon' => 'dashicons-format-status', 'position' => 5, 'is_singular' => true));
-	function sp_register_cpt($cpt_array = array()){
+	// register a custom post type: ex: jb_register_cpt(array('name' => 'FAQ', 'icon' => 'dashicons-format-status', 'position' => 5, 'is_singular' => true));
+	function jb_register_cpt($cpt_array = array()){
 		$default_cpt = array( 'name' => '', 
 							'icon' => 'dashicons-admin-post', 
 							'position' => 4, 
@@ -270,7 +270,7 @@
 	 * @param string $menu_title 	The title of the taxonomy. Human Readable.
 	 * @param array  $rewrite 	 	Overwrite the rewrite
 	 */
-	function sp_register_taxonomy($tax_name = '', $post_type = '', $menu_title = '', $public = true, $rewrite = array()){
+	function jb_register_taxonomy($tax_name = '', $post_type = '', $menu_title = '', $public = true, $rewrite = array()){
 
 		if(empty($rewrite)){
 			$rewrite = array( 'slug' => $tax_name );
@@ -295,17 +295,17 @@
 	}
 	
 	// get a pk-specific value
-	function sp_get($key) {
-		return sp_value($key);
+	function jb_get($key) {
+		return jb_value($key);
 	}
 	
 	// set a pk-specific value -- returns previous value
-	function sp_set($key, $value=null) {
-		return sp_value($key, $value);
+	function jb_set($key, $value=null) {
+		return jb_value($key, $value);
 	}
 	
 	// get/set a pk-specific value
-	function sp_value() {
+	function jb_value() {
 		static $list = array();
 		
 		// initialize value
@@ -341,7 +341,7 @@
 	}
 	
 	// remove callbacks from specified action/filter, with optional function name and priority
-	function sp_unhook($name, $func=null, $pri=null) {
+	function jb_unhook($name, $func=null, $pri=null) {
 		global $wp_filter;
 	
 		// check for callbacks assigned to a specific filter name
@@ -397,12 +397,12 @@
 
 	//Output Bootstrap grid clearfixes for varying heights on grid items
 	//that are not sectioned off with rows
-	/* Usage: sp_brkpnt(($c+1),array('xs'=>2,'sm'=>2,'md'=>3,'lg'=>3));
+	/* Usage: jb_brkpnt(($c+1),array('xs'=>2,'sm'=>2,'md'=>3,'lg'=>3));
 	*  $c is the current count key in a foreach
 	*  $breakpoints are a key => value pair array for all of the grid sizes (xs,sm,md,lg)
 	*  $echo is whether or not to echo or return the result
 	*/
-	function sp_brkpnt($c,$breakpoints, $echo = true){
+	function jb_brkpnt($c,$breakpoints, $echo = true){
 		if(!is_array($breakpoints)){ return; }
 		$class = '';
 		foreach($breakpoints as $prefix => $size){
@@ -415,10 +415,10 @@
 	/*
 	* Change "posts" name to "Blog Posts"
 	*/
-	add_action( 'admin_menu', 'sp_change_post_label', 10, 0 );
-	function sp_change_post_label() {
-		$new = apply_filters( 'sp_change_post_label', false);
-		$plural = apply_filters( 'sp_post_label_plural', true);
+	add_action( 'admin_menu', 'jb_change_post_label', 10, 0 );
+	function jb_change_post_label() {
+		$new = apply_filters( 'jb_change_post_label', false);
+		$plural = apply_filters( 'jb_post_label_plural', true);
 		if(!$new){ return; }
 
 	   global $menu;
@@ -436,7 +436,7 @@
 	 * 
 	 * @return string 		The obfuscated email address formatted as a link.
 	 */
-	function sp_antispam_email($email = "", $text = "" ){
+	function jb_antispam_email($email = "", $text = "" ){
 		if (! filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
 			if($text == ""){
 				$text = antispambot($email);
@@ -455,7 +455,7 @@
 	 * @param string $echo whether or not to echo the results
 	 * @return string the images directory or echo out
 	 */
-	function sp_img_path($img_name=false,$echo=false) {
+	function jb_img_path($img_name=false,$echo=false) {
 		$path = get_stylesheet_directory_uri().'/images/';
 	   $path .= $img_name ? $img_name : '';
 	   if($echo){
@@ -470,7 +470,7 @@
 	 * @param  string $url the url of the YouTube video
 	 * @return string      the video id
 	 */
-	function sp_get_youtube_id($url){
+	function jb_get_youtube_id($url){
 		if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match)) {
 			return $match[1];
 		}
@@ -486,7 +486,7 @@
 	/**
 	 * Detect if the provided url belongs to the same domain as our site OR if it is a PDF
 	 */
-	function sp_target_domain($url){
+	function jb_target_domain($url){
 		if(strpos($url, get_home_url()) !== false && strpos($url, ".pdf") === false){
 			return "";
 		}else{
@@ -499,7 +499,7 @@
 	 * @param  array $arr array containing all the PK button fields
 	 * @return string      the correct URL for this type of button
 	 */
-	function sp_get_button_link($arr, $prefix = ''){
+	function jb_get_button_link($arr, $prefix = ''){
 
 		$btn_link = '#';
 
@@ -527,15 +527,15 @@
 	/**
 	 * Display a PK button
 	 * 
-	 * @param array $button an array of the needed button values (sp_Button)
+	 * @param array $button an array of the needed button values (jb_Button)
 	 * @param string $classes Any classes you want to apply to the link
 	 * @param bool $echo Should we echo this button or return it?
 	 */
-	function sp_display_sp_button($button, $classes = '', $echo = true){
+	function jb_display_jb_button($button, $classes = '', $echo = true){
 
 		if($button['link_type'] != 'none' && ! empty($button['button_text'])){
-			$btn_link = sp_get_button_link($button);
-			$btn_html = '<a href="'.$btn_link.'" '.sp_target_domain($btn_link).' class="'.$classes.'">'.$button['button_text'].'</a>';
+			$btn_link = jb_get_button_link($button);
+			$btn_html = '<a href="'.$btn_link.'" '.jb_target_domain($btn_link).' class="'.$classes.'">'.$button['button_text'].'</a>';
 
 			if($echo){
 				echo $btn_html;
@@ -552,7 +552,7 @@
 	 * 
 	 * @return string 			the google maps query string 	
 	 */
-	function sp_get_map_link($address,$query_only = false){
+	function jb_get_map_link($address,$query_only = false){
 
 		$q = urlencode(preg_replace('/\(.*\)/', '', $address['street_address'].', '.$address['city'].', '.$address['state'].' '.$address['zip']));
 
@@ -562,10 +562,10 @@
 	/**
 	 * Allow a user to add a button to a Wysiwyg
 	 */
-	add_shortcode( 'pkButton', 'sp_add_a_button' );
-	function sp_add_a_button( $atts ) {
+	add_shortcode( 'pkButton', 'jb_add_a_button' );
+	function jb_add_a_button( $atts ) {
 
-		return '<a href="'.$atts['link'].'" class="btn btn-primary" '.sp_target_domain($atts['link']).'  >'.$atts['title'].'</a>';
+		return '<a href="'.$atts['link'].'" class="btn btn-primary" '.jb_target_domain($atts['link']).'  >'.$atts['title'].'</a>';
 	}
 
 	//Check if an array has a key and return its value if so
@@ -574,11 +574,11 @@
 	}
 
 	// Get the featured image for a post
-	function sp_get_featured_image($id = false, $size = 'full',$returnid = false){
+	function jb_get_featured_image($id = false, $size = 'full',$returnid = false){
 		if(!$id){ $id = get_the_id(); }
 		$image_id = get_post_thumbnail_id($id);
 		if(!$image_id){ return false; }
-		$info = sp_get_attachment_info($image_id);
+		$info = jb_get_attachment_info($image_id);
 		$srcset = wp_get_attachment_image_srcset($image_id,$size);
 		$sized = wp_get_attachment_image_src($image_id,$size,true);
 		$info['original_src'] = $info['src'];
@@ -591,7 +591,7 @@
 		}
 	}
 
-	function sp_get_attachment_info( $attachment_id ) {
+	function jb_get_attachment_info( $attachment_id ) {
 		$attachment = get_post( $attachment_id );
 		return array(
 			'image_id' => $attachment_id,
@@ -605,14 +605,14 @@
 	}
 
 	//Custom ajax spinner for gravity forms when submitting
-	add_filter( "gform_ajax_spinner_url", "sp_custom_spinner_image", 10, 2);
-	function sp_custom_spinner_image($image_src, $form){
+	add_filter( "gform_ajax_spinner_url", "jb_custom_spinner_image", 10, 2);
+	function jb_custom_spinner_image($image_src, $form){
 			return  'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 	}
 
 
 	//Get a custom excerpt length from an optional field or except
-	function sp_get_excerpt($excerpt_length = 55, $id = false, $field = null, $more='...') {
+	function jb_get_excerpt($excerpt_length = 55, $id = false, $field = null, $more='...') {
 	     
 	 $text = '';
 	   
@@ -626,12 +626,12 @@
 	      $text = ($post->post_excerpt) ? $post->post_excerpt : get_the_content('');
 	   }
 
-	   $text = sp_do_excerpt($text,$excerpt_length,$more);
+	   $text = jb_do_excerpt($text,$excerpt_length,$more);
 	   return $text;
 	}
 
 	//format an excerpt
-	function sp_do_excerpt($text, $excerpt_length = 55, $more='...'){
+	function jb_do_excerpt($text, $excerpt_length = 55, $more='...'){
 	   $text = strip_shortcodes( $text );
 	   $text = apply_filters('the_content', $text);
 	   $text = str_replace(']]>', ']]&gt;', $text);
@@ -648,7 +648,7 @@
 	   return $text;
 	}
 
-	function sp_get_url_without_params($url = false){
+	function jb_get_url_without_params($url = false){
 	   if(!$url){ $url = $_SERVER['REQUEST_URI']; }
 	   preg_match('/^[^\?]+/', $url, $return);
 	   $url = 'http' . ('on' === $_SERVER['HTTPS'] ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . $return[0];
@@ -656,7 +656,7 @@
 	}
 
 	//get pagination from an optional wp_query with first and last links
-	function sp_get_pagination($custom_query = false, $format="?paged=%#%") {
+	function jb_get_pagination($custom_query = false, $format="?paged=%#%") {
 	   global $wp_query;
 	   $query = $custom_query ? $custom_query : $wp_query;
 
@@ -678,10 +678,10 @@
 
 	   //Get first and last links
 	   $query_string = $_SERVER['QUERY_STRING'];
-	   $first = preg_replace('/\/page\/([]0-9]+)/','',sp_get_url_without_params($_SERVER['REQUEST_URI']));
+	   $first = preg_replace('/\/page\/([]0-9]+)/','',jb_get_url_without_params($_SERVER['REQUEST_URI']));
 	   $first_link = $first.($query_string ? '?'.$query_string:'');
 	   
-	   $last = preg_replace('/\/page\/([]0-9]+)/','/page/'.$query->max_num_pages,sp_get_url_without_params($_SERVER['REQUEST_URI']));
+	   $last = preg_replace('/\/page\/([]0-9]+)/','/page/'.$query->max_num_pages,jb_get_url_without_params($_SERVER['REQUEST_URI']));
 	   $last_link = $last.($query_string ? '?'.$query_string:'');
 
 	   if( is_array( $pages ) ) {
@@ -699,7 +699,7 @@
 	}
 
 	//Get a specific image url from an acf image object, fallback to full url
-	function sp_get_acf_image($img,$size='full'){
+	function jb_get_acf_image($img,$size='full'){
 	   if(isset($img['sizes'][$size])){
 	      return $img['sizes'][$size];
 	   }elseif(isset($img['url'])){
@@ -710,7 +710,7 @@
 	}
 
 	//Manual list of public post types, useful for common search results page
-	function sp_get_public_post_types(){
+	function jb_get_public_post_types(){
 	   $arr = array(
 	      'post' => 'Blog',
 	      'page' => 'Page',
@@ -719,13 +719,13 @@
 	}
 
 	/* Custom Youtube lightbox CTA functions */
-	function sp_get_youtube_title($video_id){
+	function jb_get_youtube_title($video_id){
 	   $info = file_get_contents("https://www.youtube.com/get_video_info?video_id=".$video_id);
 	   preg_match("/&title=(.+?)&/", $info, $title);
 	   return isset($title[1]) ? urldecode($title[1]) : false;
 	}
 
-	function sp_get_file_size($url){
+	function jb_get_file_size($url){
 	   $ch = curl_init(); 
 	   curl_setopt($ch, CURLOPT_HEADER, true); 
 	   curl_setopt($ch, CURLOPT_NOBODY, true); // make it a HEAD request
@@ -743,7 +743,7 @@
 	   return $size;
 	}
 
-	function sp_get_youtube_params($url,$key=false){
+	function jb_get_youtube_params($url,$key=false){
 		$params = array();
 
 		//Video ID
@@ -763,16 +763,16 @@
 		return $key && isset($params[$key]) ? $params[$key] : $params;
 	}
 
-	function sp_get_youtube_img($video_id,$size='hqdefault'){
+	function jb_get_youtube_img($video_id,$size='hqdefault'){
 	   $sizes = array('maxresdefault','sddefault','hqdefault','mqdefault','default');
 	   $img = 'https://img.youtube.com/vi/'.$video_id.'/'.$size.'.jpg';
-	   $img_size = sp_get_file_size($img);
+	   $img_size = jb_get_file_size($img);
 	   //If this is the youtube default image ( it is usually 1097 bytes ), loop through the sizes and try to find one that actual works.
 	   if($img_size < 1500){
 	      foreach($sizes as $s){
 	            $size = $s;
 	            $img = 'http://img.youtube.com/vi/'.$video_id.'/'.$s.'.jpg';
-	            $img_size = sp_get_file_size($img);
+	            $img_size = jb_get_file_size($img);
 	            if($img_size >= 1500){ break; }
 	      }
 	   }
@@ -788,7 +788,7 @@
 	* maxresdefault = 1280x720
 	* https://www.youtube.com/watch?v=EAcdvmnZ_GM
 	*/
-	function sp_youtube_lightbox($url,$args=array()){
+	function jb_youtube_lightbox($url,$args=array()){
 	   $default = array(
 	      'show_title' => true,
 	      'classes' => false,
@@ -806,11 +806,11 @@
 	   $args = wp_parse_args( $args, $default );
 	   extract($args);
 
-	   $params = sp_get_youtube_params($url);
+	   $params = jb_get_youtube_params($url);
 	   $video_id = $params['id'];
-	   $title = sp_get_youtube_title($video_id);
+	   $title = jb_get_youtube_title($video_id);
 	   $title = $title && $show_title ? $title : '';
-	   $img = $img ? $img : sp_get_youtube_img($video_id,$size);
+	   $img = $img ? $img : jb_get_youtube_img($video_id,$size);
 	   $classes = trim('background '.$classes);
 	   $classes = $classes ? $size.' '.$classes : $size;
 	   $base_url = 'https://www.youtube.com/watch?v=';
@@ -844,7 +844,7 @@
 	}
 
 	//Attempt to retrieve and format button info from the pk button acf field group
-	function sp_get_button_info($arr,$full=false){
+	function jb_get_button_info($arr,$full=false){
       $btn_link = false;
       $target = $arr['target'];
       $txt = $arr['button_text'];
@@ -867,9 +867,9 @@
    }
 
    //Output a button either with manual info or from the pk button acf field group
-   function sp_output_button($btn,$classes=false,$properties=array()){
+   function jb_output_button($btn,$classes=false,$properties=array()){
       //Convert to pk button if needed
-      if(empty($btn['link'])){ $btn = sp_get_button_info($btn,true); }
+      if(empty($btn['link'])){ $btn = jb_get_button_info($btn,true); }
 
       $link = !empty($btn['link']) ? $btn['link'] : false;
       if(!$link){ return; }
@@ -892,21 +892,21 @@
 	*  and it will only make the DB calls once and set them as a global
 	*  for each subsequent call
 	*/
-	function sp_get_fields(){
-	   $fields = sp_get('fields');
-	   return $fields ? $fields : sp_set_fields(get_the_ID());
+	function jb_get_fields(){
+	   $fields = jb_get('fields');
+	   return $fields ? $fields : jb_set_fields(get_the_ID());
 	}
-	function sp_set_fields($id=false,$set=true){
+	function jb_set_fields($id=false,$set=true){
 	   $id = $id ? $id : get_the_ID();
 	   if(!$id){ return array(); }
 	   if(!function_exists('get_fields')){ return false; }
 	   $fields = get_fields($id);
-	   if($set){ sp_set('fields',$fields); }
+	   if($set){ jb_set('fields',$fields); }
 	   return $fields;
 	}
 
 	//Dev function to exponentially duplicate array values
-	function sp_arr_increase($arr,$num=4){
+	function jb_arr_increase($arr,$num=4){
 	   for($i=0;$i<$num;$i++){
 	      $arr = array_merge($arr,$arr);
 	   }
@@ -914,13 +914,13 @@
 	}
 
 	//Output an image / background image with optional params
-	function sp_image($src=false,$args=array()){
+	function jb_image($src=false,$args=array()){
 	   if(!$src){ return; }
 
 	   if(is_array($src)){
 	      $temp = $src;
 	      $size = !empty($args['size']) ? $args['size'] : 'medium_large';
-	      $src = sp_get_acf_image($src,$size);
+	      $src = jb_get_acf_image($src,$size);
 	      if(!$src){ return; }
 	      if(empty($args['alt'])){ $args['alt'] = $temp['alt']; }
 	   }
@@ -941,7 +941,7 @@
 	}
 
 	//Get the labels for a post type
-	function sp_get_cpt_labels($single,$plural){
+	function jb_get_cpt_labels($single,$plural){
 	   $arr = array(
 	      'name' => $plural,
 	      'singular_name' => $single,
@@ -962,7 +962,7 @@
 	}
 
 	//Get the labels for a taxonomy
-	function sp_get_tax_labels($singular,$plural){
+	function jb_get_tax_labels($singular,$plural){
 	   $arr = array(
 	      'name'                       => $singular,
 	      'singular_name'              => $singular,

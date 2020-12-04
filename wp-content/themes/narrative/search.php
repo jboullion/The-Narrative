@@ -1,7 +1,7 @@
 <?php 
 	get_header(); 
 
-	$options = sp_get('options');
+	$options = jb_get('options');
 ?>
 <header class="woocommerce-products-header">
 	
@@ -12,7 +12,7 @@
 	</div>
 	<div id="taxonomy-search" class="container">
 		<?php 
-			sp_display_search_filters('', 'product');
+			jb_display_search_filters('', 'product');
 		?>
 	</div>
 
@@ -31,7 +31,7 @@
 					//DO STUFF
 					do_action( 'woocommerce_shop_loop' );
 
-					sp_display_list_program();
+					jb_display_list_program();
 				endwhile; 
 
 				echo '</div>';
