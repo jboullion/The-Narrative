@@ -47,7 +47,18 @@
             "type": "textarea",
             "instructions": "Save a cache of the channel list here so we don't use up our quota",
             "required": 0,
-            "conditional_logic": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5fc7390872e4d",
+                        "operator": "!=empty"
+                    },
+                    {
+                        "field": "field_5fc7390872e4d",
+                        "operator": "==empty"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -66,7 +77,18 @@
             "type": "textarea",
             "instructions": "Save a cache of the channel info here so we don't use up our quota",
             "required": 0,
-            "conditional_logic": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_5fc7390872e4d",
+                        "operator": "!=empty"
+                    },
+                    {
+                        "field": "field_5fc7390872e4d",
+                        "operator": "==empty"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -96,5 +118,5 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "modified": 1607061669
+    "modified": 1607064251
 }

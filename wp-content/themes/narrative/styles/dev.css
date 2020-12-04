@@ -2559,17 +2559,7 @@ readers do not read off random characters that represent icons */
   .card.video:hover {
     text-decoration: none; }
   .card.video .card-body {
-    border: 1px solid #dee2e6;
     padding: 10px; }
-
-.lity-iframe .lity-container,
-.lity-youtube .lity-container,
-.lity-vimeo .lity-container,
-.lity-facebookvideo .lity-container,
-.lity-googlemaps .lity-container {
-  width: 100%;
-  padding: 0 15px;
-  max-width: 1440px; }
 
 .tns-outer {
   position: relative; }

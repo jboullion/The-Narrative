@@ -48,12 +48,8 @@ function jb_display_video_card($video_id, $title, $date ){
 	echo '<a href="//www.youtube.com/watch?v='.$video_id.'" class="card video h-100" data-lity>
 			<img src="'.$video_img.'" class="card-img-top" alt="'.$title.'">
 			<div class="card-body">
-				<div class="media">
-					<div class="media-body">
-						<p class="ellipsis">'.$title.'</p>
-						<p class="small mb-0">'.$date.'</p>
-					</div>
-				</div>
+				<p class="ellipsis">'.$title.'</p>
+				<p class="small mb-0">'.$date.'</p>
 			</div>
 		</a>';
 }
