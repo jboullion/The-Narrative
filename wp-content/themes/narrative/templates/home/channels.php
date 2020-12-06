@@ -40,6 +40,9 @@
 			if(! empty($channels)){
 				foreach($channels as $channel_key => $channel){
 					// TODO: Make the "title card" a function
+					$twitter = get_field('twitter', $channel->ID);
+					$patreon = get_field('patreon', $channel->ID);
+					$website = get_field('website', $channel->ID);
 					$channel_id = get_field('channel_id', $channel->ID);
 					$channel_info = jb_get_yt_channel_info($channel_id, $channel->ID);
 					$channel_videos = jb_get_yt_channel_videos($channel_id, $channel->ID);
@@ -50,8 +53,19 @@
 							<div class="col-lg-3">
 								<div class="title-card">
 									<a href="https://www.youtube.com/channel/'.$channel_id.'" target="_blank"><img src="'.$channel_info->items[0]->snippet->thumbnails->default->url.'" /></a>
-									<h4>'.$channel->post_title.'</h4>
-								</div>
+									<h4>'.$channel->post_title.'</h4>';
+
+						if($patreon){
+							echo '<a href="'.$patreon.'" class="channel-social patreon" target="_blank">'.fa_patreon_icon().'</a>';
+						}
+						if($twitter){
+							echo '<a href="'.$twitter.'" class="channel-social twitter" target="_blank">'.fa_twitter_icon().'</a>';
+						}
+						if($website){
+							echo '<a href="'.$website.'" class="channel-social website" target="_blank">'.fa_globe_icon().'</a>';
+						}
+						
+						echo '	</div>
 							</div>
 							<div class="col-lg-9">
 								<div class="channel-'.$channel_key.'">';

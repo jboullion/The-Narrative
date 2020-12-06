@@ -5,7 +5,7 @@
 	<!-- navbar-dark bg-primary -->
 	<a class="navbar-brand" href="<?php echo home_url(); ?>"><?php echo get_bloginfo('name'); ?></a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-		<?php echo bs_bar_icon(); ?>
+		<?php echo fa_bar_icon(); ?>
 	</button>
 
 	<div class="collapse navbar-collapse" id="navbarColor01">
@@ -29,7 +29,7 @@
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Search" aria-label="Search">
 				<div class="input-group-append">
-					<button class="btn " type="submit"><?php echo bs_search_icon(); ?></button>
+					<button class="btn " type="submit"><?php echo fa_search_icon(); ?></button>
 				</div>
 			</div>
 		</form>

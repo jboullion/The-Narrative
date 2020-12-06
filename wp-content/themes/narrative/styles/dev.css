@@ -2610,6 +2610,16 @@ readers do not read off random characters that represent icons */
       margin-bottom: 20px;
       width: 88px;
       height: 88px; }
+  #channels .channel .channel-social {
+    display: inline-block;
+    margin: 8px;
+    width: 24px; }
+    #channels .channel .channel-social.patreon svg path {
+      fill: #f96854; }
+    #channels .channel .channel-social.twitter svg path {
+      fill: #1DA1F2; }
+    #channels .channel .channel-social.website svg path {
+      fill: #495057; }
 
 #channels .tns-outer .tns-controls {
   position: absolute;

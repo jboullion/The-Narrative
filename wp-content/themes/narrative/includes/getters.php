@@ -103,9 +103,10 @@ function jb_get_yt_channel_info($channel_id, $channel_post_id){
 
 	$result = file_get_contents($url);
 
-	// If we have a result, cache the info for 1 day
+	// If we have a result, cache the info for 1 month.
 	if(! empty($result)){
-		set_transient( 'channel_'.$channel_id, 1, DAY_IN_SECONDS );
+		// We don't need to update the channel info very often
+		set_transient( 'channel_'.$channel_id, 1, MONTH_IN_SECONDS );
 		update_field('field_5fc9d0948331a', json_decode( $result ), $channel_post_id);
 	}
 

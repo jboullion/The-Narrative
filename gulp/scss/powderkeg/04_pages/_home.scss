@@ -58,6 +58,24 @@
 				height: 88px;
 			}
 		}
+
+		.channel-social {
+			display: inline-block;
+			margin: 8px;
+			width: 24px;
+
+			&.patreon {
+				svg path { fill: #f96854; }
+			}
+
+			&.twitter {
+				svg path { fill: #1DA1F2; }
+			}
+
+			&.website {
+				svg path { fill: $gray-700; }
+			}
+		}
 	}
 
 	.tns-outer {
