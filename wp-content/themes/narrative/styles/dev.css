@@ -2586,6 +2586,33 @@ readers do not read off random characters that represent icons */
       margin-bottom: 20px;
       width: 88px;
       height: 88px; }
+  #featured .featured-slider .featured-slide h2 {
+    position: absolute;
+    top: 0;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    padding: 20px;
+    text-align: center; }
+  #featured .featured-control {
+    background: rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    z-index: 1; }
+    #featured .featured-control svg {
+      width: 30px; }
+      #featured .featured-control svg path {
+        fill: white; }
+    #featured .featured-control.prev {
+      left: 0%;
+      margin-left: 16px; }
+    #featured .featured-control.next {
+      left: 75%;
+      transform: translate(-100%, -50%);
+      margin-left: -15px; }
   #featured .tns-outer .tns-controls {
     position: absolute;
     right: 0;
@@ -2610,16 +2637,6 @@ readers do not read off random characters that represent icons */
       margin-bottom: 20px;
       width: 88px;
       height: 88px; }
-  #channels .channel .channel-social {
-    display: inline-block;
-    margin: 8px;
-    width: 24px; }
-    #channels .channel .channel-social.patreon svg path {
-      fill: #f96854; }
-    #channels .channel .channel-social.twitter svg path {
-      fill: #1DA1F2; }
-    #channels .channel .channel-social.website svg path {
-      fill: #495057; }
 
 #channels .tns-outer .tns-controls {
   position: absolute;
@@ -2632,6 +2649,17 @@ readers do not read off random characters that represent icons */
     border: 0;
     font-size: 3rem;
     width: 50%; }
+
+.channel-social {
+  display: inline-block;
+  margin: 8px;
+  width: 24px; }
+  .channel-social.patreon svg path {
+    fill: #f96854; }
+  .channel-social.twitter svg path {
+    fill: #1DA1F2; }
+  .channel-social.website svg path {
+    fill: #495057; }
 
 .container-fluid {
   max-width: 1750px; }

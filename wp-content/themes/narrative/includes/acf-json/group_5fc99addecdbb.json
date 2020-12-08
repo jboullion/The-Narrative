@@ -41,6 +41,26 @@
                     "maxlength": ""
                 },
                 {
+                    "key": "field_5fcff768c1791",
+                    "label": "Channel",
+                    "name": "channel",
+                    "type": "post_object",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "post_type": "",
+                    "taxonomy": "",
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "return_format": "object",
+                    "ui": 1
+                },
+                {
                     "key": "field_5fc99aed210b7",
                     "label": "Video ID",
                     "name": "video_id",
@@ -79,7 +99,7 @@
     "hide_on_screen": [
         "the_content"
     ],
-    "active": 1,
+    "active": true,
     "description": "",
-    "modified": 1607050909
+    "modified": 1607464826
 }

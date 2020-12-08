@@ -50,6 +50,16 @@ function jb_get_taxonomy_terms($taxonomy, $count = 6, $random = false){
 function jb_get_yt_video_info($video_id){
 	$yt_id = jb_get('yt-api-key');
 
+	// Should we use the cached version of this channel's info?
+	// $channel_cache = get_transient( 'channel_list_'.$channel_id );
+	// if(! empty($channel_cache)) {
+	// 	$channel_videos = get_field('cached_video_list', $channel_post_id);
+
+	// 	if(! empty($channel_videos)){
+	// 		return $channel_videos;
+	// 	}
+	// }
+
 	$url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$video_id.'&key='.$yt_id;
 
 	$result = file_get_contents($url);
@@ -63,7 +73,7 @@ function jb_get_yt_channel_videos($channel_id, $channel_post_id){
 	$yt_id = jb_get('yt-api-key');
 
 	// Should we use the cached version of this channel's info?
-	$channel_cache = get_transient( 'videos_'.$channel_id );
+	$channel_cache = get_transient( 'channel_list_'.$channel_id );
 	if(! empty($channel_cache)) {
 		$channel_videos = get_field('cached_video_list', $channel_post_id);
 
@@ -78,7 +88,7 @@ function jb_get_yt_channel_videos($channel_id, $channel_post_id){
 
 	// If we have a result, cache the info for 1 day
 	if(! empty($result)){
-		set_transient( 'videos_'.$channel_id, 1, DAY_IN_SECONDS );
+		set_transient( 'channel_list_'.$channel_id, 1, DAY_IN_SECONDS );
 		update_field('field_5fc9b8844e129', json_decode( $result ), $channel_post_id);
 	}
 
