@@ -15,5 +15,6 @@
 	<?php get_template_part('templates/home/channels'); ?>
 
 </main>
+<?php get_template_part('templates/modals/player'); ?>
 <?php 
 	get_footer();

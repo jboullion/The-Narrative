@@ -42,14 +42,17 @@
 		.featured-control {
 			background: rgba(0,0,0,0.5);
 			display: inline-block;
-			padding: 20px;
+			padding: 15px;
 			position: absolute;
 			top: 50%;
 			transform: translate(0, -50%);
 			z-index: 1;
+			width: 50px;
+			border-radius: 50%;
+			text-align: center;
 
 			svg {
-				width: 30px;
+				width: 10px;
 
 				path {
 					fill: white;
@@ -90,7 +93,7 @@
 
 #channels {
 	.channel {
-		border-bottom: 1px solid $gray-700;
+		// border-bottom: 1px solid $gray-700;
 		padding-bottom: 50px;
 		margin-bottom: 50px;
 

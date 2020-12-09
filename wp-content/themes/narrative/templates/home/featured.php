@@ -23,8 +23,9 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12">
+				<a class="btn btn-primary" data-toggle="modal" data-target="#player-modal">Open Player</a>
 				<a href="#" class="featured-control prev"><?php echo fa_chevron_left(); ?></a>
-				<a href="#" class="featured-control next"><?php echo fa_chevron_right(); ?>;</a>
+				<a href="#" class="featured-control next"><?php echo fa_chevron_right(); ?></a>
 				<div class="featured-slider">
 
 				<?php 
@@ -52,10 +53,12 @@
 								echo '<div class="featured-slide">
 										<div class="row">
 											<div class="col-lg-9 col-md-12">
-												<a href="//www.youtube.com/watch?v='.$video_id.'" class="card video h-100" data-lity>
-													<img src="https://img.youtube.com/vi/'.$video_id.'/maxresdefault.jpg" alt="'.$video_title.'">
-													
-												</a>
+												<div class="pk-video">
+													<iframe id="ytplayer" type="text/html" width="640" height="360"
+													src="https://www.youtube.com/embed/'.$video_id.'"
+													frameborder="0"></iframe>
+												</div>
+												
 											</div>
 											<div class="col-lg-3 col-md-12">
 												<div class="title-card">
