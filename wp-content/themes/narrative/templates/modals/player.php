@@ -23,9 +23,13 @@
 	jQuery(function($){
 		var $body = $('body');
 		var ytTemplate = $('#yt-tempate').html();
+		var isPlaying = false;
+		var player;
 
 		$body.on('click', '#yt-close, .yt-wrap', function(e){
 			$('#yt-modal').remove();
+
+			isPlaying = false;
 		});
 
 		$body.on('click', '#yt-minimize', function(e){
@@ -47,13 +51,25 @@
 		});
 
 		$('.yt-video').on('click', function(e){
+			e.stopPropagation();
+			e.preventDefault();
+
 			var videoID = $(this).data('id');
 
-			var newYTPlayer = jbTemplateEngine(ytTemplate, {
-				videoID: videoID,
-			});
+			if(isPlaying){
+				player.loadVideoById(videoID);
+			}else{
+				var newYTPlayer = jbTemplateEngine(ytTemplate, {
+					videoID: videoID,
+				});
+				
+				$body.append(newYTPlayer);
 
-			$body.append(newYTPlayer);
+				player = new YT.Player('yt-player');
+			}
+			
+			isPlaying = true;
+			
 		});
 	});
 </script>
