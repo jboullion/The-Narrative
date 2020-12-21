@@ -23,7 +23,6 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12">
-				<a class="btn btn-primary" data-toggle="modal" data-target="#player-modal">Open Player</a>
 				<a href="#" class="featured-control prev"><?php echo fa_chevron_left(); ?></a>
 				<a href="#" class="featured-control next"><?php echo fa_chevron_right(); ?></a>
 				<div class="featured-slider">
@@ -45,20 +44,26 @@
 								$video_desc = $featured_video->snippet->description;
 								$video_id = $featured_video->id->videoId;
 
+								$video_img = jb_get_video_img_url($video_id, 'maxresdefault');
+
 								//jb_print($featured_video);
 
 								if(empty($video_id)) continue;
 								
 								// <h2>'.$video_title.'</h2>
-								echo '<div class="featured-slide">
-										<div class="row">
-											<div class="col-lg-9 col-md-12">
-												<div class="pk-video">
+								/*
+								<div class="pk-video">
 													<iframe id="ytplayer" type="text/html" width="640" height="360"
 													src="https://www.youtube.com/embed/'.$video_id.'"
 													frameborder="0"></iframe>
 												</div>
-												
+								*/
+								echo '<div class="featured-slide">
+										<div class="row">
+											<div class="col-lg-9 col-md-12">
+												<a href="#" class="yt-video" data-id="'.$video_id.'">
+													<img src="'.$video_img.'" class="card-img-top" alt="'.$title.'">
+												</a>
 											</div>
 											<div class="col-lg-3 col-md-12">
 												<div class="title-card">

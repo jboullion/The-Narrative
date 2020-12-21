@@ -2466,13 +2466,13 @@ readers do not read off random characters that represent icons */
   -webkit-box-orient: vertical;
   display: -webkit-box; }
 
-.pk-video {
+.yt-video-wrapper {
   position: relative;
   padding-bottom: 56.25%;
   /* 16:9 */
   padding-top: 25px;
   height: 0; }
-  .pk-video iframe {
+  .yt-video-wrapper iframe {
     border: 0;
     position: absolute;
     top: 0;
@@ -2567,6 +2567,101 @@ readers do not read off random characters that represent icons */
     border: 0; }
   .tns-outer .tns-nav {
     display: none; }
+
+#wpadminbar {
+  display: none; }
+
+#yt-modal {
+  z-index: 9990;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  white-space: nowrap;
+  background: #0b0b0b;
+  background: rgba(0, 0, 0, 0.9);
+  outline: none !important;
+  opacity: 0;
+  transition: opacity .3s ease; }
+  #yt-modal.opened {
+    opacity: 1; }
+  #yt-modal.minimized {
+    top: auto;
+    left: auto;
+    width: 30%; }
+    #yt-modal.minimized .yt-wrap {
+      position: absolute;
+      top: auto;
+      left: auto;
+      width: 100%; }
+    #yt-modal.minimized .yt-control {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.5); }
+  #yt-modal .yt-wrap {
+    z-index: 9990;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    outline: none !important; }
+    #yt-modal .yt-wrap:before {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+      margin-right: -0.25em; }
+  #yt-modal .yt-container {
+    width: 100%;
+    max-width: 964px;
+    max-height: 100%;
+    z-index: 9992;
+    position: relative;
+    text-align: left;
+    vertical-align: middle;
+    display: inline-block;
+    white-space: normal;
+    outline: none !important; }
+  #yt-modal .yt-content {
+    background-color: black;
+    z-index: 9993;
+    width: 100%;
+    transform: translateZ(0);
+    will-change: transform;
+    animation: openPlayer 0.2s; }
+  #yt-modal .yt-control {
+    z-index: 9994;
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    top: 0;
+    -webkit-appearance: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+    border: 0;
+    background: none;
+    outline: none;
+    box-shadow: none; }
+    #yt-modal .yt-control#yt-minimize {
+      right: 40px; }
+    #yt-modal .yt-control#yt-maximize {
+      right: 40px;
+      display: none; }
+    #yt-modal .yt-control#yt-close {
+      right: 0; }
+      #yt-modal .yt-control#yt-close svg {
+        height: 23px; }
+
+@keyframes openPlayer {
+  0% {
+    transform: scale(0.8); }
+  100% {
+    transform: scale(1); } }
 
 /*@import "./powderkeg/03_parts/media";*/
 /***************************
