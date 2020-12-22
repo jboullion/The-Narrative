@@ -1,5 +1,4 @@
 <?php
-	/* Template Name: Homepage Template */
 	get_header(); 
 	the_post();
 

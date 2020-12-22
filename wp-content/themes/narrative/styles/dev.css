@@ -2557,6 +2557,7 @@ readers do not read off random characters that represent icons */
   border: 0;
   background-color: transparent; }
   .card.video:hover {
+    background-color: rgba(0, 0, 0, 0.1);
     text-decoration: none; }
   .card.video .card-body {
     padding: 10px; }

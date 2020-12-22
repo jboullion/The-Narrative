@@ -3,7 +3,13 @@
 	$options = jb_get('options');
 
 	// Should we use the cached version of this channel's info?
-	$featured_cache = get_transient( 'featured_channels' );
+	if(is_tax( 'genre' )){
+		$genre_tax = get_queried_object();
+		$featured_cache = get_transient( 'genre_'.$genre_tax->term_id );
+	}else{
+		$featured_cache = get_transient( 'featured_channels' );
+	}
+	
 	if(! empty($featured_cache)) {
 		$channels = $featured_cache;
 	}else{
@@ -12,10 +18,25 @@
 			'post_type' => 'channels',
 			'orderby' => 'rand'
 		);
-	
+
+		if(! empty($genre_tax)){
+			$args['tax_query'] = array(
+				array(
+					'taxonomy' => 'genre',
+					'field'    => 'term_id',
+					'terms'    => $genre_tax->term_id,
+				)
+			);
+		}
+
 		$channels = get_posts($args);
 
-		set_transient( 'featured_channels', $channels, DAY_IN_SECONDS );
+		if(! empty($genre_tax)){
+			set_transient( 'genre_'.$genre_tax->term_id, $channels, DAY_IN_SECONDS );
+		}else{
+			set_transient( 'featured_channels', $channels, DAY_IN_SECONDS );
+		}
+		
 	}
 
 ?>

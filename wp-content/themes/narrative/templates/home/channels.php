@@ -8,6 +8,20 @@
 		'posts_per_page' => get_option( 'posts_per_page' ),
 	);
 
+	if(is_tax( 'genre' )){
+		$genre_tax = get_queried_object();
+
+		if(! empty($genre_tax)){
+			$channel_args['tax_query'] = array(
+				array(
+					'taxonomy' => 'genre',
+					'field'    => 'term_id',
+					'terms'    => $genre_tax->term_id,
+				)
+			);
+		}
+	}
+
 	$channels = get_posts($channel_args);
 ?>
 <script>
