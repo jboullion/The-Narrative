@@ -2555,12 +2555,69 @@ readers do not read off random characters that represent icons */
 
 .card.video {
   border: 0;
-  background-color: transparent; }
+  background-color: transparent;
+  transition: background-color 0.1s; }
   .card.video:hover {
     background-color: rgba(0, 0, 0, 0.1);
     text-decoration: none; }
   .card.video .card-body {
     padding: 10px; }
+
+/**
+ *
+ */
+#channels .channel {
+  padding-bottom: 50px;
+  margin-bottom: 50px; }
+  #channels .channel .title-card {
+    margin-bottom: 20px;
+    text-align: center; }
+    #channels .channel .title-card img {
+      border-radius: 50%;
+      margin-bottom: 20px;
+      width: 88px;
+      height: 88px; }
+  #channels .channel .channel-control {
+    background: rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    padding: 10px;
+    z-index: 1;
+    width: 40px;
+    border-radius: 50%;
+    text-align: center;
+    position: absolute;
+    top: 40%; }
+    #channels .channel .channel-control svg {
+      width: 10px; }
+      #channels .channel .channel-control svg path {
+        fill: white; }
+    #channels .channel .channel-control.prev {
+      left: 0; }
+    #channels .channel .channel-control.next {
+      right: 0; }
+
+#channels .tns-outer .tns-controls {
+  position: absolute;
+  right: 104%;
+  bottom: 0;
+  z-index: 1;
+  width: 30%; }
+  #channels .tns-outer .tns-controls button {
+    background-color: transparent;
+    border: 0;
+    font-size: 3rem;
+    width: 50%; }
+
+.channel-social {
+  display: inline-block;
+  margin: 8px;
+  width: 24px; }
+  .channel-social.patreon svg path {
+    fill: #f96854; }
+  .channel-social.twitter svg path {
+    fill: #1DA1F2; }
+  .channel-social.website svg path {
+    fill: #495057; }
 
 .tns-outer {
   position: relative; }
@@ -2568,6 +2625,8 @@ readers do not read off random characters that represent icons */
     border: 0; }
   .tns-outer .tns-nav {
     display: none; }
+  .tns-outer img {
+    max-height: 720px; }
 
 #wpadminbar {
   display: none; }
@@ -2664,65 +2723,85 @@ readers do not read off random characters that represent icons */
   100% {
     transform: scale(1); } }
 
+#genres {
+  margin: 0px 0;
+  text-align: center; }
+  #genres .genre {
+    padding: 10px;
+    margin: 5px;
+    transition: background-color 0.1s linear; }
+    #genres .genre.active, #genres .genre:hover {
+      background-color: #666666; }
+
 /*@import "./powderkeg/03_parts/media";*/
 /***************************
 
  * Pages
 
 ***************************/
-#featured {
-  margin-bottom: 50px; }
-  #featured .featured-slider .featured-slide img {
-    width: 100%;
-    max-width: 100%; }
-  #featured .featured-slider .featured-slide .title-card {
-    text-align: center; }
-    #featured .featured-slider .featured-slide .title-card img {
-      border-radius: 50%;
-      margin-bottom: 20px;
-      width: 88px;
-      height: 88px; }
-  #featured .featured-slider .featured-slide h2 {
-    position: absolute;
-    top: 0;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100%;
-    padding: 20px;
-    text-align: center; }
-  #featured .featured-control {
-    background: rgba(0, 0, 0, 0.5);
-    display: inline-block;
-    padding: 15px;
-    position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
-    z-index: 1;
-    width: 50px;
+.container-fluid {
+  max-width: 1750px; }
+
+#content .container {
+  padding: 100px 15px; }
+  #content .container p {
+    font-size: 18px; }
+
+#featured .featured-slider .featured-slide img {
+  width: 100%;
+  max-width: 100%; }
+
+#featured .featured-slider .featured-slide .title-card {
+  text-align: center; }
+  #featured .featured-slider .featured-slide .title-card img {
     border-radius: 50%;
-    text-align: center; }
-    #featured .featured-control svg {
-      width: 10px; }
-      #featured .featured-control svg path {
-        fill: white; }
-    #featured .featured-control.prev {
-      left: 0%;
-      margin-left: 16px; }
-    #featured .featured-control.next {
-      left: 75%;
-      transform: translate(-100%, -50%);
-      margin-left: -15px; }
-  #featured .tns-outer .tns-controls {
-    position: absolute;
+    margin-bottom: 20px;
+    width: 88px;
+    height: 88px; }
+
+#featured .featured-slider .featured-slide h2 {
+  position: absolute;
+  top: 0;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  padding: 20px;
+  text-align: center; }
+
+#featured .featured-control {
+  background: rgba(0, 0, 0, 0.5);
+  display: inline-block;
+  padding: 15px;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  z-index: 1;
+  width: 50px;
+  border-radius: 50%;
+  text-align: center; }
+  #featured .featured-control svg {
+    width: 10px; }
+    #featured .featured-control svg path {
+      fill: white; }
+  #featured .featured-control.prev {
+    right: 20%;
+    margin-left: 16px; }
+  #featured .featured-control.next {
     right: 0;
-    bottom: 0;
-    z-index: 1; }
-    #featured .tns-outer .tns-controls button {
-      background-color: transparent;
-      border: 0;
-      font-size: 3rem;
-      padding: 0 32px;
-      margin: 0px 30px; }
+    transform: translate(-100%, -50%);
+    margin-left: -15px; }
+
+#featured .tns-outer .tns-controls {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1; }
+  #featured .tns-outer .tns-controls button {
+    background-color: transparent;
+    border: 0;
+    font-size: 3rem;
+    padding: 0 32px;
+    margin: 0px 30px; }
 
 #channels .channel {
   padding-bottom: 50px;
@@ -2735,6 +2814,24 @@ readers do not read off random characters that represent icons */
       margin-bottom: 20px;
       width: 88px;
       height: 88px; }
+  #channels .channel .channel-control {
+    background: rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    padding: 10px;
+    z-index: 1;
+    width: 40px;
+    border-radius: 50%;
+    text-align: center;
+    position: absolute;
+    top: 40%; }
+    #channels .channel .channel-control svg {
+      width: 10px; }
+      #channels .channel .channel-control svg path {
+        fill: white; }
+    #channels .channel .channel-control.prev {
+      left: 0; }
+    #channels .channel .channel-control.next {
+      right: 0; }
 
 #channels .tns-outer .tns-controls {
   position: absolute;
@@ -2758,11 +2855,3 @@ readers do not read off random characters that represent icons */
     fill: #1DA1F2; }
   .channel-social.website svg path {
     fill: #495057; }
-
-.container-fluid {
-  max-width: 1750px; }
-
-#content .container {
-  padding: 100px 15px; }
-  #content .container p {
-    font-size: 18px; }

@@ -10,11 +10,11 @@
 ?>
 <section id="genres" class="wrapper no-print">
 	<div class="container-fluid">
-		<a href="/" class="badge badge-pill badge-primary">All</a>
+		<a href="/" class="genre active badge badge-pill badge-primary">All</a>
 		<?php 
 			if(! empty($genres)){
 				foreach($genres as $genre){
-					echo '<a href="'.get_term_link($genre).'" class="badge badge-pill badge-primary">'.$genre->name.'</a>';
+					echo '<a href="'.get_term_link($genre).'" class="genre badge badge-pill badge-primary">'.$genre->name.'</a>';
 				}
 			}
 		?>

@@ -10,7 +10,16 @@
  */
 function jb_get_video_img_url($video_id, $size = 'mqdefault'){
 	//0,1,2,3,default,hqdefault,mqdefault,sddefault,maxresdefault
-	return 'https://img.youtube.com/vi/'.$video_id.'/'.$size.'.jpg';
+	$img_url = 'https://img.youtube.com/vi/'.$video_id.'/'.$size.'.jpg';
+
+	@getimagesize($img_url, $img_size);
+
+	// Sometimes we do not have access to the video thumbnail and a "missing" img is returned that is 90 px high
+	if(empty($img_size) || $img_size[1] === 90){
+		$img_url = 'https://img.youtube.com/vi/'.$video_id.'/0.jpg';
+	}
+
+	return $img_url;
 }
 
 

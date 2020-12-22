@@ -1,0 +1,15 @@
+#genres {
+	margin: 0px 0;
+	text-align: center;
+
+	.genre {
+		padding: 10px;
+		margin: 5px;
+		transition: background-color 0.1s linear;
+
+		&.active,
+		&:hover {
+			background-color: #666666;
+		}
+	}
+}

@@ -25,12 +25,14 @@
 	$channels = get_posts($channel_args);
 ?>
 <script>
+		
 	var sliderOptions = {
 		nav: false,
 		loop: false,
 		swipeAngle: false,
 		gutter: 5,
-		controlsText: ["&lsaquo;", "&rsaquo;"],
+		controls: false,
+		//controlsText: ["&lsaquo;", "&rsaquo;"],
 		responsive: {
 			640: {
 				items: 2
@@ -80,6 +82,8 @@
 						}
 						
 						echo '	</div>
+								<a href="#" id="channel-'.$channel_key.'-prev" class="channel-control prev">'.fa_chevron_left().'</a>
+								<a href="#" id="channel-'.$channel_key.'-next" class="channel-control next">'.fa_chevron_right().'</a>
 							</div>
 							<div class="col-lg-9">
 								<div class="channel-'.$channel_key.'">';
@@ -101,20 +105,25 @@
 							</div>
 						</div>';
 
-						?>
-						<script>
-							// TODO: May want to remove built in nav and use custom navs
-							//slider.goTo('prev');
-							//slider.goTo('next');
+?>
+<script>
+	sliderOptions.container = '.channel-<?php echo $channel_key; ?>';
 
-							sliderOptions.container = '.channel-<?php echo $channel_key; ?>';
+	var slider<?php echo $channel_key; ?> = tns(sliderOptions);
 
-							var slider<?php echo $channel_key; ?> = tns(sliderOptions);
-						</script>
-						<?php 
+	jQuery('#channel-<?php echo $channel_key; ?>-prev').click(function(e){
+		e.preventDefault();
+		slider<?php echo $channel_key; ?>.goTo('prev');
+	});
+	
+	jQuery('#channel-<?php echo $channel_key; ?>-next').click(function(e){
+		e.preventDefault();
+		slider<?php echo $channel_key; ?>.goTo('next');
+	});
+</script>
+<?php 
 					}
 
-					
 					//break;
 				}
 			}

@@ -20,6 +20,7 @@
 .card.video {
 	border: 0;
 	background-color: transparent;
+	transition: background-color 0.1s;
 
 	&:hover {
 		background-color: rgba(0,0,0,0.1);
