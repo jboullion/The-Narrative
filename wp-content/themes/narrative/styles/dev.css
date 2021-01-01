@@ -2553,6 +2553,10 @@ readers do not read off random characters that represent icons */
   color: white;
   width: 18px; }
 
+#primary-nav #darkmode-toggle {
+  border: 0;
+  background-color: transparent; }
+
 .card.video {
   border: 0;
   background-color: transparent;
@@ -2802,56 +2806,3 @@ readers do not read off random characters that represent icons */
     font-size: 3rem;
     padding: 0 32px;
     margin: 0px 30px; }
-
-#channels .channel {
-  padding-bottom: 50px;
-  margin-bottom: 50px; }
-  #channels .channel .title-card {
-    margin-bottom: 20px;
-    text-align: center; }
-    #channels .channel .title-card img {
-      border-radius: 50%;
-      margin-bottom: 20px;
-      width: 88px;
-      height: 88px; }
-  #channels .channel .channel-control {
-    background: rgba(0, 0, 0, 0.5);
-    display: inline-block;
-    padding: 10px;
-    z-index: 1;
-    width: 40px;
-    border-radius: 50%;
-    text-align: center;
-    position: absolute;
-    top: 40%; }
-    #channels .channel .channel-control svg {
-      width: 10px; }
-      #channels .channel .channel-control svg path {
-        fill: white; }
-    #channels .channel .channel-control.prev {
-      left: 0; }
-    #channels .channel .channel-control.next {
-      right: 0; }
-
-#channels .tns-outer .tns-controls {
-  position: absolute;
-  right: 104%;
-  bottom: 0;
-  z-index: 1;
-  width: 30%; }
-  #channels .tns-outer .tns-controls button {
-    background-color: transparent;
-    border: 0;
-    font-size: 3rem;
-    width: 50%; }
-
-.channel-social {
-  display: inline-block;
-  margin: 8px;
-  width: 24px; }
-  .channel-social.patreon svg path {
-    fill: #f96854; }
-  .channel-social.twitter svg path {
-    fill: #1DA1F2; }
-  .channel-social.website svg path {
-    fill: #495057; }

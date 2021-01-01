@@ -8,6 +8,10 @@
 		<?php echo fa_bar_icon(); ?>
 	</button>
 
+	<button id="darkmode-toggle" type="button" aria-label="Toggle Darkmode">
+		<?php echo fa_sun(); ?>
+	</button>
+
 	<div class="collapse navbar-collapse" id="navbarColor01">
 		<div class="mr-auto"></div>
 		<!-- <ul class="navbar-nav mr-auto">

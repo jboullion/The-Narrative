@@ -93,47 +93,21 @@ function pk_async_attribute($tag, $handle) {
 add_action('wp_enqueue_scripts', 'jb_theme_enqueue_scripts', 9999);
 function jb_theme_enqueue_scripts() {
 
-	//wp_enqueue_script( 'jquery' );
-
-	// jQuery
-	if ( is_admin() || is_customize_preview() ) {
-		// echo 'We are in the WP Admin or in the WP Customizer';
-		return;
-	} else {
-		// Deregister WP core jQuery, see https://github.com/Remzi1993/wp-jquery-manager/issues/2 and https://github.com/WordPress/WordPress/blob/91da29d9afaa664eb84e1261ebb916b18a362aa9/wp-includes/script-loader.php#L226
-		wp_deregister_script( 'jquery' ); // the jquery handle is just an alias to load jquery-core with jquery-migrate
-		// Deregister WP jQuery
-		wp_deregister_script( 'jquery-core' );
-		// Deregister WP jQuery Migrate
-		wp_deregister_script( 'jquery-migrate' );
-
-		// Register jQuery in the head
-		// if you don't need ajax or animations use this
-		// https://code.jquery.com/jquery-3.5.0.slim.min.js
-		wp_register_script( 'jquery-core', 'https://code.jquery.com/jquery-3.5.0.min.js', array(), null, false );
-
-		/**
-		 * Register jquery using jquery-core as a dependency, so other scripts could use the jquery handle
-		 * see https://wordpress.stackexchange.com/questions/283828/wp-register-script-multiple-identifiers
-		 * We first register the script and afther that we enqueue it, see why:
-		 * https://wordpress.stackexchange.com/questions/82490/when-should-i-use-wp-register-script-with-wp-enqueue-script-vs-just-wp-enque
-		 * https://stackoverflow.com/questions/39653993/what-is-diffrence-between-wp-enqueue-script-and-wp-register-script
-		 */
-		wp_register_script( 'jquery', false, array( 'jquery-core' ), null, false );
-		wp_enqueue_script( 'jquery' );
-	}
+	wp_enqueue_script( 'jquery' );
 
 	wp_enqueue_style('bootswatch', get_stylesheet_directory_uri() . '/styles/bootstrap.min.css', array(), filemtime(get_stylesheet_directory().'/styles/bootstrap.min.css'));
+
+	wp_enqueue_script('animejs', get_stylesheet_directory_uri() . '/lib/anime-master/lib/anime.min.js', '', '', true);
 
 	//wp_enqueue_style('lity.css', 'https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.min.css', array(), '');
 	//wp_enqueue_script( 'lity.js', 'https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.min.js', array(), '', true);
 
 	if(ENVIRONMENT != 'dev') {
 		wp_enqueue_style('live', get_stylesheet_directory_uri() . '/styles/live.css', array(), filemtime(get_stylesheet_directory().'/styles/live.css'));
-		wp_enqueue_script('jquery.site', get_stylesheet_directory_uri() . '/js/live.js', 'jQuery', filemtime(get_stylesheet_directory().'/js/live.js'), true);
+		wp_enqueue_script('jquery.site', get_stylesheet_directory_uri() . '/js/live.js', 'jquery', filemtime(get_stylesheet_directory().'/js/live.js'), true);
 	} else {
 		wp_enqueue_style('dev', get_stylesheet_directory_uri().'/styles/dev.css', array(), time());
-		wp_enqueue_script('jquery.site', get_stylesheet_directory_uri().'/js/dev.js', 'jQuery', time(), true);
+		wp_enqueue_script('jquery.site', get_stylesheet_directory_uri().'/js/dev.js', 'jquery', time(), true);
 	}
 
 }
