@@ -90,24 +90,24 @@ function pk_async_attribute($tag, $handle) {
 }
 
 // front end scripts/css
-add_action('wp_enqueue_scripts', 'jb_theme_enqueue_scripts', 9999);
+add_action('wp_enqueue_scripts', 'jb_theme_enqueue_scripts', 100);
 function jb_theme_enqueue_scripts() {
 
 	wp_enqueue_script( 'jquery' );
 
-	wp_enqueue_style('bootswatch', get_stylesheet_directory_uri() . '/styles/bootstrap.min.css', array(), filemtime(get_stylesheet_directory().'/styles/bootstrap.min.css'));
+	wp_enqueue_style('bootswatch', get_template_directory_uri() . '/styles/bootstrap.min.css', array(), filemtime(get_template_directory().'/styles/bootstrap.min.css'));
 
-	wp_enqueue_script('animejs', get_stylesheet_directory_uri() . '/lib/anime-master/lib/anime.min.js', '', '', true);
+	wp_enqueue_script('animejs', get_template_directory_uri() . '/lib/anime-master/lib/anime.min.js', '', '', true);
 
 	//wp_enqueue_style('lity.css', 'https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.min.css', array(), '');
 	//wp_enqueue_script( 'lity.js', 'https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.min.js', array(), '', true);
 
 	if(ENVIRONMENT != 'dev') {
-		wp_enqueue_style('live', get_stylesheet_directory_uri() . '/styles/live.css', array(), filemtime(get_stylesheet_directory().'/styles/live.css'));
-		wp_enqueue_script('jquery.site', get_stylesheet_directory_uri() . '/js/live.js', 'jquery', filemtime(get_stylesheet_directory().'/js/live.js'), true);
+		wp_enqueue_style('narrative', get_template_directory_uri() . '/styles/live.css', array(), filemtime(get_template_directory().'/styles/live.css'));
+		wp_enqueue_script('jquery.site', get_template_directory_uri() . '/js/live.js', 'jquery', filemtime(get_template_directory().'/js/live.js'), true);
 	} else {
-		wp_enqueue_style('dev', get_stylesheet_directory_uri().'/styles/dev.css', array(), time());
-		wp_enqueue_script('jquery.site', get_stylesheet_directory_uri().'/js/dev.js', 'jquery', time(), true);
+		wp_enqueue_style('narrative', get_template_directory_uri().'/styles/dev.css', array(), time());
+		wp_enqueue_script('jquery.site', get_template_directory_uri().'/js/dev.js', 'jquery', time(), true);
 	}
 
 }
