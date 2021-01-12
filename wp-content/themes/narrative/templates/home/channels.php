@@ -3,9 +3,10 @@
 	$options = jb_get('options');
 
 	$channel_args = array(
+		'posts_per_page' => 3,
 		'post_type' => 'channels',
 		'orderby' => 'rand',
-		'posts_per_page' => get_option( 'posts_per_page' ),
+		//'posts_per_page' => get_option( 'posts_per_page' ),
 	);
 
 	if(is_tax( 'genre' )){
@@ -23,33 +24,9 @@
 	}
 
 	$channels = get_posts($channel_args);
+
 ?>
-<script>
-		
-	var sliderOptions = {
-		nav: false,
-		loop: false,
-		swipeAngle: false,
-		gutter: 5,
-		controls: false,
-		//controlsText: ["&lsaquo;", "&rsaquo;"],
-		responsive: {
-			640: {
-				items: 2
-			},
-			900: {
-				items: 3
-			},
-			1200: {
-				items: 4
-			},
-			1500: {
-				items: 5
-			},
-			
-		}
-	};
-</script>
+
 <section id="channels" class="wrapper no-print">
 	<div class="container-fluid">
 		<?php 
@@ -62,7 +39,7 @@
 					$channel_id = get_field('channel_id', $channel->ID);
 					$channel_info = jb_get_yt_channel_info($channel_id, $channel->ID);
 					$channel_videos = jb_get_yt_channel_videos($channel_id, $channel->ID);
-					
+
 					// '.apply_filters('the_content', $channel->post_content).'
 					if( ! empty($channel_info->items[0]) && ! empty($channel_videos->items)){
 						echo '<div class="channel row">
@@ -86,11 +63,14 @@
 								<a href="#" id="channel-'.$channel_key.'-next" class="channel-control next">'.fa_chevron_right().'</a>
 							</div>
 							<div class="col-lg-9">
-								<div class="channel-'.$channel_key.'">';
+								<div class="channel-'.$channel_key.' channel-overflow">
+									<div class="channel-wrap" style="width: '.(count($channel_videos->items)*340).'px;">';
 						
-						foreach($channel_videos->items as $video){
+						foreach($channel_videos->items as $vkey => $video){
 							// TODO: Should we move this information into the display video function?
 							if(empty($video->id->videoId)) continue;
+
+							//if($vkey > 4) break;
 
 							$video_id = $video->id->videoId;
 							$title = $video->snippet->title;
@@ -101,25 +81,26 @@
 
 						}
 
-						echo '	</div>
+						echo '		</div>
+								</div>
 							</div>
 						</div>';
 
 ?>
 <script>
-	sliderOptions.container = '.channel-<?php echo $channel_key; ?>';
+	// sliderOptions.container = '.channel-<?php echo $channel_key; ?>';
 
-	var slider<?php echo $channel_key; ?> = tns(sliderOptions);
+	// var slider<?php echo $channel_key; ?> = tns(sliderOptions);
 
-	jQuery('#channel-<?php echo $channel_key; ?>-prev').click(function(e){
-		e.preventDefault();
-		slider<?php echo $channel_key; ?>.goTo('prev');
-	});
+	// jQuery('#channel-<?php echo $channel_key; ?>-prev').click(function(e){
+	// 	e.preventDefault();
+	// 	slider<?php echo $channel_key; ?>.goTo('prev');
+	// });
 	
-	jQuery('#channel-<?php echo $channel_key; ?>-next').click(function(e){
-		e.preventDefault();
-		slider<?php echo $channel_key; ?>.goTo('next');
-	});
+	// jQuery('#channel-<?php echo $channel_key; ?>-next').click(function(e){
+	// 	e.preventDefault();
+	// 	slider<?php echo $channel_key; ?>.goTo('next');
+	// });
 </script>
 <?php 
 					}

@@ -20,6 +20,24 @@
 			}
 		}
 
+		.channel-wrap {
+			display: flex;
+			//justify-content: space-between;
+			
+			.card {
+				margin-right: 20px;
+
+				&:last-child {
+					margin: 0;
+				}
+			}
+		}
+
+		.channel-overflow {
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
 		.channel-control {
 			background: rgba(0,0,0,0.5);
 			display: inline-block;

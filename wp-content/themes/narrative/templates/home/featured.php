@@ -50,7 +50,7 @@
 
 				<?php 
 					if(! empty($channels)){
-						foreach($channels as $channel){
+						foreach($channels as $chkey => $channel){
 							$twitter = get_field('twitter', $channel->ID);
 							$patreon = get_field('patreon', $channel->ID);
 							$website = get_field('website', $channel->ID);
@@ -67,23 +67,13 @@
 
 								$video_img = jb_get_video_img_url($video_id, 'maxresdefault');
 
-								//jb_print($featured_video);
-
 								if(empty($video_id)) continue;
-								
-								// <h2>'.$video_title.'</h2>
-								/*
-								<div class="pk-video">
-													<iframe id="ytplayer" type="text/html" width="640" height="360"
-													src="https://www.youtube.com/embed/'.$video_id.'"
-													frameborder="0"></iframe>
-												</div>
-								*/
+
 								echo '<div class="featured-slide">
 										<div class="row">
 											<div class="col-lg-9 col-md-12">
 												<a href="#" class="yt-video" data-id="'.$video_id.'">
-													<img src="'.$video_img.'" class="card-img-top" alt="'.$title.'">
+													<img src="'.$video_img.'" class="card-img-top" '.($chkey>0?'loading="lazy"':'').' alt="'.$title.'">
 												</a>
 											</div>
 											<div class="col-lg-3 col-md-12">
@@ -116,21 +106,21 @@
 	</div>
 </section>
 <script>
-	var featuredSlider = tns({
-		container: '.featured-slider',
-		nav: false,
-		loop: true,
-		items: 1,
-		controls: false
-	});
+	// var featuredSlider = tns({
+	// 	container: '.featured-slider',
+	// 	nav: false,
+	// 	loop: true,
+	// 	items: 1,
+	// 	controls: false
+	// });
 	
-	jQuery('.featured-control.prev').click(function(e){
-		e.preventDefault();
-		featuredSlider.goTo('prev');
-	});
+	// jQuery('.featured-control.prev').click(function(e){
+	// 	e.preventDefault();
+	// 	featuredSlider.goTo('prev');
+	// });
 	
-	jQuery('.featured-control.next').click(function(e){
-		e.preventDefault();
-		featuredSlider.goTo('next');
-	});
+	// jQuery('.featured-control.next').click(function(e){
+	// 	e.preventDefault();
+	// 	featuredSlider.goTo('next');
+	// });
 </script>

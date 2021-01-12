@@ -2560,10 +2560,19 @@ readers do not read off random characters that represent icons */
 .card.video {
   border: 0;
   background-color: transparent;
-  transition: background-color 0.1s; }
+  transition: background-color 0.1s;
+  width: 320px; }
   .card.video:hover {
     background-color: rgba(0, 0, 0, 0.1);
     text-decoration: none; }
+  .card.video .card-img-back {
+    background-color: #dee2e6;
+    width: 320px;
+    height: 180px; }
+    .card.video .card-img-back img {
+      position: absolute;
+      top: 0;
+      left: 0; }
   .card.video .card-body {
     padding: 10px; }
 
@@ -2581,6 +2590,15 @@ readers do not read off random characters that represent icons */
       margin-bottom: 20px;
       width: 88px;
       height: 88px; }
+  #channels .channel .channel-wrap {
+    display: flex; }
+    #channels .channel .channel-wrap .card {
+      margin-right: 20px; }
+      #channels .channel .channel-wrap .card:last-child {
+        margin: 0; }
+  #channels .channel .channel-overflow {
+    overflow: hidden;
+    white-space: nowrap; }
   #channels .channel .channel-control {
     background: rgba(0, 0, 0, 0.5);
     display: inline-block;

@@ -29,14 +29,14 @@
 			</li>
 		</ul> -->
 
-		<form class="form-inline">
+		<!-- <form class="form-inline">
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search" aria-label="Search">
+				<input type="text" class="form-control" placeholder="Search Channels" aria-label="Search Channels">
 				<div class="input-group-append">
-					<button class="btn " type="submit"><?php echo fa_search_icon(); ?></button>
+					<button class="btn" type="submit"><?php echo fa_search_icon(); ?></button>
 				</div>
 			</div>
-		</form>
+		</form> -->
 
 		
 

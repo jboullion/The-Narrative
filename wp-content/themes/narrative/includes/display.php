@@ -46,7 +46,9 @@ function jb_display_video_card($video_id, $title, $date ){
 	$video_img = jb_get_video_img_url($video_id);
 
 	echo '<a href="#" data-id="'.$video_id.'" class="card video h-100 yt-video">
-			<img src="'.$video_img.'" class="card-img-top" alt="'.$title.'">
+			<div class="card-img-back" >
+				<img src="'.$video_img.'" loading="lazy" width="320" height="180" />
+			</div>
 			<div class="card-body">
 				<p class="ellipsis">'.$title.'</p>
 				<p class="small mb-0">'.$date.'</p>

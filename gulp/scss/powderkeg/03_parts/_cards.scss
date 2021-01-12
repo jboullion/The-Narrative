@@ -21,6 +21,8 @@
 	border: 0;
 	background-color: transparent;
 	transition: background-color 0.1s;
+	width: 320px;
+	
 
 	&:hover {
 		background-color: rgba(0,0,0,0.1);
@@ -31,6 +33,18 @@
 	.card-img-bottom, 
 	.card-img-top {
 		
+	}
+
+	.card-img-back {
+		background-color: $gray-300;
+		width: 320px;
+		height: 180px;
+		
+		img {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
 	}
 
 	.card-body {
