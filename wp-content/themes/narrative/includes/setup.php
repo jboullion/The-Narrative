@@ -95,7 +95,7 @@ function jb_theme_enqueue_scripts() {
 
 	wp_enqueue_script( 'jquery' );
 
-	wp_enqueue_style('bootswatch', get_template_directory_uri() . '/styles/bootstrap.min.css', array(), filemtime(get_template_directory().'/styles/bootstrap.min.css'));
+	//wp_enqueue_style('bootswatch', get_template_directory_uri() . '/styles/bootstrap.min.css', array(), filemtime(get_template_directory().'/styles/bootstrap.min.css'));
 
 	wp_enqueue_script('animejs', get_template_directory_uri() . '/lib/anime-master/lib/anime.min.js', '', '', true);
 
@@ -113,13 +113,13 @@ function jb_theme_enqueue_scripts() {
 }
 
 //putting Googlt Fonts in the footer improves pagespeed rankings
-//add_action('get_footer', 'jb_theme_enqueue_fonts', 10);
+add_action('get_footer', 'jb_theme_enqueue_fonts', 10);
 //if you are noticing a brief delay before fonts loads (usually when loading multiple fonts) you can load in the header to prevent flash, but take a hit on pagespeed rankings
 //add_action('get_header', 'jb_theme_enqueue_fonts', 10);
 function jb_theme_enqueue_fonts() {
 	// Import Google Web Fonts
 	$fonts = array(
-			'Audiowide' => '700',
+			'Open Sans' => '400,700',
 		);
 
 	jb_webfont($fonts);

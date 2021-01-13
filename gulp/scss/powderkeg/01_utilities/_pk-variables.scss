@@ -30,12 +30,12 @@ $img-path: '../images/';
 
 
 // // fonts
-// $opensans: "Open Sans", sans-serif;
+$opensans: "Open Sans", sans-serif;
 // $ubuntu: 'Ubuntu', sans-serif;
 // $audiowide: 'Audiowide', sans-serif;
 $font-awesome: "Font Awesome 5 Pro",'FontAwesome';
 
-// $body-font: $opensans;
+$body-font: $opensans;
 // $header-font: $ubuntu;
 
 // Used by font-size() mixin

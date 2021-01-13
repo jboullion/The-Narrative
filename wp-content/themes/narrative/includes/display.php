@@ -42,16 +42,17 @@ function jb_display_video_slide($video, $active = false){ //, $channel_id =''
  * 
  * @param object $video The video post object
  */
-function jb_display_video_card($video_id, $title, $date ){ 
+function jb_display_video_card($video_id, $title, $date) { 
 	$video_img = jb_get_video_img_url($video_id);
 
 	echo '<a href="#" data-id="'.$video_id.'" class="card video h-100 yt-video">
 			<div class="card-img-back" >
 				<img src="'.$video_img.'" loading="lazy" width="320" height="180" />
+				'.fa_play().'
 			</div>
 			<div class="card-body">
 				<p class="ellipsis">'.$title.'</p>
-				<p class="small mb-0">'.$date.'</p>
+				<span class="date">'.$date.'</span>
 			</div>
 		</a>';
 }
@@ -97,4 +98,62 @@ function jb_display_channel_row($channel){
 
 
 
+/**
+ * Display a channel
+ *
+ * @param object $channel
+ * @return void
+ */
+function pk_display_channel($channel){
+	// TODO: Make the "title card" a function
+	$twitter = get_field('twitter', $channel->ID);
+	$patreon = get_field('patreon', $channel->ID);
+	$website = get_field('website', $channel->ID);
+	$channel_id = get_field('channel_id', $channel->ID);
+	$channel_info = jb_get_yt_channel_info($channel_id, $channel->ID);
+	$channel_videos = jb_get_yt_channel_videos($channel_id, $channel->ID);
 
+	// '.apply_filters('the_content', $channel->post_content).'
+	if( ! empty($channel_info->items[0]) && ! empty($channel_videos->items)){
+		
+		echo '<div class="channel">
+				<div class="title-card">
+					<a href="https://www.youtube.com/channel/'.$channel_id.'" target="_blank"><img src="'.$channel_info->items[0]->snippet->thumbnails->default->url.'" /></a>
+					<h4>'.$channel->post_title.'</h4>';
+
+				if($patreon){
+					echo '<a href="'.$patreon.'" class="channel-social patreon" target="_blank">'.fa_patreon_icon().'</a>';
+				}
+				if($twitter){
+					echo '<a href="'.$twitter.'" class="channel-social twitter" target="_blank">'.fa_twitter_icon().'</a>';
+				}
+				if($website){
+					echo '<a href="'.$website.'" class="channel-social website" target="_blank">'.fa_globe_icon().'</a>';
+				}
+
+		echo '		<a href="#" id="channel-'.$channel_key.'-prev" class="channel-control prev">'.fa_chevron_left().'</a>
+					<a href="#" id="channel-'.$channel_key.'-next" class="channel-control next">'.fa_chevron_right().'</a>
+				</div>
+				<div class="channel-'.$channel_key.' channel-overflow">
+				<div class="channel-wrap" style="width: '.(count($channel_videos->items)*340).'px;">';
+	
+		foreach($channel_videos->items as $vkey => $video){
+			// TODO: Should we move this information into the display video function?
+			if(empty($video->id->videoId)) continue;
+
+			//if($vkey > 4) break;
+
+			$video_id = $video->id->videoId;
+			$title = $video->snippet->title;
+			$description = $video->snippet->description;
+			$date = date('F j, Y', strtotime($video->snippet->publishTime));
+
+			echo jb_display_video_card($video_id, $title, $date);
+
+		}
+
+		echo '	</div>
+			</div>
+			</div>';
+	}
+}

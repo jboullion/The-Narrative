@@ -56,3 +56,10 @@
 	margin-top: -($fontsize / 2); 
 	z-index:1;
 }
+
+@mixin center(){
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
