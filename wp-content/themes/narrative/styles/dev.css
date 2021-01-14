@@ -9692,12 +9692,30 @@ html {
   padding: 5px 20px; }
 
 #primary-nav svg {
-  color: white;
+  color: #fff;
   width: 18px; }
 
 #primary-nav #darkmode-toggle {
   border: 0;
-  background-color: transparent; }
+  background-color: transparent;
+  position: relative;
+  padding: 15px; }
+  #primary-nav #darkmode-toggle.darkmode svg {
+    color: #ffc107; }
+  #primary-nav #darkmode-toggle.darkmode #daymode {
+    opacity: 0; }
+  #primary-nav #darkmode-toggle.darkmode #darkmode {
+    opacity: 1; }
+  #primary-nav #darkmode-toggle .svg-inline--fa {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 30px;
+    transition: opacity 0.2s linear; }
+  #primary-nav #darkmode-toggle #daymode {
+    opacity: 1; }
+  #primary-nav #darkmode-toggle #darkmode {
+    opacity: 0; }
 
 .card.video {
   border: 0;
@@ -9931,6 +9949,13 @@ html {
  * Pages
 
 ***************************/
+body {
+  background-color: #fff;
+  transition: all 0.2s linear; }
+  body.darkmode {
+    background-color: #212529;
+    color: #f8f9fa; }
+
 .container-fluid, .container-sm, .container-md, .container-lg, .container-xl {
   max-width: 100%; }
 
@@ -9994,3 +10019,20 @@ html {
     font-size: 3rem;
     padding: 0 32px;
     margin: 0px 30px; }
+
+body {
+  background-color: #fff;
+  transition: all 0.2s linear; }
+  body.darkmode {
+    background-color: #212529;
+    color: #f8f9fa; }
+    body.darkmode .card.video .card-img-back {
+      background-color: #dee2e6; }
+      body.darkmode .card.video .card-img-back svg {
+        box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.25); }
+        body.darkmode .card.video .card-img-back svg path {
+          fill: #fff; }
+          body.darkmode .card.video .card-img-back svg path.fa-primary {
+            fill: #343a40; }
+    body.darkmode .card.video .card-body {
+      color: #f8f9fa; }

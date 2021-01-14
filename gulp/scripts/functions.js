@@ -14,59 +14,59 @@
  * @param mixed cvalue  Cookie Value
  * @param int exdays How many days before expire
  */
-function spSetCookie(cname, cvalue, exdays) {
-	var d = new Date();
-	d.setTime(d.getTime() + (exdays*24*60*60*1000));
-	var expires = "expires="+ d.toUTCString();
-	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
+// function spSetCookie(cname, cvalue, exdays) {
+// 	var d = new Date();
+// 	d.setTime(d.getTime() + (exdays*24*60*60*1000));
+// 	var expires = "expires="+ d.toUTCString();
+// 	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+// }
 
-/**
- * Get a cookie
- * @param  string cname  Cookie Name
- * @return string        Cookie Value
- */
-function spGetCookie(cname) {
-	var name = cname + "=";
-	var ca = document.cookie.split(';');
-	for(var i = 0; i <ca.length; i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') {
-			c = c.substring(1);
-		}
-		if (c.indexOf(name) == 0) {
-			return c.substring(name.length,c.length);
-		}
-	}
-	return "";
-}
+// /**
+//  * Get a cookie
+//  * @param  string cname  Cookie Name
+//  * @return string        Cookie Value
+//  */
+// function spGetCookie(cname) {
+// 	var name = cname + "=";
+// 	var ca = document.cookie.split(';');
+// 	for(var i = 0; i <ca.length; i++) {
+// 		var c = ca[i];
+// 		while (c.charAt(0)==' ') {
+// 			c = c.substring(1);
+// 		}
+// 		if (c.indexOf(name) == 0) {
+// 			return c.substring(name.length,c.length);
+// 		}
+// 	}
+// 	return "";
+// }
 
-/**
- * Delete a Cookie
- * @param string cname  Cookie Name
- */
-function spDeleteCookie(cname) {
-	setCookie(cname, '', -1);
-}
+// /**
+//  * Delete a Cookie
+//  * @param string cname  Cookie Name
+//  */
+// function spDeleteCookie(cname) {
+// 	setCookie(cname, '', -1);
+// }
 
-/**
- * Replace variables in a string / template
- * 
- * @param string  tpl     This should be a string containing <%name%> variables that will be replaced by JS.
- * @param json    data    This is the data object
- * 
- * @return string         The updated string with the variables replaced
- * 
- * @usage
- * var newString = spTemplateEngine(stringTpl, {
-                    dataID: 1,
-                    name: James
-                })
- */
-function jbTemplateEngine(tpl, data) {
-	for(var key in data){
-		var re = new RegExp("<%" + key + "%>", "gi");
-		tpl = tpl.replace(re, data[key]);
-	}
-	return tpl;
-}
+// /**
+//  * Replace variables in a string / template
+//  * 
+//  * @param string  tpl     This should be a string containing <%name%> variables that will be replaced by JS.
+//  * @param json    data    This is the data object
+//  * 
+//  * @return string         The updated string with the variables replaced
+//  * 
+//  * @usage
+//  * var newString = spTemplateEngine(stringTpl, {
+//                     dataID: 1,
+//                     name: James
+//                 })
+//  */
+// function jbTemplateEngine(tpl, data) {
+// 	for(var key in data){
+// 		var re = new RegExp("<%" + key + "%>", "gi");
+// 		tpl = tpl.replace(re, data[key]);
+// 	}
+// 	return tpl;
+// }

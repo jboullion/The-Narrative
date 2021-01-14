@@ -5,12 +5,47 @@
 	}
 
 	svg {
-		color: white;
+		color: $white;
 		width: 18px;
 	}
 
 	#darkmode-toggle {
 		border: 0;
 		background-color: transparent;
+		position: relative;
+		padding: 15px;
+
+		&.darkmode {
+			svg {
+				color: $yellow;
+				// path {
+				// 	fill: $yellow;
+				// }
+			}
+			#daymode {
+				opacity: 0;
+			}
+
+			#darkmode {
+				opacity: 1;
+			}
+		}
+
+		.svg-inline--fa {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 30px;
+			transition: opacity 0.2s linear;
+		}
+
+		#daymode {
+			opacity: 1;
+		}
+
+		#darkmode {
+			opacity: 0;
+		}
 	}
+
 }

@@ -105,22 +105,3 @@
 		</div>
 	</div>
 </section>
-<script>
-	// var featuredSlider = tns({
-	// 	container: '.featured-slider',
-	// 	nav: false,
-	// 	loop: true,
-	// 	items: 1,
-	// 	controls: false
-	// });
-	
-	// jQuery('.featured-control.prev').click(function(e){
-	// 	e.preventDefault();
-	// 	featuredSlider.goTo('prev');
-	// });
-	
-	// jQuery('.featured-control.next').click(function(e){
-	// 	e.preventDefault();
-	// 	featuredSlider.goTo('next');
-	// });
-</script>

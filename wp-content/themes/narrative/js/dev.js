@@ -21,138 +21,171 @@
  * @param mixed cvalue  Cookie Value
  * @param int exdays How many days before expire
  */
-function spSetCookie(cname, cvalue, exdays) {
-	var d = new Date();
-	d.setTime(d.getTime() + (exdays*24*60*60*1000));
-	var expires = "expires="+ d.toUTCString();
-	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
+// function spSetCookie(cname, cvalue, exdays) {
+// 	var d = new Date();
+// 	d.setTime(d.getTime() + (exdays*24*60*60*1000));
+// 	var expires = "expires="+ d.toUTCString();
+// 	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+// }
 
-/**
- * Get a cookie
- * @param  string cname  Cookie Name
- * @return string        Cookie Value
- */
-function spGetCookie(cname) {
-	var name = cname + "=";
-	var ca = document.cookie.split(';');
-	for(var i = 0; i <ca.length; i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') {
-			c = c.substring(1);
-		}
-		if (c.indexOf(name) == 0) {
-			return c.substring(name.length,c.length);
-		}
-	}
-	return "";
-}
+// /**
+//  * Get a cookie
+//  * @param  string cname  Cookie Name
+//  * @return string        Cookie Value
+//  */
+// function spGetCookie(cname) {
+// 	var name = cname + "=";
+// 	var ca = document.cookie.split(';');
+// 	for(var i = 0; i <ca.length; i++) {
+// 		var c = ca[i];
+// 		while (c.charAt(0)==' ') {
+// 			c = c.substring(1);
+// 		}
+// 		if (c.indexOf(name) == 0) {
+// 			return c.substring(name.length,c.length);
+// 		}
+// 	}
+// 	return "";
+// }
 
-/**
- * Delete a Cookie
- * @param string cname  Cookie Name
- */
-function spDeleteCookie(cname) {
-	setCookie(cname, '', -1);
-}
+// /**
+//  * Delete a Cookie
+//  * @param string cname  Cookie Name
+//  */
+// function spDeleteCookie(cname) {
+// 	setCookie(cname, '', -1);
+// }
 
-/**
- * Replace variables in a string / template
- * 
- * @param string  tpl     This should be a string containing <%name%> variables that will be replaced by JS.
- * @param json    data    This is the data object
- * 
- * @return string         The updated string with the variables replaced
- * 
- * @usage
- * var newString = spTemplateEngine(stringTpl, {
-                    dataID: 1,
-                    name: James
-                })
- */
-function jbTemplateEngine(tpl, data) {
-	for(var key in data){
-		var re = new RegExp("<%" + key + "%>", "gi");
-		tpl = tpl.replace(re, data[key]);
-	}
-	return tpl;
-}
+// /**
+//  * Replace variables in a string / template
+//  * 
+//  * @param string  tpl     This should be a string containing <%name%> variables that will be replaced by JS.
+//  * @param json    data    This is the data object
+//  * 
+//  * @return string         The updated string with the variables replaced
+//  * 
+//  * @usage
+//  * var newString = spTemplateEngine(stringTpl, {
+//                     dataID: 1,
+//                     name: James
+//                 })
+//  */
+// function jbTemplateEngine(tpl, data) {
+// 	for(var key in data){
+// 		var re = new RegExp("<%" + key + "%>", "gi");
+// 		tpl = tpl.replace(re, data[key]);
+// 	}
+// 	return tpl;
+// }
 
-jQuery(function($){
-	var $search_toggle = $('#medium-search-toggle'),
-		$medium_search = $('#medium-search'),
-		$mobile_nav_open = $('#mobile-navigation-open'),
-		$mobile_nav_close = $('#mobile-navigation-close'),
-		$mobile_nav = $('#mobile-navigation');
-		resizeTimer = null;
+// jQuery(function($){
+// 	var $search_toggle = $('#medium-search-toggle'),
+// 		$medium_search = $('#medium-search'),
+// 		$mobile_nav_open = $('#mobile-navigation-open'),
+// 		$mobile_nav_close = $('#mobile-navigation-close'),
+// 		$mobile_nav = $('#mobile-navigation');
+// 		resizeTimer = null;
 
-	// Toggle our search bar on medium size screens
-	$search_toggle.click(function(e){
-		$medium_search.toggle();
-	});
+// 	// Toggle our search bar on medium size screens
+// 	$search_toggle.click(function(e){
+// 		$medium_search.toggle();
+// 	});
 
-	$mobile_nav_open.click(function(e){
-		$mobile_nav.show();
-	});
+// 	$mobile_nav_open.click(function(e){
+// 		$mobile_nav.show();
+// 	});
 
-	$mobile_nav_close.click(function(e){
-		$mobile_nav.hide();
-	});
+// 	$mobile_nav_close.click(function(e){
+// 		$mobile_nav.hide();
+// 	});
 
-	$(window).on('resize', function(e) {
+// 	$(window).on('resize', function(e) {
 
-		// Poor Man's debounce
-		clearTimeout(resizeTimer);
-		resizeTimer = setTimeout(function() {
-			$medium_search.hide();
-			$mobile_nav.hide();
-		}, 200);
+// 		// Poor Man's debounce
+// 		clearTimeout(resizeTimer);
+// 		resizeTimer = setTimeout(function() {
+// 			$medium_search.hide();
+// 			$mobile_nav.hide();
+// 		}, 200);
 
-	});
+// 	});
 	
-});
+// });
+/**
+ * Various snippets which control actions around the site
+ */
+jQuery(function($){
 
+	// Toggle Darkmode
+	$('#darkmode-toggle').on('click', function(e){
+		$('body').toggleClass('darkmode');
+		$(this).toggleClass('darkmode');
+	});
+
+
+});
 // var app = new Vue({
 // 	el: '#app',
 // 	data: {
 // 		message: 'Hello Vue!'
 // 	}
 // });
+/**
+ * Controls our YouTube player
+ */
 jQuery(function($){
-	// const youtube_search_url = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyB2Tczkqj-yEx0_bAOZrDo6Exec7VMi970';
-	// //var nextPageToken = '';
-	// var channelVideoList = [];
+	var $body = $('body');
+	var ytTemplate = $('#yt-tempate').html();
+	var isPlaying = false;
+	var player;
 
-	// get_channel_list('UCpMcsdZf2KkAnfmxiq2MfMQ', 50, '', true);
-	
-	// /**
-	//  * Get a list of all the videos for this channel. Max of 50 per query
-	//  * 
-	//  * @param {string} channel_id This is the ID of the Channel in the YouTube system
-	//  * @param {int} maxResults The number of videos to retun
-	//  * @param {string} pageToken  This is a string returned by YT which will get the paged results
-	//  * @param {bool} all Should we return all of this channels videos or just a single page
-	//  */
-	// function get_channel_list(channel_id, maxResults, pageToken, all){
-	// 	if(! maxResults){
-	// 		maxResults = 20;
-	// 	}
+	// Cllose Player
+	$body.on('click', '#yt-close, .yt-wrap', function(e){
+		$('#yt-modal').remove();
 
-	// 	if(pageToken){
-	// 		pageToken = '&pageToken='+pageToken;
-	// 	}
+		isPlaying = false;
+	});
 
-	// 	$.get(youtube_search_url+'&channelId='+channel_id+'&part=snippet,id&order=date&maxResults='+maxResults+pageToken, function( data ) {
+	// Minimize Player
+	$body.on('click', '#yt-minimize', function(e){
+		e.stopPropagation();
+		e.preventDefault();
+
+		$(this).hide();
+		$('#yt-maximize').show();
+		$('#yt-modal').addClass('minimized');
+	});
+
+	// Maximize Player
+	$body.on('click', '#yt-maximize', function(e){
+		e.stopPropagation();
+		e.preventDefault();
+
+		$(this).hide();
+		$('#yt-minimize').show();
+		$('#yt-modal').removeClass('minimized');
+	});
+
+	// Play a video
+	$('.yt-video').on('click', function(e){
+		e.stopPropagation();
+		e.preventDefault();
+
+		var videoID = $(this).data('id');
+
+		if(isPlaying){
+			player.loadVideoById(videoID);
+		}else{
+			var newYTPlayer = jbTemplateEngine(ytTemplate, {
+				videoID: videoID,
+			});
 			
-	// 		channelVideoList.push.apply(data.items);
-			
-	// 		// If there are more pages after this, GET THEM!
-	// 		if(all && data.nextPageToken){
-	// 			//get_channel_list('UCpMcsdZf2KkAnfmxiq2MfMQ', maxResults, data.nextPageToken, all);
-	// 		}
+			$body.append(newYTPlayer);
 
-	// 	}, 'json');
-	// }
-
-	
+			player = new YT.Player('yt-player');
+		}
+		
+		isPlaying = true;
+		
+	});
 });
