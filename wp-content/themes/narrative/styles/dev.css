@@ -9928,6 +9928,9 @@ html {
       right: 0; }
       #yt-modal .yt-control#yt-close svg {
         height: 23px; }
+  @media (max-width: 991.98px) {
+    #yt-modal .yt-control#yt-minimize, #yt-modal .yt-control#yt-maximize, #yt-modal .yt-control#yt-close {
+      display: none; } }
 
 @keyframes openPlayer {
   0% {

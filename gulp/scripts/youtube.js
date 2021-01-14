@@ -1,13 +1,14 @@
 /**
  * Controls our YouTube player
  */
+var isPlaying = false;
 jQuery(function($){
 	var $body = $('body');
 	var ytTemplate = $('#yt-tempate').html();
-	var isPlaying = false;
+	
 	var player;
 
-	// Cllose Player
+	// Close Player
 	$body.on('click', '#yt-close, .yt-wrap', function(e){
 		$('#yt-modal').remove();
 
@@ -43,6 +44,7 @@ jQuery(function($){
 
 		if(isPlaying){
 			player.loadVideoById(videoID);
+			//history.pushState({}, '', 'playing');
 		}else{
 			var newYTPlayer = jbTemplateEngine(ytTemplate, {
 				videoID: videoID,
@@ -56,4 +58,20 @@ jQuery(function($){
 		isPlaying = true;
 		
 	});
+
+	/*
+	* this swallows backspace keys on any non-input element.
+	* stops backspace -> back
+	*/
+	// var rx = /INPUT|SELECT|TEXTAREA/i;
+	// $(document).bind("keydown keypress", function(e){
+	// 	if( e.which == 8 ){ // 8 == backspace
+	// 		if(!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly ){
+	// 			e.preventDefault();
+	// 			$('#yt-modal').remove();
+	// 			isPlaying = false;
+	// 		}
+	// 	}
+	// });
+
 });

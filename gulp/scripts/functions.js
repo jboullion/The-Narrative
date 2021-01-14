@@ -49,24 +49,24 @@
 // 	setCookie(cname, '', -1);
 // }
 
-// /**
-//  * Replace variables in a string / template
-//  * 
-//  * @param string  tpl     This should be a string containing <%name%> variables that will be replaced by JS.
-//  * @param json    data    This is the data object
-//  * 
-//  * @return string         The updated string with the variables replaced
-//  * 
-//  * @usage
-//  * var newString = spTemplateEngine(stringTpl, {
-//                     dataID: 1,
-//                     name: James
-//                 })
-//  */
-// function jbTemplateEngine(tpl, data) {
-// 	for(var key in data){
-// 		var re = new RegExp("<%" + key + "%>", "gi");
-// 		tpl = tpl.replace(re, data[key]);
-// 	}
-// 	return tpl;
-// }
+/**
+ * Replace variables in a string / template
+ * 
+ * @param string  tpl     This should be a string containing <%name%> variables that will be replaced by JS.
+ * @param json    data    This is the data object
+ * 
+ * @return string         The updated string with the variables replaced
+ * 
+ * @usage
+ * var newString = spTemplateEngine(stringTpl, {
+                    dataID: 1,
+                    name: James
+                })
+ */
+function jbTemplateEngine(tpl, data) {
+	for(var key in data){
+		var re = new RegExp("<%" + key + "%>", "gi");
+		tpl = tpl.replace(re, data[key]);
+	}
+	return tpl;
+}

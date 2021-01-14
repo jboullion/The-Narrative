@@ -116,6 +116,16 @@
 			}
 		}
 	}
+
+	@include media-breakpoint-down(md) {
+		.yt-control {
+			&#yt-minimize,
+			&#yt-maximize,
+			&#yt-close {
+				display: none;
+			}
+		}
+	}
 }
 
 @keyframes openPlayer {
