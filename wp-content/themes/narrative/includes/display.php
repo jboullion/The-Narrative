@@ -137,20 +137,20 @@ function pk_display_channel($channel){
 				<div class="channel-'.$channel_key.' channel-overflow">
 				<div class="channel-wrap" style="width: '.(count($channel_videos->items)*340).'px;">';
 	
-		foreach($channel_videos->items as $vkey => $video){
-			// TODO: Should we move this information into the display video function?
-			if(empty($video->id->videoId)) continue;
+		// foreach($channel_videos->items as $vkey => $video){
+		// 	// TODO: Should we move this information into the display video function?
+		// 	if(empty($video->id->videoId)) continue;
 
-			//if($vkey > 4) break;
+		// 	//if($vkey > 4) break;
 
-			$video_id = $video->id->videoId;
-			$title = $video->snippet->title;
-			$description = $video->snippet->description;
-			$date = date('F j, Y', strtotime($video->snippet->publishTime));
+		// 	$video_id = $video->id->videoId;
+		// 	$title = $video->snippet->title;
+		// 	$description = $video->snippet->description;
+		// 	$date = date('F j, Y', strtotime($video->snippet->publishTime));
 
-			echo jb_display_video_card($video_id, $title, $date);
+		// 	echo jb_display_video_card($video_id, $title, $date);
 
-		}
+		// }
 
 		echo '	</div>
 			</div>

@@ -20,3 +20,23 @@
 		?>
 	</div>
 </section>
+<section id="filters" class="wrapper no-print">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-8 col-lg-6 offset-md-2 offset-md-3">
+				<div class="d-flex">
+
+					<a href="/" class="active btn btn-primary"><?php echo fa_sort_up(); ?> <span>Title</span></a>
+
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon1"><?php echo fa_search_icon(); ?></span>
+						</div>
+						<input type="text" class="form-control" placeholder="Search" aria-label="search">
+					</div>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

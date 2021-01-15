@@ -3,10 +3,11 @@
 	$options = jb_get('options');
 
 	$channel_args = array(
-		'posts_per_page' => 1,
+		//'posts_per_page' => 1,
 		'post_type' => 'channels',
-		'orderby' => 'rand',
-		//'posts_per_page' => get_option( 'posts_per_page' ),
+		'orderby' => 'title',
+		'order' => 'ASC',
+		'posts_per_page' => get_option( 'posts_per_page' ),
 	);
 
 	if(is_tax( 'genre' )){

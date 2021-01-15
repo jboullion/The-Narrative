@@ -9948,6 +9948,31 @@ html {
     #genres .genre.active, #genres .genre:hover {
       background-color: #666666; }
 
+#filters {
+  margin-bottom: 20px; }
+  #filters .btn {
+    display: inline-block;
+    width: 110px;
+    margin-right: 20px; }
+    #filters .btn svg {
+      margin-right: 10px;
+      width: 19px;
+      margin-top: -2px;
+      display: inline-block; }
+    #filters .btn span {
+      font-weight: bold;
+      display: inline-block; }
+  #filters .input-group {
+    flex: 1;
+    margin: 0; }
+    #filters .input-group .input-group-text {
+      background-color: white; }
+    #filters .input-group svg {
+      width: 18px;
+      color: #000; }
+    #filters .input-group .form-control {
+      height: auto; }
+
 /*@import "./powderkeg/03_parts/media";*/
 /***************************
 
