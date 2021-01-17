@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /***************************
 
  * Vendor
@@ -9666,6 +9667,46 @@ readers do not read off random characters that represent icons */
 
 button:focus {
   outline: 0; }
+
+.jb-select {
+  background-color: #fff;
+  position: relative; }
+  .jb-select:before {
+    content: "";
+    color: #007bff;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1;
+    font-family: "Font Awesome 5 Pro", "FontAwesome";
+    pointer-events: none;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    margin-top: -8px;
+    z-index: 1; }
+  .jb-select select {
+    border: 0;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 30px 5px 5px;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    width: 100%;
+    max-width: 100%; }
+    .jb-select select:-moz-focusring {
+      color: transparent;
+      text-shadow: 0 0 0 #000; }
+    .jb-select select.error {
+      border: 1px solid #dc3545; }
+    .jb-select select.placeholder {
+      color: #dc3545; }
+    .jb-select select option {
+      padding: 4px 15px; }
+      .jb-select select option:disabled {
+        display: none; }
 
 body,
 html {

@@ -1,7 +1,13 @@
 <?php 
 	$options = jb_get('options');
+	$subsites = get_sites(array(
+		//'site__not_in' => array(1, 5),
+		'deleted' => 0
+	));
+
+	$current_blog_id = get_current_blog_id();
 ?>
-<nav id="primary-nav" class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav id="primary-nav" class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between">
 
 	<!-- navbar-dark bg-primary -->
 	<a class="navbar-brand" href="<?php echo home_url(); ?>"><?php echo get_bloginfo('name'); ?></a>
@@ -13,4 +19,17 @@
 		<?php echo fa_sun(); ?>
 		<?php echo fa_moon(); ?>
 	</button>
+
+	<div class="jb-select">
+		<select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+			<?php 
+				foreach( $subsites as $subsite ) {
+					//jb_print($subsite);
+					if($subsite->blog_id == 1) continue;
+					$subsite_details = get_blog_details($subsite->blog_id);
+					echo '<option value="http://'.$subsite->domain.'" '.($current_blog_id == $subsite->blog_id?'selected="selected"':'').'>'.$subsite_details->blogname.'</option>';
+				}
+			?>
+		</select>
+	</div>
 </nav>

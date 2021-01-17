@@ -24,15 +24,16 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-8 col-lg-6 offset-md-2 offset-md-3">
-				<div class="d-flex">
+				<div class="d-flex justify-content-center">
 
-					<a href="/" class="active btn btn-primary"><?php echo fa_sort_up(); ?> <span>Title</span></a>
-
-					<form class="input-group" method="get" action="">
-						<div class="input-group-prepend">
-							<span class="input-group-text" id="basic-addon1"><?php echo fa_search_icon(); ?></span>
+					<form class="form-inline" method="get" action="">
+						<button class="active btn btn-primary" name="order" value="<?php echo $_GET['order']=='ASC'?'DESC':'ASC'; ?>"><?php echo fa_sort_up(); ?> <span>Title</span></button>
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1"><?php echo fa_search_icon(); ?></span>
+							</div>
+							<input type="text" class="form-control" placeholder="Search" aria-label="search" name="s" value="<?php echo get_search_query(); ?>" />
 						</div>
-						<input type="text" class="form-control" placeholder="Search" aria-label="search" name="s" />
 					</form>
 				
 				</div>
