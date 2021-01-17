@@ -9659,6 +9659,14 @@ readers do not read off random characters that represent icons */
  * Elements
 
 ***************************/
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  background-color: #007bff;
+  border-color: #007bff; }
+
+button:focus {
+  outline: 0; }
+
 body,
 html {
   font-family: "Open Sans", sans-serif; }

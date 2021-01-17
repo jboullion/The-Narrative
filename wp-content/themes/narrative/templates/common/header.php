@@ -9,36 +9,8 @@
 		<?php //echo fa_bar_icon(); ?>
 	</button> -->
 
-	<button id="darkmode-toggle" type="button" aria-label="Toggle Darkmode">
+	<button id="darkmode-toggle" type="button" aria-label="Toggle Darkmode" class="<?php echo $_COOKIE['darkmode']?'darkmode':''; ?>">
 		<?php echo fa_sun(); ?>
 		<?php echo fa_moon(); ?>
 	</button>
-
-	<div class="collapse navbar-collapse" id="navbarColor01">
-		<div class="mr-auto"></div>
-		<!-- <ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-			<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-			</li>
-			<li class="nav-item">
-			<a class="nav-link" href="#">Features</a>
-			</li>
-			<li class="nav-item">
-			<a class="nav-link" href="#">Pricing</a>
-			</li>
-			<li class="nav-item">
-			<a class="nav-link" href="#">About</a>
-			</li>
-		</ul> -->
-
-		<!-- <form class="form-inline">
-			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search Channels" aria-label="Search Channels">
-				<div class="input-group-append">
-					<button class="btn" type="submit"><?php //echo fa_search_icon(); ?></button>
-				</div>
-			</div>
-		</form> -->
-	</div>
-
 </nav>

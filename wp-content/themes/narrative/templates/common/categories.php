@@ -10,11 +10,11 @@
 ?>
 <section id="genres" class="wrapper no-print">
 	<div class="container-fluid">
-		<a href="/" class="genre active badge badge-pill badge-primary">All</a>
+		<a href="/" class="genre badge badge-pill badge-primary <?php echo ! is_tax()?'active':''; ?>">All</a>
 		<?php 
 			if(! empty($genres)){
 				foreach($genres as $genre){
-					echo '<a href="'.get_term_link($genre).'" class="genre badge badge-pill badge-primary">'.$genre->name.'</a>';
+					echo '<a href="'.get_term_link($genre).'" class="genre badge badge-pill badge-primary '.(get_queried_object_id()===$genre->term_id?'active':'').'">'.$genre->name.'</a>';
 				}
 			}
 		?>
@@ -28,12 +28,12 @@
 
 					<a href="/" class="active btn btn-primary"><?php echo fa_sort_up(); ?> <span>Title</span></a>
 
-					<div class="input-group">
+					<form class="input-group" method="get" action="">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="basic-addon1"><?php echo fa_search_icon(); ?></span>
 						</div>
-						<input type="text" class="form-control" placeholder="Search" aria-label="search">
-					</div>
+						<input type="text" class="form-control" placeholder="Search" aria-label="search" name="s" />
+					</form>
 				
 				</div>
 			</div>

@@ -5,27 +5,26 @@
 	$channel_args = array(
 		//'posts_per_page' => 1,
 		'post_type' => 'channels',
-		'orderby' => 'title',
+		'orderby' => 'title', // rand
 		'order' => 'ASC',
 		'posts_per_page' => get_option( 'posts_per_page' ),
 	);
 
-	if(is_tax( 'genre' )){
-		$genre_tax = get_queried_object();
+	// if(is_tax( 'genre' )){
+	// 	$genre_tax = get_queried_object();
 
-		if(! empty($genre_tax)){
-			$channel_args['tax_query'] = array(
-				array(
-					'taxonomy' => 'genre',
-					'field'    => 'term_id',
-					'terms'    => $genre_tax->term_id,
-				)
-			);
-		}
-	}
+	// 	if(! empty($genre_tax)){
+	// 		$channel_args['tax_query'] = array(
+	// 			array(
+	// 				'taxonomy' => 'genre',
+	// 				'field'    => 'term_id',
+	// 				'terms'    => $genre_tax->term_id,
+	// 			)
+	// 		);
+	// 	}
+	// }
 
 	$channels = get_posts($channel_args);
-
 ?>
 
 <section id="channels" class="wrapper no-print">

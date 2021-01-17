@@ -136,3 +136,12 @@ add_filter('use_block_editor_for_post', 'jb_use_block_editor_for_post', 9999, 2)
 function jb_use_block_editor_for_post($use_block_editor, $post) {
 	return false;
 }
+
+
+add_filter( 'body_class', 'jb_body_classes' );
+function jb_body_classes( $classes ) {
+	if ( ! empty($_COOKIE['darkmode']) ) {
+		$classes[] = 'darkmode';
+	}
+	return $classes;
+}

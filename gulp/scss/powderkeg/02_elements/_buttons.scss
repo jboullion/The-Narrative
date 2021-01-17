@@ -1,3 +1,13 @@
+.btn-primary:not(:disabled):not(.disabled):active, 
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+	background-color: $primary;
+	border-color: $primary;
+}
+
+button:focus {
+	outline: 0;
+}
 // .btn {
 // 	border: none;
 // 	border-radius: 0;

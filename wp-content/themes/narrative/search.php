@@ -6,11 +6,11 @@
 
 	// jb_get_youtube_id($url);
 ?>
-<main id="home-page" class="page">
+<main id="search-page" class="page">
 	
-	<?php get_template_part('templates/home/featured'); ?>
-	<?php get_template_part('templates/home/categories'); ?>
-	<?php get_template_part('templates/home/channels'); ?>
+	<?php //get_template_part('templates/home/featured'); ?>
+	<?php get_template_part('templates/common/categories'); ?>
+	<?php get_template_part('templates/common/channels'); ?>
 
 </main>
 <?php get_template_part('templates/modals/player'); ?>

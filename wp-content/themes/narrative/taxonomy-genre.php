@@ -1,17 +1,17 @@
 <?php
 	get_header(); 
-	the_post();
+	//the_post();
 
 	$fields = get_fields();
 	jb_set('fields', $fields);
 
 	// jb_get_youtube_id($url);
 ?>
-<main id="home-page" class="page">
+<main id="genre-page" class="page">
 	
 	<?php //get_template_part('templates/home/featured'); ?>
-	<?php get_template_part('templates/home/categories'); ?>
-	<?php get_template_part('templates/home/channels'); ?>
+	<?php get_template_part('templates/common/categories'); ?>
+	<?php get_template_part('templates/common/channels'); ?>
 
 </main>
 <?php get_template_part('templates/modals/player'); ?>

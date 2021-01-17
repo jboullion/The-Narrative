@@ -5,8 +5,15 @@ jQuery(function($){
 
 	// Toggle Darkmode
 	$('#darkmode-toggle').on('click', function(e){
-		$('body').toggleClass('darkmode');
-		$(this).toggleClass('darkmode');
+		var darkmodeClass = 'darkmode';
+		$('body').toggleClass(darkmodeClass);
+		$(this).toggleClass(darkmodeClass);
+
+		if($('body').hasClass(darkmodeClass)){
+			jbSetCookie(darkmodeClass, 1, 365)
+		}else{
+			jbDeleteCookie(darkmodeClass)
+		}
 	});
 
 

@@ -21,40 +21,40 @@
  * @param mixed cvalue  Cookie Value
  * @param int exdays How many days before expire
  */
-// function spSetCookie(cname, cvalue, exdays) {
-// 	var d = new Date();
-// 	d.setTime(d.getTime() + (exdays*24*60*60*1000));
-// 	var expires = "expires="+ d.toUTCString();
-// 	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-// }
+function jbSetCookie(cname, cvalue, exdays) {
+	var d = new Date();
+	d.setTime(d.getTime() + (exdays*24*60*60*1000));
+	var expires = "expires="+ d.toUTCString();
+	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
 
-// /**
-//  * Get a cookie
-//  * @param  string cname  Cookie Name
-//  * @return string        Cookie Value
-//  */
-// function spGetCookie(cname) {
-// 	var name = cname + "=";
-// 	var ca = document.cookie.split(';');
-// 	for(var i = 0; i <ca.length; i++) {
-// 		var c = ca[i];
-// 		while (c.charAt(0)==' ') {
-// 			c = c.substring(1);
-// 		}
-// 		if (c.indexOf(name) == 0) {
-// 			return c.substring(name.length,c.length);
-// 		}
-// 	}
-// 	return "";
-// }
+/**
+ * Get a cookie
+ * @param  string cname  Cookie Name
+ * @return string        Cookie Value
+ */
+function jbGetCookie(cname) {
+	var name = cname + "=";
+	var ca = document.cookie.split(';');
+	for(var i = 0; i <ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length,c.length);
+		}
+	}
+	return "";
+}
 
-// /**
-//  * Delete a Cookie
-//  * @param string cname  Cookie Name
-//  */
-// function spDeleteCookie(cname) {
-// 	setCookie(cname, '', -1);
-// }
+/**
+ * Delete a Cookie
+ * @param string cname  Cookie Name
+ */
+function jbDeleteCookie(cname) {
+	setCookie(cname, '', -1);
+}
 
 /**
  * Replace variables in a string / template
@@ -118,8 +118,15 @@ jQuery(function($){
 
 	// Toggle Darkmode
 	$('#darkmode-toggle').on('click', function(e){
-		$('body').toggleClass('darkmode');
-		$(this).toggleClass('darkmode');
+		var darkmodeClass = 'darkmode';
+		$('body').toggleClass(darkmodeClass);
+		$(this).toggleClass(darkmodeClass);
+
+		if($('body').hasClass(darkmodeClass)){
+			jbSetCookie(darkmodeClass, 1, 365)
+		}else{
+			jbDeleteCookie(darkmodeClass)
+		}
 	});
 
 
