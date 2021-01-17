@@ -53,7 +53,7 @@ function jbGetCookie(cname) {
  * @param string cname  Cookie Name
  */
 function jbDeleteCookie(cname) {
-	setCookie(cname, '', -1);
+	jbSetCookie(cname, '', -1);
 }
 
 /**
@@ -123,9 +123,10 @@ jQuery(function($){
 		$(this).toggleClass(darkmodeClass);
 
 		if($('body').hasClass(darkmodeClass)){
-			jbSetCookie(darkmodeClass, 1, 365)
+			jbSetCookie(darkmodeClass, 1, 365);
 		}else{
-			jbDeleteCookie(darkmodeClass)
+			console.log('delete cookie');
+			jbDeleteCookie(darkmodeClass);
 		}
 	});
 

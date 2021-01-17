@@ -10,9 +10,10 @@ jQuery(function($){
 		$(this).toggleClass(darkmodeClass);
 
 		if($('body').hasClass(darkmodeClass)){
-			jbSetCookie(darkmodeClass, 1, 365)
+			jbSetCookie(darkmodeClass, 1, 365);
 		}else{
-			jbDeleteCookie(darkmodeClass)
+			console.log('delete cookie');
+			jbDeleteCookie(darkmodeClass);
 		}
 	});
 
