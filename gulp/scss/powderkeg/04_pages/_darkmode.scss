@@ -4,9 +4,28 @@ body {
 	transition: all 0.2s linear;
 	//will-change: transform;
 
+
 	&.darkmode {
 		background-color: $gray-900;
 		color: $gray-100;
+
+		.form-control {
+			background-color: #121212;
+			border-color: #353536;
+			color: $gray-100;
+		}
+	
+		.input-group-prepend {
+			.input-group-text {
+				background-color: #353536;
+				border-color: #353536;
+				color: $gray-100;
+
+				path {
+					fill: $gray-100;
+				}
+			}
+		}
 
 		#channels {
 			.channel {

@@ -25,7 +25,7 @@ require_once(dirname(__FILE__) .'/../wp-load.php');
 // error_reporting(E_ALL ^ E_NOTICE);
 // @ini_set('display_errors', 1);
 
-// require_once('api-functions.php');
+require_once('api-functions.php');
 // require_once('setup-jwt.php');
 
 // NOTE: Could probably just load jwt not on full load, but would need to test to make sure not breaking anything
