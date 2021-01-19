@@ -78,7 +78,16 @@ function jb_get_yt_video_info($video_id){
 }
 
 
-function jb_get_yt_channel_videos($channel_id, $channel_post_id){
+/**
+ * Get the next X videos from a specific channel
+ *
+ * @param string $channel_id The YT ID for this channel
+ * @param int $channel_post_id The WP Post ID for this channel
+ * @param int $max_results The max results to return
+ * @param string $nextPageToken The nextPageToken returned from the last set of results (NOT IN USE)
+ * @return object
+ */
+function jb_get_yt_channel_videos($channel_id, $channel_post_id, $max_results = 20, $nextPageToken = ''){
 	$yt_id = jb_get('yt-api-key');
 
 	// Should we use the cached version of this channel's info?
@@ -91,7 +100,11 @@ function jb_get_yt_channel_videos($channel_id, $channel_post_id){
 		}
 	}
 
-	$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults=20';
+	$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults='.$max_results;
+
+	// if(! empty($nextPageToken)){
+	// 	$url = '&pageToken='.$nextPageToken;
+	// }
 
 	$result = file_get_contents($url);
 

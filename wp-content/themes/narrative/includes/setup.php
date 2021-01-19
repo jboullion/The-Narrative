@@ -145,3 +145,108 @@ function jb_body_classes( $classes ) {
 	}
 	return $classes;
 }
+
+
+/**
+ * On Channel Save get the next X videos from a specific channel
+ *
+ * @param string $channel_id The YT ID for this channel
+ * @param int $channel_post_id The WP Post ID for this channel
+ * @param int $max_results The max results to return
+ * @param string $nextPageToken The nextPageToken returned from the last set of results (NOT IN USE)
+ * @return object
+ */
+add_action( 'save_post_channels', 'jb_set_yt_channel_videos', 10, 3 );
+function jb_set_yt_channel_videos($post_id, $post, $update){
+	$yt_id = jb_get('yt-api-key');
+	
+	$channel_id = get_field('channel_id', $post_id);
+
+	$done = false;
+	$max_videos = 100;
+	$safety = 6;
+	$videos = array();
+	$channel_obj = null;
+	
+	$count = 0;
+	while(! $done){
+		$count++;
+
+		$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults=20';
+
+		if($channel_obj && ! empty($channel_obj->nextPageToken)){
+			$url .= '&pageToken='.$channel_obj->nextPageToken;
+		}
+
+		$result = file_get_contents($url);
+		$channel_obj = json_decode( $result );
+
+		
+		if($channel_obj->items){
+			$videos = array_merge($videos,$channel_obj->items);
+		}
+
+		if(count($videos) >= $max_videos
+		|| $count > $safety){
+			$done = true;
+			break;
+		}
+	}
+
+	// If we have a result, cache the info for 1 day
+	if(! empty($videos)){
+		update_post_meta( $post_id, 'cached_video_list', wp_json_encode($videos) );
+	}
+
+}
+
+
+/**
+ * CRON JOB to update all the channel video lists
+ * 
+ * Run 1 - 3 times a day?
+ * 
+ * NOTE: We are running this function without looping to reduce the number of YT calls we make in a day
+ */
+add_action( 'jb_update_channel_list', 'jb_update_channel_list' );
+function jb_update_channel_list(){
+	$yt_id = jb_get('yt-api-key');
+	
+	$channel_args = array(
+		'post_type' => 'channels',
+		'posts_per_page' => -1,
+	);
+
+	$channels = get_posts($channel_args);
+	
+	// Loop through all channels to get the most recent
+	if(! empty($channels)){
+		foreach($channels as $channel){
+			$channel_id = get_field('channel_id', $channel->ID);
+
+			$videos = json_decode(get_post_meta( $channel->ID, 'cached_video_list', true ));
+
+			$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults=5';
+
+			$result = file_get_contents($url);
+
+			$channel_obj = json_decode( $result );
+
+			if($channel_obj->items){
+				// No New Videos
+				if($videos[0]->id->videoId === $channel_obj->items[0]->id->videoId) continue;
+				
+				// Add Latest Video!
+				// TODO: We may want to check for multiple videos? It is possible for a channel to upload 2 videos in one day, although rare
+				array_unshift($videos , $channel_obj->items[0]);
+				update_post_meta( $channel->ID, 'cached_video_list', wp_json_encode($videos) );
+			}
+			
+			// Sleep for a bit to prevent spamming youtube. Runs slower, but with better results.
+			//sleep(1);
+			usleep(500);
+
+		}
+	}
+
+}

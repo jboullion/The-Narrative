@@ -15,6 +15,7 @@
 // 	//return ('ontouchstart' in document.documentElement);
 // }
 
+
 /**
  * Set a Cookie
  * @param string cname  Cookie Name
@@ -27,6 +28,7 @@ function jbSetCookie(cname, cvalue, exdays) {
 	var expires = "expires="+ d.toUTCString();
 	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
+
 
 /**
  * Get a cookie
@@ -48,6 +50,7 @@ function jbGetCookie(cname) {
 	return "";
 }
 
+
 /**
  * Delete a Cookie
  * @param string cname  Cookie Name
@@ -55,6 +58,7 @@ function jbGetCookie(cname) {
 function jbDeleteCookie(cname) {
 	jbSetCookie(cname, '', -1);
 }
+
 
 /**
  * Replace variables in a string / template
@@ -129,7 +133,6 @@ jQuery(function($){
 			jbDeleteCookie(darkmodeClass);
 		}
 	});
-
 
 });
 // var app = new Vue({

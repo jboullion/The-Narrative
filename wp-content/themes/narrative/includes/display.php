@@ -42,10 +42,15 @@ function jb_display_video_slide($video, $active = false){ //, $channel_id =''
  * 
  * @param object $video The video post object
  */
-function jb_display_video_card($video_id, $title, $date) { 
+function jb_get_video_card($video) { 
+	$video_id = $video->id->videoId;
+	$title = $video->snippet->title;
+	$description = $video->snippet->description;
+	$date = date('F j, Y', strtotime($video->snippet->publishTime));
+	
 	$video_img = jb_get_video_img_url($video_id);
 
-	echo '<a href="#" data-id="'.$video_id.'" class="card video h-100 yt-video">
+	return '<a href="#" data-id="'.$video_id.'" class="card video h-100 yt-video">
 			<div class="card-img-back" >
 				<img src="'.$video_img.'" loading="lazy" width="320" height="180" />
 				'.fa_play().'
@@ -86,7 +91,7 @@ function jb_display_channel_row($channel){
 	if(! empty($videos)){
 		foreach($videos as $video){
 			echo '<div class="col-sm-6 col-lg-3">';
-			jb_display_video_card($video);
+			echo jb_get_video_card($video);
 			echo '</div>';
 		}
 	}
@@ -116,7 +121,7 @@ function pk_display_channel($channel){
 	// '.apply_filters('the_content', $channel->post_content).'
 	if( ! empty($channel_info->items[0]) && ! empty($channel_videos->items)){
 		
-		echo '<div class="channel">
+		echo '<div class="channel" data-id="'.$channel_id.'">
 				<div class="title-card">
 					<a href="https://www.youtube.com/channel/'.$channel_id.'" target="_blank"><img src="'.$channel_info->items[0]->snippet->thumbnails->default->url.'" /></a>
 					<h4>'.$channel->post_title.'</h4>';
@@ -131,10 +136,10 @@ function pk_display_channel($channel){
 					echo '<a href="'.$website.'" class="channel-social website" target="_blank">'.fa_globe_icon().'</a>';
 				}
 
-		echo '		<a href="#" id="channel-'.$channel_key.'-prev" class="channel-control prev">'.fa_chevron_left().'</a>
-					<a href="#" id="channel-'.$channel_key.'-next" class="channel-control next">'.fa_chevron_right().'</a>
+		echo '		<a href="#" id="channel-'.$channel->ID.'-prev" class="channel-control prev">'.fa_chevron_left().'</a>
+					<a href="#" id="channel-'.$channel->ID.'-next" class="channel-control next">'.fa_chevron_right().'</a>
 				</div>
-				<div class="channel-'.$channel_key.' channel-overflow">
+				<div class="channel-'.$channel->ID.' channel-overflow">
 				<div class="channel-wrap" style="width: '.(count($channel_videos->items)*340).'px;">';
 	
 		// foreach($channel_videos->items as $vkey => $video){
@@ -148,7 +153,7 @@ function pk_display_channel($channel){
 		// 	$description = $video->snippet->description;
 		// 	$date = date('F j, Y', strtotime($video->snippet->publishTime));
 
-		// 	echo jb_display_video_card($video_id, $title, $date);
+		// 	echo jb_get_video_card($video_id, $title, $date);
 
 		// }
 
