@@ -88,59 +88,66 @@ function jb_get_yt_video_info($video_id){
  * @return object
  */
 function jb_get_yt_channel_videos($channel_id, $channel_post_id, $max_results = 20, $nextPageToken = ''){
-	$yt_id = jb_get('yt-api-key');
+	$channel_videos = get_post_meta($channel_post_id,'cached_video_list', true);
 
-	// Should we use the cached version of this channel's info?
-	$channel_cache = get_transient( 'channel_list_'.$channel_id );
-	if(! empty($channel_cache)) {
-		$channel_videos = get_field('cached_video_list', $channel_post_id);
+	return $channel_videos;
 
-		if(! empty($channel_videos)){
-			return $channel_videos;
-		}
-	}
+	// $yt_id = jb_get('yt-api-key');
 
-	$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults='.$max_results;
+	// // Should we use the cached version of this channel's info?
+	// $channel_cache = get_transient( 'channel_list_'.$channel_id );
+	// if(! empty($channel_cache)) {
+	// 	$channel_videos = get_field('cached_video_list', $channel_post_id);
 
-	// if(! empty($nextPageToken)){
-	// 	$url = '&pageToken='.$nextPageToken;
+	// 	if(! empty($channel_videos)){
+	// 		return $channel_videos;
+	// 	}
 	// }
 
-	$result = file_get_contents($url);
+	// $url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults='.$max_results;
 
-	// If we have a result, cache the info for 1 day
-	if(! empty($result)){
-		set_transient( 'channel_list_'.$channel_id, 1, DAY_IN_SECONDS );
-		update_field('field_5fc9b8844e129', json_decode( $result ), $channel_post_id);
-	}
+	// // if(! empty($nextPageToken)){
+	// // 	$url = '&pageToken='.$nextPageToken;
+	// // }
 
-	return json_decode( $result );
+	// $result = file_get_contents($url);
+
+	// // If we have a result, cache the info for 1 day
+	// if(! empty($result)){
+	// 	set_transient( 'channel_list_'.$channel_id, 1, DAY_IN_SECONDS );
+	// 	update_field('field_5fc9b8844e129', json_decode( $result ), $channel_post_id);
+	// }
+
+	//return json_decode( $result );
 }
 
 
 function jb_get_yt_channel_info($channel_id, $channel_post_id){
-	$yt_id = jb_get('yt-api-key');
+	$channel_info = get_field('cached_channel_info', $channel_post_id);
 
-	// Should we use the cached version of this channel's info?
-	$channel_cache = get_transient( 'channel_'.$channel_id );
-	if(! empty($channel_cache)) {
-		$channel_info = get_field('cached_channel_info', $channel_post_id);
+	return $channel_info;
+	// $yt_id = jb_get('yt-api-key');
 
-		if(! empty($channel_info)){
-			return $channel_info;
-		}
-	}
+	// // Should we use the cached version of this channel's info?
+	// $channel_cache = get_transient( 'channel_'.$channel_id );
+	// if(! empty($channel_cache)) {
+	// 	$channel_info = get_field('cached_channel_info', $channel_post_id);
 
-	$url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$channel_id.'&key='.$yt_id;
+	// 	if(! empty($channel_info)){
+	// 		return $channel_info;
+	// 	}
+	// }
 
-	$result = file_get_contents($url);
+	// $url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$channel_id.'&key='.$yt_id;
 
-	// If we have a result, cache the info for 1 month.
-	if(! empty($result)){
-		// We don't need to update the channel info very often
-		set_transient( 'channel_'.$channel_id, 1, MONTH_IN_SECONDS );
-		update_field('field_5fc9d0948331a', json_decode( $result ), $channel_post_id);
-	}
+	// $result = file_get_contents($url);
 
-	return json_decode( $result );
+	// // If we have a result, cache the info for 1 month.
+	// if(! empty($result)){
+	// 	// We don't need to update the channel info very often
+	// 	set_transient( 'channel_'.$channel_id, 1, MONTH_IN_SECONDS );
+	// 	update_field('field_5fc9d0948331a', json_decode( $result ), $channel_post_id);
+	// }
+
+	//return json_decode( $result );
 }

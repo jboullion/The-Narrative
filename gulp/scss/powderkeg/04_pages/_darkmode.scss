@@ -29,6 +29,8 @@ body {
 
 		#channels {
 			.channel {
+				border-color: #aaa;
+				
 				.channel-control {
 					path {
 						fill: $gray-100;

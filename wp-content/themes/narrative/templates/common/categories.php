@@ -2,19 +2,19 @@
 	$fields = jb_get('fields');
 	$options = jb_get('options');
 
-	$genres = get_terms( array(
-		'taxonomy' => 'genre',
+	$focuses = get_terms( array(
+		'taxonomy' => 'focus',
 		'hide_empty' => true,
 	) );
 
 ?>
-<section id="genres" class="wrapper no-print">
+<section id="focuses" class="wrapper no-print">
 	<div class="container-fluid">
-		<a href="/" class="genre badge badge-pill badge-primary <?php echo ! is_tax()?'active':''; ?>">All</a>
+		<a href="/" class="focuses badge badge-pill badge-primary <?php echo ! is_tax()?'active':''; ?>">All</a>
 		<?php 
-			if(! empty($genres)){
-				foreach($genres as $genre){
-					echo '<a href="'.get_term_link($genre).'" class="genre badge badge-pill badge-primary '.(get_queried_object_id()===$genre->term_id?'active':'').'">'.$genre->name.'</a>';
+			if(! empty($focuses)){
+				foreach($focuses as $focus){
+					echo '<a href="'.get_term_link($focus).'" class="focuses badge badge-pill badge-primary '.(get_queried_object_id()===$focus->term_id?'active':'').'">'.$focus->name.'</a>';
 				}
 			}
 		?>

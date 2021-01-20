@@ -64,7 +64,8 @@ function jb_register_cpts() {
 	
 	//jb_register_cpt(array('name' => 'video', 'icon' => 'dashicons-format-video', 'position' => 30 ));
 
-	jb_register_taxonomy('genre', array('channels', 'voices'), 'Genre');
+	//jb_register_taxonomy('genre', array('channels', 'voices'), 'Genre');
+	jb_register_taxonomy('focus', array('channels', 'voices'), 'Focus');
 
 	// Woocommerce Taxonomies 
 	// jb_register_taxonomy('channel', 'videos', 'Channel');

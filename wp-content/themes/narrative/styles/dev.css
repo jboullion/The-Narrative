@@ -9624,7 +9624,8 @@ html {
 #channels .channel {
   border-bottom: 1px solid #f7f7f9;
   padding-bottom: 30px;
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  transition: border-color 0.2s; }
   #channels .channel .title-card {
     margin-bottom: 20px;
     display: flex;
@@ -9792,14 +9793,14 @@ html {
   100% {
     transform: scale(1); } }
 
-#genres {
+#focuses {
   margin: 0px 0;
   text-align: center; }
-  #genres .genre {
+  #focuses .focuses {
     padding: 10px;
     margin: 5px;
     transition: background-color 0.1s linear; }
-    #genres .genre.active, #genres .genre:hover {
+    #focuses .focuses.active, #focuses .focuses:hover {
       background-color: #666666; }
 
 #filters {
@@ -9918,7 +9919,9 @@ body {
       color: #f8f9fa; }
       body.darkmode .input-group-prepend .input-group-text path {
         fill: #f8f9fa; }
-    body.darkmode #channels .channel .channel-control path {
-      fill: #f8f9fa; }
+    body.darkmode #channels .channel {
+      border-color: #aaa; }
+      body.darkmode #channels .channel .channel-control path {
+        fill: #f8f9fa; }
     body.darkmode .card.video .card-body {
       color: #f8f9fa; }
