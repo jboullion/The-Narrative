@@ -123,31 +123,31 @@ function jb_get_yt_channel_videos($channel_id, $channel_post_id, $max_results = 
 
 
 function jb_get_yt_channel_info($channel_id, $channel_post_id){
-	$channel_info = get_field('cached_channel_info', $channel_post_id);
+	// $channel_info = get_field('cached_channel_info', $channel_post_id);
 
-	return $channel_info;
-	// $yt_id = jb_get('yt-api-key');
+	// return $channel_info;
+	$yt_id = jb_get('yt-api-key');
 
-	// // Should we use the cached version of this channel's info?
-	// $channel_cache = get_transient( 'channel_'.$channel_id );
-	// if(! empty($channel_cache)) {
-	// 	$channel_info = get_field('cached_channel_info', $channel_post_id);
+	// Should we use the cached version of this channel's info?
+	$channel_cache = get_transient( 'channel_'.$channel_id );
+	if(! empty($channel_cache)) {
+		$channel_info = get_field('cached_channel_info', $channel_post_id);
 
-	// 	if(! empty($channel_info)){
-	// 		return $channel_info;
-	// 	}
-	// }
+		if(! empty($channel_info)){
+			return $channel_info;
+		}
+	}
 
-	// $url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$channel_id.'&key='.$yt_id;
+	$url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$channel_id.'&key='.$yt_id;
 
-	// $result = file_get_contents($url);
+	$result = file_get_contents($url);
 
-	// // If we have a result, cache the info for 1 month.
-	// if(! empty($result)){
-	// 	// We don't need to update the channel info very often
-	// 	set_transient( 'channel_'.$channel_id, 1, MONTH_IN_SECONDS );
-	// 	update_field('field_5fc9d0948331a', json_decode( $result ), $channel_post_id);
-	// }
+	// If we have a result, cache the info for 1 month.
+	if(! empty($result)){
+		// We don't need to update the channel info very often
+		set_transient( 'channel_'.$channel_id, 1, MONTH_IN_SECONDS );
+		update_field('field_5fc9d0948331a', json_decode( $result ), $channel_post_id);
+	}
 
-	//return json_decode( $result );
+	return json_decode( $result );
 }

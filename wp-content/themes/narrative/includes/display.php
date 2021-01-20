@@ -117,9 +117,12 @@ function pk_display_channel($channel){
 	$channel_id = get_field('channel_id', $channel->ID);
 	$channel_info = jb_get_yt_channel_info($channel_id, $channel->ID);
 	$channel_videos = jb_get_yt_channel_videos($channel_id, $channel->ID);
+	//jb_print($channel_videos);
 
 	// '.apply_filters('the_content', $channel->post_content).'
-	if( ! empty($channel_info->items[0]) && ! empty($channel_videos->items)){
+	if( ! empty($channel_info) 
+	&& ! empty($channel_videos)
+	&& ! empty($channel_videos->items)){
 		
 		echo '<div class="channel" data-id="'.$channel_id.'">
 				<div class="title-card">

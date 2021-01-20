@@ -151,10 +151,10 @@ function jb_body_classes( $classes ) {
 /**
  * On Channel Save get the next X videos from a specific channel
  *
- * @param string $channel_id The YT ID for this channel
- * @param int $channel_post_id The WP Post ID for this channel
- * @param int $max_results The max results to return
- * @param string $nextPageToken The nextPageToken returned from the last set of results (NOT IN USE)
+//  * @param string $channel_id The YT ID for this channel
+//  * @param int $channel_post_id The WP Post ID for this channel
+//  * @param int $max_results The max results to return
+//  * @param string $nextPageToken The nextPageToken returned from the last set of results (NOT IN USE)
  * @return object
  */
 add_action( 'save_post_channels', 'jb_set_yt_channel_videos', 10, 3 );
@@ -162,6 +162,8 @@ function jb_set_yt_channel_videos($post_id, $post, $update){
 	$yt_id = jb_get('yt-api-key');
 	
 	$channel_id = get_field('channel_id', $post_id);
+
+	if(empty($channel_id )) return;
 
 	$done = false;
 	$max_videos = 100;
@@ -179,16 +181,24 @@ function jb_set_yt_channel_videos($post_id, $post, $update){
 			$url .= '&pageToken='.$channel_obj->nextPageToken;
 		}
 
-		$result = file_get_contents($url);
-		$channel_obj = json_decode( $result );
+		$result = @file_get_contents($url);
 
-		
-		if($channel_obj->items){
-			$videos = array_merge($videos,$channel_obj->items);
-		}
+		if($result){
 
-		if(count($videos) >= $max_videos
-		|| $count > $safety){
+			$channel_obj = json_decode( $result );
+
+			
+			if($channel_obj->items){
+				$videos = array_merge($videos,$channel_obj->items);
+			}
+
+			if(count($videos) >= $max_videos
+			|| $count > $safety
+			|| $result){
+				$done = true;
+				break;
+			}
+		}else{
 			$done = true;
 			break;
 		}
