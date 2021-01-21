@@ -67,6 +67,8 @@ jQuery(function($){
 			//.css('width', maxWidth+'px');
 
 			$channel.data('translate', translate);
+
+			$channel.find('.lazy').Lazy(); //.removeClass('lazy');
 		}
 
 	}

@@ -3,6 +3,9 @@
  */
 jQuery(function($){
 
+	// Let's load all our lazy images
+	$('img.lazy').Lazy();
+
 	// Toggle Darkmode
 	$('#darkmode-toggle').on('click', function(e){
 		var darkmodeClass = 'darkmode';

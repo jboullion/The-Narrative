@@ -47,7 +47,7 @@ function jb_get_video_card($video) {
 
 	return '<a href="#" data-id="'.$video->video_id.'" class="card video h-100 yt-video">
 			<div class="card-img-back" >
-				<img src="'.$video_img.'" loading="lazy" width="320" height="180" />
+				<img data-src="'.$video_img.'" loading="lazy" class="lazy" width="320" height="180" />
 				'.fa_play().'
 			</div>
 			<div class="card-body">

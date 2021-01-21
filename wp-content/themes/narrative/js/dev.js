@@ -79,6 +79,9 @@ function jbTemplateEngine(tpl, data) {
  */
 jQuery(function($){
 
+	// Let's load all our lazy images
+	$('img.lazy').Lazy();
+
 	// Toggle Darkmode
 	$('#darkmode-toggle').on('click', function(e){
 		var darkmodeClass = 'darkmode';
@@ -170,6 +173,8 @@ jQuery(function($){
 			//.css('width', maxWidth+'px');
 
 			$channel.data('translate', translate);
+
+			$channel.find('.lazy').Lazy(); //.removeClass('lazy');
 		}
 
 	}
