@@ -91,76 +91,57 @@ function jb_get_yt_channel_videos($channel_id, $channel_post_id, $max_results = 
 	$channel_videos = get_post_meta($channel_post_id,'cached_video_list', true);
 
 	if(! empty($channel_videos)) {
-		return json_decode($channel_videos);
-	}
-
-	$yt_id = jb_get('yt-api-key');
-
-	$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults='.$max_results;
-
-	// if(! empty($nextPageToken)){
-	// 	$url = '&pageToken='.$nextPageToken;
-	// }
-
-	$result = @file_get_contents($url);
-
-	// If we have a result, cache the info for 1 day
-	if(! empty($result)){
-		$channel_obj = json_decode( $result );
-		$videos = jb_channel_items_to_videos($channel_obj->items);
-
-		// If we have a result, cache the info for 1 day
-		if(! empty($videos)){
-			update_post_meta( $channel_post_id, 'cached_video_list', json_encode($videos) );
-			return $videos;
+		if(is_string($channel_videos)){
+			return json_decode($channel_videos);
+		}else{
+			// If the channel videos were saved as something other than a string, just delete that meta for now and we will build it later
+			delete_post_meta($channel_post_id,'cached_video_list');
 		}
-
+		
 	}
 
 	return array();
+
+	// $yt_id = jb_get('yt-api-key');
+
+	// $url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults='.$max_results;
+
+	// // if(! empty($nextPageToken)){
+	// // 	$url = '&pageToken='.$nextPageToken;
+	// // }
+
+	// $result = @file_get_contents($url);
+
+	// // If we have a result, cache the info for 1 day
+	// if(! empty($result)){
+	// 	$channel_obj = json_decode( $result );
+	// 	$videos = jb_channel_items_to_videos($channel_obj->items);
+
+	// 	// If we have a result, cache the info for 1 day
+	// 	if(! empty($videos)){
+	// 		update_post_meta( $channel_post_id, 'cached_video_list', json_encode($videos) );
+	// 		return $videos;
+	// 	}
+
+	// }
+
+	// return array();
 }
 
 /**
- * Get information about this channel
+ * Get the image for this channel about this channel
  * TODO: We really only need the image so possibly just take image and convert it to featured image? It is only the logos which are 88px so shouldn't take up too much space.
- * @param [type] $channel_id
- * @param [type] $channel_post_id
+ * @param int $channel_post_id
  * @return void
  */
-function jb_get_yt_channel_info($channel_id, $channel_post_id){
-	$channel_img = get_post_meta($channel_post_id,'cached_channel_image', true);
+function jb_get_yt_channel_img($channel_post_id){
+	$channel_img = get_the_post_thumbnail_url( $channel_post_id, 'thumbnail' );
+	// get_post_meta($channel_post_id,'cached_channel_image', true);
 
 	if(! empty($channel_img)) {
 		return $channel_img;
 	}
 
-	$yt_id = jb_get('yt-api-key');
+	return jb_set_channel_thumbnail($channel_post_id);
 
-	// // Should we use the cached version of this channel's info?
-	// $channel_cache = get_transient( 'channel_'.$channel_id );
-	// if(! empty($channel_cache)) {
-	// 	$channel_info = get_field('cached_channel_info', $channel_post_id);
-
-	// 	if(! empty($channel_info)){
-	// 		return $channel_info;
-	// 	}
-	// }
-
-	$url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$channel_id.'&key='.$yt_id;
-
-	$result = @file_get_contents($url);
-
-	// If we have a result, cache the info for 1 month.
-	if(! empty($result)){
-		// We don't need to update the channel info very often
-		//set_transient( 'channel_'.$channel_id, 1, MONTH_IN_SECONDS );
-		//update_field('field_5fc9d0948331a', json_decode( $result ), $channel_post_id);
-
-		$channel_obj = json_decode( $result );
-		update_post_meta( $channel_post_id, 'cached_channel_image', $channel_obj->items[0]->snippet->thumbnails->default->url );
-		
-		return $channel_obj->items[0]->snippet->thumbnails->default->url;
-	}
-
-	return '';
 }

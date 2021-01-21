@@ -105,13 +105,13 @@ function jb_display_channel_row($channel){
  * @param int $max_videos The maximum number of videos to show on the slider (Server Side)
  * @return void
  */
-function pk_display_channel($channel, $max_videos = 10){
+function pk_display_channel($channel, $max_videos = 8){
 	// TODO: Make the "title card" a function
 	$twitter = get_field('twitter', $channel->ID);
 	$patreon = get_field('patreon', $channel->ID);
 	$website = get_field('website', $channel->ID);
 	$channel_id = get_field('channel_id', $channel->ID);
-	$channel_img = jb_get_yt_channel_info($channel_id, $channel->ID);
+	$channel_img = jb_get_yt_channel_img($channel->ID);
 	$channel_videos = jb_get_yt_channel_videos($channel_id, $channel->ID);
 
 	// '.apply_filters('the_content', $channel->post_content).'

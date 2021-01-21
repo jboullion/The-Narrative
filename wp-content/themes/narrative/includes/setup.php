@@ -157,55 +157,104 @@ function jb_body_classes( $classes ) {
 //  * @param string $nextPageToken The nextPageToken returned from the last set of results (NOT IN USE)
  * @return object
  */
-add_action( 'save_post_channels', 'jb_set_yt_channel_videos', 10, 3 );
-function jb_set_yt_channel_videos($post_id, $post, $update){
-	$yt_id = jb_get('yt-api-key');
-	
+add_action( 'save_post_channels', 'jb_set_yt_channel_info', 10, 3 );
+function jb_set_yt_channel_info($post_id, $post, $update){
+	jb_set_channel_videos($post_id);
+	jb_set_channel_thumbnail($post_id);
+
+}
+
+
+/**
+ * Get the last X videos from a channel and store them for later
+ *
+ * @param int $post_id The post->ID of the channel in question
+ * @return void
+ */
+function jb_set_channel_videos($post_id){
+	$channel_videos = get_post_meta($post_id,'cached_video_list', true);
+	$channel_id = get_field('channel_id', $post_id);
+
+	if(empty($channel_videos) && ! empty($channel_id)){
+		$yt_id = jb_get('yt-api-key');
+
+		$done = false;
+		$max_videos = 100;
+		$safety = 6;
+		$videos = array();
+		$channel_obj = null;
+		
+		$count = 0;
+		while(! $done){
+			$count++;
+
+			$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults=20';
+
+			if($channel_obj && ! empty($channel_obj->nextPageToken)){
+				$url .= '&pageToken='.$channel_obj->nextPageToken;
+			}
+
+			$result = file_get_contents($url);
+
+			if($result){
+
+				$channel_obj = json_decode( $result );
+
+				$videos = jb_channel_items_to_videos($channel_obj->items);
+
+				if(count($videos) >= $max_videos
+				|| $count > $safety
+				|| $result){
+					$done = true;
+					break;
+				}
+			}else{
+				$done = true;
+				break;
+			}
+		}
+
+		// If we have a result, cache the info for 1 day
+		if(! empty($videos)){
+			update_post_meta( $post_id, 'cached_video_list', json_encode($videos) );
+		}
+	}
+}
+
+
+
+/**
+ * Get this Channels thumbnail and set it
+ * 
+ * @param int $post_id The ID of the post to get the featured image for
+ * @return string the URL of the post thumbnail
+ */
+function jb_set_channel_thumbnail($post_id){
 	$channel_id = get_field('channel_id', $post_id);
 
 	if(empty($channel_id )) return;
 
-	$done = false;
-	$max_videos = 100;
-	$safety = 6;
-	$videos = array();
-	$channel_obj = null;
-	
-	$count = 0;
-	while(! $done){
-		$count++;
+	$yt_id = jb_get('yt-api-key');
 
-		$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults=20';
+	if(! has_post_thumbnail( $post_id ) ){
+		$url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$channel_id.'&key='.$yt_id;
 
-		if($channel_obj && ! empty($channel_obj->nextPageToken)){
-			$url .= '&pageToken='.$channel_obj->nextPageToken;
-		}
+		$result = @file_get_contents($url);
 
-		$result = file_get_contents($url);
-
-		if($result){
+		// If we have a result, cache the info for 1 month.
+		if(! empty($result)){
 
 			$channel_obj = json_decode( $result );
 
-			$videos = jb_channel_items_to_videos($channel_obj->items);
+			$channel_img = $channel_obj->items[0]->snippet->thumbnails->default->url;
 
-			if(count($videos) >= $max_videos
-			|| $count > $safety
-			|| $result){
-				$done = true;
-				break;
-			}
-		}else{
-			$done = true;
-			break;
+			update_post_meta( $post_id, 'cached_channel_image', $channel_img );
+			
+			return jb_set_featured_image_from_url($channel_img, get_the_title($post_id), $post_id);
 		}
 	}
 
-	// If we have a result, cache the info for 1 day
-	if(! empty($videos)){
-		update_post_meta( $post_id, 'cached_video_list', json_encode($videos) );
-	}
-
+	return '';
 }
 
 
