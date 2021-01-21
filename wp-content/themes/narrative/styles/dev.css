@@ -9638,7 +9638,7 @@ html {
       margin: 0 10px 0 20px; }
   #channels .channel .channel-wrap {
     display: flex;
-    transition: transform 0.2s; }
+    transition: transform 0.2s ease-out; }
     #channels .channel .channel-wrap .card {
       margin-right: 20px; }
       #channels .channel .channel-wrap .card:last-child {

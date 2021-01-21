@@ -40,7 +40,7 @@
 		.channel-wrap {
 			display: flex;
 			//justify-content: space-between;
-			transition: transform 0.2s;
+			transition: transform 0.2s ease-out;
 
 			.card {
 				margin-right: 20px;
