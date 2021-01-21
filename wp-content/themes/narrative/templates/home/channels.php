@@ -11,6 +11,8 @@
 	);
 
 	$channels = get_posts($channel_args);
+
+	// jb_print($channels);
 ?>
 
 <section id="channels" class="wrapper no-print">
@@ -18,6 +20,7 @@
 		<?php 
 			if(! empty($channels)){
 				foreach($channels as $channel_key => $channel){
+					//if($channel->ID != 105) continue;
 					pk_display_channel($channel);
 				}
 			}

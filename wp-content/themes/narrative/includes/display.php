@@ -43,21 +43,16 @@ function jb_display_video_slide($video, $active = false){ //, $channel_id =''
  * @param object $video The video post object
  */
 function jb_get_video_card($video) { 
-	$video_id = $video->id->videoId;
-	$title = $video->snippet->title;
-	$description = $video->snippet->description;
-	$date = date('F j, Y', strtotime($video->snippet->publishTime));
-	
-	$video_img = jb_get_video_img_url($video_id);
+	$video_img = jb_get_video_img_url($video->video_id);
 
-	return '<a href="#" data-id="'.$video_id.'" class="card video h-100 yt-video">
+	return '<a href="#" data-id="'.$video->video_id.'" class="card video h-100 yt-video">
 			<div class="card-img-back" >
 				<img src="'.$video_img.'" loading="lazy" width="320" height="180" />
 				'.fa_play().'
 			</div>
 			<div class="card-body">
-				<p class="ellipsis">'.$title.'</p>
-				<span class="date">'.$date.'</span>
+				<p class="ellipsis">'.$video->title.'</p>
+				<span class="date">'.$video->date.'</span>
 			</div>
 		</a>';
 }
@@ -106,27 +101,26 @@ function jb_display_channel_row($channel){
 /**
  * Display a channel
  *
- * @param object $channel
+ * @param object $channel The Channel $post object for the channel to display
+ * @param int $max_videos The maximum number of videos to show on the slider (Server Side)
  * @return void
  */
-function pk_display_channel($channel){
+function pk_display_channel($channel, $max_videos = 10){
 	// TODO: Make the "title card" a function
 	$twitter = get_field('twitter', $channel->ID);
 	$patreon = get_field('patreon', $channel->ID);
 	$website = get_field('website', $channel->ID);
 	$channel_id = get_field('channel_id', $channel->ID);
-	$channel_info = jb_get_yt_channel_info($channel_id, $channel->ID);
+	$channel_img = jb_get_yt_channel_info($channel_id, $channel->ID);
 	$channel_videos = jb_get_yt_channel_videos($channel_id, $channel->ID);
-	//jb_print($channel_videos);
 
 	// '.apply_filters('the_content', $channel->post_content).'
-	if( ! empty($channel_info) 
-	&& ! empty($channel_videos)
-	&& ! empty($channel_videos->items)){
+	if( ! empty($channel_img) 
+	&& ! empty($channel_videos)){
 		
 		echo '<div class="channel" data-id="'.$channel_id.'">
 				<div class="title-card">
-					<a href="https://www.youtube.com/channel/'.$channel_id.'" target="_blank"><img src="'.$channel_info->items[0]->snippet->thumbnails->default->url.'" /></a>
+					<a href="https://www.youtube.com/channel/'.$channel_id.'" target="_blank"><img src="'.$channel_img.'" /></a>
 					<h4>'.$channel->post_title.'</h4>';
 
 				if($patreon){
@@ -143,22 +137,17 @@ function pk_display_channel($channel){
 					<a href="#" id="channel-'.$channel->ID.'-next" class="channel-control next">'.fa_chevron_right().'</a>
 				</div>
 				<div class="channel-'.$channel->ID.' channel-overflow">
-				<div class="channel-wrap" style="width: '.(count($channel_videos->items)*340).'px;">';
+				<div class="channel-wrap" style="width: '.(count($channel_videos)*340).'px;">';
 	
-		// foreach($channel_videos->items as $vkey => $video){
-		// 	// TODO: Should we move this information into the display video function?
-		// 	if(empty($video->id->videoId)) continue;
+		foreach($channel_videos as $vkey => $video){
+			if(empty($video->video_id)) continue;
 
-		// 	//if($vkey > 4) break;
+			echo jb_get_video_card($video);
 
-		// 	$video_id = $video->id->videoId;
-		// 	$title = $video->snippet->title;
-		// 	$description = $video->snippet->description;
-		// 	$date = date('F j, Y', strtotime($video->snippet->publishTime));
-
-		// 	echo jb_get_video_card($video_id, $title, $date);
-
-		// }
+			if($vkey >= $max_videos){
+				break;
+			}
+		}
 
 		echo '	</div>
 			</div>

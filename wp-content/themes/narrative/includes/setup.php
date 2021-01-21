@@ -181,16 +181,13 @@ function jb_set_yt_channel_videos($post_id, $post, $update){
 			$url .= '&pageToken='.$channel_obj->nextPageToken;
 		}
 
-		$result = @file_get_contents($url);
+		$result = file_get_contents($url);
 
 		if($result){
 
 			$channel_obj = json_decode( $result );
 
-			
-			if($channel_obj->items){
-				$videos = array_merge($videos,$channel_obj->items);
-			}
+			$videos = jb_channel_items_to_videos($channel_obj->items);
 
 			if(count($videos) >= $max_videos
 			|| $count > $safety
@@ -206,7 +203,7 @@ function jb_set_yt_channel_videos($post_id, $post, $update){
 
 	// If we have a result, cache the info for 1 day
 	if(! empty($videos)){
-		update_post_meta( $post_id, 'cached_video_list', wp_json_encode($videos) );
+		update_post_meta( $post_id, 'cached_video_list', json_encode($videos) );
 	}
 
 }
