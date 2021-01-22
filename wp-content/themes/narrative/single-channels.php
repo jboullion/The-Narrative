@@ -6,10 +6,9 @@
 	jb_set('fields', $fields);
 
 ?>
-<main id="genre-page" class="page">
+<main id="single-channel" class="page">
 	<?php //get_template_part('templates/channel/featured'); ?>
 	<?php get_template_part('templates/channel/channels'); ?>
-
 </main>
 <?php get_template_part('templates/modals/player'); ?>
 <?php 
