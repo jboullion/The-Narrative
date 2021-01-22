@@ -11,7 +11,7 @@
 		<div class="row">
 		<?php 
 			foreach($channel_videos as $vkey => $video){
-				echo '<div class="col-sm-6 col-lg-4 col-xl-3 mb-4">';
+				echo '<div class="col-sm-6 col-md-4 col-lg-3 col-xl-5th mb-4">';
 				echo jb_get_video_card($video);
 				echo '</div>';
 			}

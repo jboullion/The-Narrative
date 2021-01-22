@@ -9840,6 +9840,23 @@ body {
     background-color: #181818;
     color: #f8f9fa; }
 
+.col-lg-5th,
+.col-xl-5th {
+  position: relative;
+  min-height: 1px;
+  padding-right: 10px;
+  padding-left: 10px; }
+
+@media (min-width: 992px) {
+  .col-lg-5th {
+    flex: 0 0 20%;
+    max-width: 20%; } }
+
+@media (min-width: 1200px) {
+  .col-xl-5th {
+    flex: 0 0 20%;
+    max-width: 20%; } }
+
 .container-fluid, .container-sm, .container-md, .container-lg, .container-xl {
   max-width: 100%; }
 

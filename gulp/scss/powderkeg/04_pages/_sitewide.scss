@@ -9,6 +9,31 @@ body {
 	}
 }
 
+
+.col-lg-5th,
+.col-xl-5th {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+
+@include media-breakpoint-up(lg) {
+	.col-lg-5th {
+		flex: 0 0 20%;
+		max-width: 20%;
+	}
+}
+
+
+@include media-breakpoint-up(xl) {
+	.col-xl-5th {
+		flex: 0 0 20%;
+		max-width: 20%;
+	}
+}
+
 .container-fluid {
 	//max-width: 1750px;
 	max-width: 100%;
