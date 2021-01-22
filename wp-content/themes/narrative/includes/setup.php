@@ -157,7 +157,7 @@ function jb_body_classes( $classes ) {
 //  * @param string $nextPageToken The nextPageToken returned from the last set of results (NOT IN USE)
  * @return object
  */
-add_action( 'save_post_channels', 'jb_set_yt_channel_info', 10, 3 );
+add_action( 'save_post_channels', 'jb_set_yt_channel_info', 100, 3 );
 function jb_set_yt_channel_info($post_id, $post, $update){
 	jb_set_channel_videos($post_id);
 	jb_set_channel_thumbnail($post_id);
@@ -194,7 +194,7 @@ function jb_set_channel_videos($post_id){
 				$url .= '&pageToken='.$channel_obj->nextPageToken;
 			}
 
-			$result = file_get_contents($url);
+			$result = @file_get_contents($url);
 
 			if($result){
 
@@ -307,3 +307,5 @@ function jb_update_channel_list(){
 	}
 
 }
+
+

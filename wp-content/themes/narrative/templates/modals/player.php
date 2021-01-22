@@ -9,7 +9,7 @@
 			<div class="yt-container">
 				<div class="yt-content">
 					<div class="yt-video-wrapper">
-						<iframe id="yt-player" type="text/html" src="http://www.youtube.com/embed/<%videoID%>?enablejsapi=1" frameborder="0" allow="fullscreen"></iframe>
+						<iframe id="yt-player" type="text/html" src="http://www.youtube.com/embed/<%videoID%>?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
 					</div>
 				</div>
 				<button id="yt-minimize" class="yt-control" type="button" aria-label="Minimize" ><?php echo fa_minimize(); ?></button>

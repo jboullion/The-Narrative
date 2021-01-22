@@ -12,7 +12,7 @@
 
 	$channels = get_posts($channel_args);
 
-	// jb_print($channels);
+	//jb_print($channels);
 ?>
 
 <section id="channels" class="wrapper no-print">

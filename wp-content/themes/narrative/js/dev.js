@@ -363,12 +363,26 @@ jQuery(function($){
 			
 			$body.append(newYTPlayer);
 
-			player = new YT.Player('yt-player');
+			player = new YT.Player('yt-player', {
+				videoId: videoID,
+				events: {
+					'onReady': onPlayerReady,
+					//'onStateChange': onPlayerStateChange
+				}
+			});
+			
 		}
 		
 		isPlaying = true;
 		
 	});
+
+
+	// Play the Loaded YouTube video onReady
+	function onPlayerReady(event) {
+		event.target.playVideo();
+	}
+
 
 	/*
 	* this swallows backspace keys on any non-input element.
@@ -384,5 +398,4 @@ jQuery(function($){
 	// 		}
 	// 	}
 	// });
-
 });
