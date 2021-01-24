@@ -42,7 +42,7 @@
 
 
 //Add Font awesome to an element's :before psudo element
-@mixin awesome-input($content: '\f133', $fontsize: 2rem, $right: 50px, $color: $blue){
+@mixin awesome-input($content: '\f133', $fontsize: 2rem, $right: 50px, $color: $primary){
 	content:$content;
 	color: $color; 
 	font-size:$fontsize; 

@@ -10,22 +10,22 @@ body {
 		color: $gray-100;
 
 		.form-control {
-			background-color: #121212;
-			border-color: #353536;
+			// background-color: #121212;
+			// border-color: #353536;
 			color: $gray-100;
 		}
-	
-		.input-group-prepend {
-			.input-group-text {
-				background-color: #353536;
-				border-color: #353536;
-				color: $gray-100;
 
-				path {
-					fill: $gray-100;
-				}
-			}
-		}
+		// .input-group-prepend {
+		// 	.input-group-text {
+		// 		background-color: #353536;
+		// 		border-color: #353536;
+		// 		color: $gray-100;
+
+		// 		path {
+		// 			fill: $gray-100;
+		// 		}
+		// 	}
+		// }
 
 		#channels {
 			.channel {

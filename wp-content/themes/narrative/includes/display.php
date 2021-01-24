@@ -137,7 +137,7 @@ function pk_display_channel($channel, $max_videos = 8){
 					<a href="#" id="channel-'.$channel->ID.'-next" class="channel-control next">'.fa_chevron_right().'</a>
 				</div>
 				<div class="channel-'.$channel->ID.' channel-overflow">
-				<div class="channel-wrap" style="width: '.(count($channel_videos)*340).'px;">';
+					<div class="channel-wrap" style="width: '.(count($channel_videos)*340).'px;">';
 	
 		foreach($channel_videos as $vkey => $video){
 			if(empty($video->video_id)) continue;
@@ -149,8 +149,8 @@ function pk_display_channel($channel, $max_videos = 8){
 			}
 		}
 
-		echo '	</div>
-			</div>
+		echo '		</div>
+				</div>
 			</div>';
 	}
 }
