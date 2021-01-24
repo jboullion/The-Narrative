@@ -1,4 +1,7 @@
 <?php 
+	$fields = jb_get('fields');
+	$options = jb_get('options');
+
 	$order = 'DESC';
 	if(! empty($_GET['order'])){
 		if($_GET['order'] == 'DESC'){

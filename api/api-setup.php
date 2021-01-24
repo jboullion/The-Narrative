@@ -14,7 +14,7 @@ header('Cache-Control: max-age=0'); //prevent returning cached data
 date_default_timezone_set("America/Chicago");
 
 //By using a SHORTINIT and loading WP we are ONLY loading our database object ($wpdb).
-if($full_load){
+if(! empty($full_load)){
 	define('WP_USE_THEMES', false);
 }else{
 	define('SHORTINIT', true);

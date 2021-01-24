@@ -98,18 +98,56 @@ function jb_theme_enqueue_scripts() {
 
 	//wp_enqueue_style('bootswatch', get_template_directory_uri() . '/styles/bootstrap.min.css', array(), filemtime(get_template_directory().'/styles/bootstrap.min.css'));
 
-	wp_enqueue_script('animejs', get_template_directory_uri() . '/lib/anime-master/lib/anime.min.js', '', '', true);
+	// wp_enqueue_script('animejs', get_template_directory_uri() . '/lib/anime-master/lib/anime.min.js', '', '', true);
 
 	//wp_enqueue_style('lity.css', 'https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.min.css', array(), '');
 	//wp_enqueue_script( 'lity.js', 'https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.min.js', array(), '', true);
 
+	wp_register_script(
+		'variables',
+		get_template_directory_uri() . '/js/variables.js',
+		array( ),
+		1.0,
+		true
+	);
+
+	wp_enqueue_script( 'variables' );
+
+	$ajax_variables = array(
+		/* examples */
+		'user_id' => get_current_user_id()
+	);
+
+	wp_localize_script( 'variables', 'ajax_variables', $ajax_variables );
+	
 	if(ENVIRONMENT != 'dev') {
-		wp_enqueue_style('narrative', get_template_directory_uri() . '/styles/live.css', array(), filemtime(get_template_directory().'/styles/live.css'));
+		wp_enqueue_style('custom', get_template_directory_uri() . '/styles/live.css', array(), filemtime(get_template_directory().'/styles/live.css'));
 		wp_enqueue_script('jquery.site', get_template_directory_uri() . '/js/live.js', 'jquery', filemtime(get_template_directory().'/js/live.js'), true);
 	} else {
-		wp_enqueue_style('narrative', get_template_directory_uri().'/styles/dev.css', array(), time());
+		wp_enqueue_style('custom', get_template_directory_uri().'/styles/dev.css', array(), time());
 		wp_enqueue_script('jquery.site', get_template_directory_uri().'/js/dev.js', 'jquery', time(), true);
 	}
+
+	
+
+
+
+	// Try to recognize Darkmode on different sub sites
+	// if(! empty($_COOKIE['darkmode'])){
+	// 	// User recently set darkmode
+	// 	update_user_meta(get_current_user_id(), 'darkmode', 1);
+	// }
+
+	// else{
+	// 	$darkmode = get_user_meta(get_current_user_id(), 'darkmode', true);
+
+	// 	if(! empty($darkmode)){
+	// 		setcookie('darkmode', 1, YEAR_IN_SECONDS);
+	// 	}
+	// }
+
+	// $darkmode = get_user_meta(get_current_user_id(), 'darkmode', true);
+	// jb_print($darkmode);
 
 }
 
@@ -141,7 +179,8 @@ function jb_use_block_editor_for_post($use_block_editor, $post) {
 
 add_filter( 'body_class', 'jb_body_classes' );
 function jb_body_classes( $classes ) {
-	if ( ! empty($_COOKIE['darkmode']) ) {
+	$darkmode = get_user_meta( get_current_user_id(), 'darkmode', true );
+	if ( ! empty($darkmode) ) {
 		$classes[] = 'darkmode';
 	}
 	return $classes;

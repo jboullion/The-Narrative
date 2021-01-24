@@ -5,6 +5,7 @@
 		'deleted' => 0
 	));
 
+	$darkmode = get_user_meta( get_current_user_id(), 'darkmode', true );
 	$current_blog_id = get_current_blog_id();
 ?>
 <nav id="primary-nav" class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between">
@@ -15,7 +16,7 @@
 		<?php //echo fa_bar_icon(); ?>
 	</button> -->
 
-	<button id="darkmode-toggle" type="button" aria-label="Toggle Darkmode" class="<?php echo $_COOKIE['darkmode']?'darkmode':''; ?>">
+	<button id="darkmode-toggle" type="button" aria-label="Toggle Darkmode" class="<?php echo $darkmode?'darkmode':''; ?>">
 		<?php echo fa_sun(); ?>
 		<?php echo fa_moon(); ?>
 	</button>

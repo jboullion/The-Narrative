@@ -1,0 +1,10 @@
+1. Single Channel Featured?
+	- Do we even want a single channel page? It keeps people on site and another chance for ads?
+2. Track User History
+	- Plays
+	- Searches
+	- Page Views?
+3. Setup Ads
+	- Basic banner ad
+	- Show ad under/above video player?
+	

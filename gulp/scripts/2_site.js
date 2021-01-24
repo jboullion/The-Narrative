@@ -15,8 +15,14 @@ jQuery(function($){
 		if($('body').hasClass(darkmodeClass)){
 			jbSetCookie(darkmodeClass, 1, 365);
 		}else{
-			console.log('delete cookie');
+			//console.log('delete cookie');
 			jbDeleteCookie(darkmodeClass);
+		}
+
+		if(ajax_variables.user_id){
+			$.post( "/api/user/toggle-darkmode.php", {user_id: ajax_variables.user_id}, function( result ) {
+				console.log(result);
+			}, 'json');
 		}
 	});
 
