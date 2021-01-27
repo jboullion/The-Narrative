@@ -1,45 +1,53 @@
 <?php 
 
-require_once('api-setup.php');
+require_once('../api-setup.php');
 
-$channel_img = jb_get_channel_thumbnail($_POST['youtube_id']);
+$content = json_decode(trim(file_get_contents("php://input")));
+
+if(empty($content->youtube_id) ) {
+// || empty($content->title)
+	echo json_encode(array('error'=> 'Missing Information'));
+	exit;
+}
+
+$channel_img = jb_get_channel_thumbnail($content->youtube_id);
 
 $wpdb->insert(
-	$channel_table,
+	$wpdb->channels,
 	array(
-		'youtube_id' => $_POST['youtube_id'],
-		'title' => $_POST['title'],
-		'description' => $_POST['description'],
+		'youtube_id' => $content->youtube_id,
+		'title' => $content->title,
+		'description' => $content->description,
 		'img_url' => $channel_img,
-		'facebook' => $_POST['facebook'],
-		'instagram' => $_POST['instagram'],
-		'patreon' => $_POST['patreon'],
-		'tiktok' => $_POST['tiktok'],
-		'twitter' => $_POST['twitter'],
-		'twitch' => $_POST['twitch'],
-		'website' => $_POST['website'],
-		'tags' => $_POST['tags'],
+		'facebook' => $content->facebook,
+		'instagram' => $content->instagram,
+		'patreon' => $content->patreon,
+		'tiktok' => $content->tiktok,
+		'twitter' => $content->twitter,
+		'twitch' => $content->twitch,
+		'website' => $content->website,
+		'tags' => $content->tags,
 	)
 );
 
 if($wpdb->insert_id === 0){
 	$wpdb->update(
-		$channel_table,
+		$wpdb->channels,
 		array(
-			'title' => $_POST['title'],
-			'description' => $_POST['description'],
+			'title' => $content->title,
+			'description' => $content->description,
 			'img_url' => $channel_img,
-			'facebook' => $_POST['facebook'],
-			'instagram' => $_POST['instagram'],
-			'patreon' => $_POST['patreon'],
-			'tiktok' => $_POST['tiktok'],
-			'twitter' => $_POST['twitter'],
-			'twitch' => $_POST['twitch'],
-			'website' => $_POST['website'],
-			'tags' => $_POST['tags'],
+			'facebook' => $content->facebook,
+			'instagram' => $content->instagram,
+			'patreon' => $content->patreon,
+			'tiktok' => $content->tiktok,
+			'twitter' => $content->twitter,
+			'twitch' => $content->twitch,
+			'website' => $content->website,
+			'tags' => $content->tags,
 		),
 		array(
-			'youtube_id' => $_POST['youtube_id'],
+			'youtube_id' => $content->youtube_id,
 		)
 	);
 }else if($wpdb->insert_id === false){

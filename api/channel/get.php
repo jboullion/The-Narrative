@@ -1,6 +1,6 @@
 <?php 
 
-require_once('api-setup.php');
+require_once('../api-setup.php');
 
 if(empty($_POST['channel_id']) ) {
 	echo json_encode(array('error'=> 'Missing Information'));

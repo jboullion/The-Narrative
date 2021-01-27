@@ -1,6 +1,6 @@
 <?php 
 
-require_once('api-setup.php');
+require_once('../api-setup.php');
 
 $limit = ! empty($_POST['limit']) && is_numeric($_POST['limit'])?$_POST['limit']:10;
 $offset = ! empty($_POST['offset']) && is_numeric($_POST['offset'])?$_POST['offset']:0;
