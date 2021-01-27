@@ -222,7 +222,7 @@ function jb_set_channel_videos($post_id){
 		$safety = 6;
 		$videos = array();
 		$channel_obj = null;
-		
+
 		$count = 0;
 		while(! $done){
 			$count++;
@@ -337,14 +337,155 @@ function jb_update_channel_list(){
 				array_unshift($videos , $channel_obj->items[0]);
 				update_post_meta( $channel->ID, 'cached_video_list', wp_json_encode($videos) );
 			}
+
+			// normalize this channel
+			jb_add_normalized_channel($channel, true);
 			
 			// Sleep for a bit to prevent spamming youtube. Runs slower, but with better results.
 			//sleep(1);
 			usleep(500);
-
+			
 		}
 	}
 
 }
 
 
+/**
+ * CRON JOB used to normalize all channels into an easier to search format from the front end
+ */
+add_action( 'jb_normalize_channels', 'jb_normalize_channels' );
+function jb_normalize_channels(){
+
+	$channel_args = array(
+		'post_type' => 'channels',
+		'posts_per_page' => -1,
+	);
+
+	$channels = get_posts($channel_args);
+	
+	// Loop through all channels to get the most recent
+	if(! empty($channels)){
+		foreach($channels as $channel){
+			jb_add_normalized_channel($channel, true);
+		}
+	}
+
+}
+
+/**
+ * Add a channel to our normalized channel table for easier searching
+ *
+ * @param object $channel The $post object for the channel in question
+ * @param boolean $videos Do you also want to normalize this channels videos?
+ * @return void
+ */
+function jb_add_normalized_channel($channel, $videos = false){
+	global $wpdb;
+
+	$channel_table = 'jb_channels';
+
+	$c_fields = get_fields($channel->ID);
+	$channel_img = jb_get_yt_channel_img($channel->ID);
+	$channel_videos = jb_get_yt_channel_videos($c_fields['channel_id'], $channel->ID);
+	
+	$wpdb->insert(
+		$channel_table,
+		array(
+			'youtube_id' => $c_fields['channel_id'],
+			'title' => $channel->post_title,
+			'description' => $channel->post_content,
+			'img_url' => $channel_img,
+			'facebook' => $c_fields['facebook'],
+			'instagram' => $c_fields['instagram'],
+			'patreon' => $c_fields['patreon'],
+			'tiktok' => $c_fields['tiktok'],
+			'twitter' => $c_fields['twitter'],
+			'twitch' => $c_fields['twitch'],
+			'website' => $c_fields['website'],
+			'tags' => '',
+		)
+	);
+
+	if($wpdb->insert_id === 0){
+		$wpdb->update(
+			$channel_table,
+			array(
+				'title' => $channel->post_title,
+				'description' => $channel->post_content,
+				'img_url' => $channel_img,
+				'facebook' => $c_fields['facebook'],
+				'instagram' => $c_fields['instagram'],
+				'patreon' => $c_fields['patreon'],
+				'tiktok' => $c_fields['tiktok'],
+				'twitter' => $c_fields['twitter'],
+				'twitch' => $c_fields['twitch'],
+				'website' => $c_fields['website'],
+				'tags' => '',
+			),
+			array(
+				'youtube_id' => $c_fields['channel_id'],
+			)
+		);
+	}else if($wpdb->insert_id === false){
+		// Error
+	}
+
+	// Also normalize this channel's videos
+	if($videos){
+		$channel_id = $wpdb->get_var(
+			$wpdb->prepare("SELECT channel_id FROM {$channel_table} WHERE youtube_id = %s", $c_fields['channel_id'])
+		);
+	
+		if(! empty($channel_videos) && ! empty($channel_id)){
+			foreach($channel_videos as $video){
+				jb_add_normalized_video($video, $channel_id);
+			}
+		}
+	}
+
+}
+
+
+/**
+ * Add a video to our normalized tables for easier searching from front end
+ *
+ * @param object $video The video object from the cached_video_list meta_data
+ * @param int $channel_id The channel_id of the normalized channel related to this video
+ * @return void
+ */
+function jb_add_normalized_video($video, $channel_id){
+	global $wpdb;
+
+	if(empty($video->video_id)) return;
+
+	$video_table = 'jb_videos';
+
+	$wpdb->insert(
+		$video_table,
+		array(
+			'youtube_id' => $video->video_id,
+			'channel_id' => $channel_id,
+			'title' => $video->title,
+			//'description' => $video->video_id,
+			'date' => date('Y-m-d', strtotime($video->date)),
+		)
+	);
+
+	if($wpdb->insert_id === 0){
+		$wpdb->update(
+			$video_table,
+			array(
+				'channel_id' => $channel_id,
+				'title' => $video->title,
+				//'description' => $video->video_id,
+				'date' => date('Y-m-d', strtotime($video->date)),
+			),
+			array(
+				'youtube_id' => $video->video_id
+			)
+		);
+	}else if($wpdb->insert_id === false){
+		// Error
+	}
+}

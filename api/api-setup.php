@@ -36,3 +36,6 @@ require_once('api-functions.php');
 global $blog_id, $wpdb, $yt_key;
 
 $yt_key = 'AIzaSyAiXvrjHqYkVxC4y1U1neEYGsTFQE2rvzY';
+
+$wpdb->channels = 'jb_channels';
+$wpdb->videos = 'jb_videos';

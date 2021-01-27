@@ -1,6 +1,32 @@
 <?php 
 
 
+
+/**
+ * Get this Channels thumbnail and set it
+ * 
+ * @param int $post_id The ID of the post to get the featured image for
+ * @return string the URL of the post thumbnail
+ */
+function jb_get_channel_thumbnail($youtube_id){
+	global $yt_key;
+
+	if(empty($youtube_id )) return;
+
+	$url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$youtube_id.'&key='.$yt_key;
+
+	$result = @file_get_contents($url);
+
+	// If we have a result, cache the info for 1 month.
+	if(! empty($result)){
+		$channel_obj = json_decode( $result );
+		return $channel_obj->items[0]->snippet->thumbnails->default->url;
+	}
+
+	return '';
+}
+
+
 /**
  * Display a video card found around the site
  * 
