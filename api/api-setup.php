@@ -39,3 +39,9 @@ $yt_key = 'AIzaSyAiXvrjHqYkVxC4y1U1neEYGsTFQE2rvzY';
 
 $wpdb->channels = 'jb_channels';
 $wpdb->videos = 'jb_videos';
+$wpdb->history = 'jb_history';
+$wpdb->liked = 'jb_liked';
+$wpdb->styles = 'jb_styles';
+$wpdb->topics = 'jb_topics';
+$wpdb->channel_styles = 'jb_channel_styles';
+$wpdb->channel_topics = 'jb_channel_topics';

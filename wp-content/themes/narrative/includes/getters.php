@@ -88,7 +88,7 @@ function jb_get_taxonomy_terms($taxonomy, $count = 6, $random = false){
  * @return object
  */
 function jb_get_yt_channel_videos($channel_id, $channel_post_id, $max_results = 20, $nextPageToken = ''){
-	$channel_videos = get_post_meta($channel_post_id,'cached_video_list', true);
+	//$channel_videos = get_post_meta($channel_post_id,'cached_video_list', true);
 
 	if(! empty($channel_videos)) {
 		if(is_string($channel_videos)){
@@ -100,32 +100,32 @@ function jb_get_yt_channel_videos($channel_id, $channel_post_id, $max_results = 
 		
 	}
 
-	return array();
+	//return array();
 
-	// $yt_id = jb_get('yt-api-key');
+	$yt_id = jb_get('yt-api-key');
 
-	// $url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults='.$max_results;
+	$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults='.$max_results;
 
-	// // if(! empty($nextPageToken)){
-	// // 	$url = '&pageToken='.$nextPageToken;
-	// // }
-
-	// $result = @file_get_contents($url);
-
-	// // If we have a result, cache the info for 1 day
-	// if(! empty($result)){
-	// 	$channel_obj = json_decode( $result );
-	// 	$videos = jb_channel_items_to_videos($channel_obj->items);
-
-	// 	// If we have a result, cache the info for 1 day
-	// 	if(! empty($videos)){
-	// 		update_post_meta( $channel_post_id, 'cached_video_list', json_encode($videos) );
-	// 		return $videos;
-	// 	}
-
+	// if(! empty($nextPageToken)){
+	// 	$url = '&pageToken='.$nextPageToken;
 	// }
 
-	// return array();
+	$result = @file_get_contents($url);
+
+	// If we have a result, cache the info for 1 day
+	if(! empty($result)){
+		$channel_obj = json_decode( $result );
+		$videos = jb_channel_items_to_videos($channel_obj->items);
+
+		// If we have a result, cache the info for 1 day
+		if(! empty($videos)){
+			update_post_meta( $channel_post_id, 'cached_video_list', json_encode($videos) );
+			return $videos;
+		}
+
+	}
+
+	return array();
 }
 
 /**

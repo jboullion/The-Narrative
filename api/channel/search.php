@@ -2,22 +2,50 @@
 
 require_once('../api-setup.php');
 
-$limit = ! empty($_POST['limit']) && is_numeric($_POST['limit'])?$_POST['limit']:10;
-$offset = ! empty($_POST['offset']) && is_numeric($_POST['offset'])?$_POST['offset']:0;
+$initial_video_limit = 20;
 
-$search_query = "SELECT * FROM {$wpdb->channels} WHERE 1=1 ";
+$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$initial_video_limit;
+$offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']*$limit:0;
 
-if(! empty($_POST['s'])){
-	$search_query .= $wpdb->prepare("AND title LIKE %s", $_POST['s'].'%');
+$search_query = "SELECT * FROM {$wpdb->channels} AS C ";
+
+if(! empty($_GET['style'])){
+	$search_query .= " LEFT JOIN {$wpdb->channel_styles} AS CS ON CS.channel_id = C.channel_id ";
+}
+
+if(! empty($_GET['topic'])){
+	$search_query .= " LEFT JOIN {$wpdb->channel_topics} AS CT ON CT.channel_id = C.channel_id ";
+}
+
+$search_query .= " WHERE 1=1 ";
+
+if(! empty($_GET['s'])){
+	$search_query .= $wpdb->prepare("AND title LIKE %s ", '%'.$_GET['s'].'%');
+}
+
+if(! empty($_GET['style'])){
+	$search_query .= $wpdb->prepare(" AND CS.style_id = %d ", $_GET['style']);
+}
+
+if(! empty($_GET['topic'])){
+	$search_query .= $wpdb->prepare(" AND CT.topic_id = %d ", $_GET['topic']);
+}
+
+if(! empty($_GET['rand'])){
+	$search_query .= " ORDER BY RAND()";
 }
 
 $search_query .= $wpdb->prepare("LIMIT %d, %d", $offset, $limit);
 
 $channels = $wpdb->get_results($search_query);
 
+// print_r($wpdb->last_error);
+// print_r($wpdb->last_query);
+
+$channels->videos = [];
 if(! empty($channels)){
-	foreach($channels as $channel){
-		$channels->videos = $wpdb->get_results("SELECT * FROM {$wpdb->channels} WHERE channel_id = {$channel->channel_id}");
+	foreach($channels as $key => &$channel){
+		$channels[$key]->videos = $wpdb->get_results("SELECT * FROM {$wpdb->videos} WHERE channel_id = {$channel->channel_id} LIMIT {$initial_video_limit}");
 	}
 }
 

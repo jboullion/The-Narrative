@@ -211,7 +211,7 @@ function jb_set_yt_channel_info($post_id, $post, $update){
  * @return void
  */
 function jb_set_channel_videos($post_id){
-	$channel_videos = get_post_meta($post_id,'cached_video_list', true);
+	//$channel_videos = get_post_meta($post_id,'cached_video_list', true);
 	$channel_id = get_field('channel_id', $post_id);
 
 	if(empty($channel_videos) && ! empty($channel_id)){
@@ -241,6 +241,8 @@ function jb_set_channel_videos($post_id){
 
 				$videos = jb_channel_items_to_videos($channel_obj->items);
 
+				// jb_print($videos);
+				// die();
 				if(count($videos) >= $max_videos
 				|| $count > $safety
 				|| $result){
@@ -269,14 +271,17 @@ function jb_set_channel_videos($post_id){
  * @return string the URL of the post thumbnail
  */
 function jb_set_channel_thumbnail($post_id){
+	global $wpdb;
+
 	$channel_id = get_field('channel_id', $post_id);
 
 	if(empty($channel_id )) return;
 
 	$yt_id = jb_get('yt-api-key');
 
-	if(! has_post_thumbnail( $post_id ) ){
-		$url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&fields=items%2Fsnippet%2Fthumbnails%2Fdefault&id='.$channel_id.'&key='.$yt_id;
+	//if(! has_post_thumbnail( $post_id ) ){
+		//https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=UCxzC4EngIsMrPmbm6Nxvb-A&key=
+		$url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&id='.$channel_id.'&key='.$yt_id;
 
 		$result = @file_get_contents($url);
 
@@ -285,13 +290,26 @@ function jb_set_channel_thumbnail($post_id){
 
 			$channel_obj = json_decode( $result );
 
+			//update_post_meta( $post_id, 'cached_channel', $channel_img );
+
 			$channel_img = $channel_obj->items[0]->snippet->thumbnails->default->url;
 
 			update_post_meta( $post_id, 'cached_channel_image', $channel_img );
-			
+
+			// Update the content. Using update post triggers infinite loop lol
+			$wpdb->update(
+				$wpdb->posts,
+				array(
+					'post_content' => $channel_obj->items[0]->snippet->description
+				),
+				array(
+					'ID' =>$post_id
+				)
+			);
+
 			return jb_set_featured_image_from_url($channel_img, get_the_title($post_id), $post_id);
 		}
-	}
+	//}
 
 	return '';
 }
@@ -356,6 +374,7 @@ function jb_update_channel_list(){
  */
 add_action( 'jb_normalize_channels', 'jb_normalize_channels' );
 function jb_normalize_channels(){
+	global $wpdb;
 
 	$channel_args = array(
 		'post_type' => 'channels',
@@ -371,6 +390,7 @@ function jb_normalize_channels(){
 		}
 	}
 
+	//jb_print($wpdb->queries);
 }
 
 /**
@@ -388,7 +408,7 @@ function jb_add_normalized_channel($channel, $videos = false){
 	$c_fields = get_fields($channel->ID);
 	$channel_img = jb_get_yt_channel_img($channel->ID);
 	$channel_videos = jb_get_yt_channel_videos($c_fields['channel_id'], $channel->ID);
-	
+
 	$wpdb->insert(
 		$channel_table,
 		array(
@@ -436,7 +456,7 @@ function jb_add_normalized_channel($channel, $videos = false){
 		$channel_id = $wpdb->get_var(
 			$wpdb->prepare("SELECT channel_id FROM {$channel_table} WHERE youtube_id = %s", $c_fields['channel_id'])
 		);
-	
+
 		if(! empty($channel_videos) && ! empty($channel_id)){
 			foreach($channel_videos as $video){
 				jb_add_normalized_video($video, $channel_id);
@@ -456,36 +476,75 @@ function jb_add_normalized_channel($channel, $videos = false){
  */
 function jb_add_normalized_video($video, $channel_id){
 	global $wpdb;
+	
+	//if($channel_id != 2) return;
+	
+	//jb_print($video);
 
 	if(empty($video->video_id)) return;
 
 	$video_table = 'jb_videos';
 
-	$wpdb->insert(
-		$video_table,
-		array(
-			'youtube_id' => $video->video_id,
-			'channel_id' => $channel_id,
-			'title' => $video->title,
-			//'description' => $video->video_id,
-			'date' => date('Y-m-d', strtotime($video->date)),
+	// This insert is not working and I am not sure why
+	// $wpdb->insert(
+	// 	$video_table,
+	// 	array(
+	// 		'youtube_id' => $video->video_id,
+	// 		'channel_id' => $channel_id,
+	// 		'title' => $video->title,
+	// 		//'description' => $video->video_id,
+	// 		'date' => date('Y-m-d', strtotime($video->date)),
+	// 	),
+	// 	array(
+	// 		'%s',
+	// 		'%d',
+	// 		'%s',
+	// 		'%s'
+	// 	)
+	// );
+
+	// This query works but the insert above does not. Weird
+	$wpdb->query(
+		$wpdb->prepare("INSERT INTO {$video_table} (`youtube_id`, `channel_id`, `title`, `description`, `date`) 
+						VALUES (%s, %d, %s, %s)
+						ON DUPLICATE KEY UPDATE
+						`youtube_id` = %s, 
+						`channel_id` = %d,
+						`title` = %s,
+						`description` = %s,
+						`date` = %s", 
+						$video->video_id, 
+						$channel_id, 
+						$video->title, 
+						$video->description, 
+						date('Y-m-d', strtotime($video->date)), 
+						$video->video_id, 
+						$channel_id,
+						$video->title, 
+						$video->description, 
+						date('Y-m-d', strtotime($video->date))
+			
 		)
 	);
 
-	if($wpdb->insert_id === 0){
-		$wpdb->update(
-			$video_table,
-			array(
-				'channel_id' => $channel_id,
-				'title' => $video->title,
-				//'description' => $video->video_id,
-				'date' => date('Y-m-d', strtotime($video->date)),
-			),
-			array(
-				'youtube_id' => $video->video_id
-			)
-		);
-	}else if($wpdb->insert_id === false){
-		// Error
-	}
+	//jb_print($wpdb->last_query);
+	//jb_print($wpdb->last_error);
+
+	// if($wpdb->insert_id === 0){
+	// 	$wpdb->update(
+	// 		$video_table,
+	// 		array(
+	// 			'channel_id' => $channel_id,
+	// 			'title' => $video->title,
+	// 			'description' => $video->video_id,
+	// 			'date' => date('Y-m-d', strtotime($video->date)),
+	// 		),
+	// 		array(
+	// 			'youtube_id' => $video->video_id
+	// 		)
+	// 	);
+	// }else if($wpdb->insert_id === false){
+	// 	// Error
+	// }
+
 }

@@ -90,7 +90,7 @@ $table_prefix = 'sp_';
  */
 define( 'WP_DEBUG', false );
 
-
+define('SAVEQUERIES', true);
 /* Multisite */
 define( 'WP_ALLOW_MULTISITE', true );
 

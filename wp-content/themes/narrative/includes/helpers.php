@@ -18,6 +18,7 @@ function jb_wpdb_errors($wpdb){
  * @return array An array of videos
  */
 function jb_channel_items_to_videos($items){
+	
 	$videos = array();
 
 	if($items){
@@ -25,6 +26,8 @@ function jb_channel_items_to_videos($items){
 			$videos[] = array(
 				'video_id' => $item->id->videoId,
 				'title' => $item->snippet->title,
+				'description' => sanitize_text_field($item->snippet->description),
+				'tags' => '#'.implode(',#',$item->snippet->tags).',',
 				'date' => date('F j, Y', strtotime($item->snippet->publishTime)),
 			);
 		}

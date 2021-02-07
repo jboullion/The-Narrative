@@ -7,6 +7,7 @@
 	jb_set('fields', $fields);
 
 	// jb_get_youtube_id($url);
+	jb_normalize_channels();
 ?>
 <main id="home-page" class="page">
 	<?php // get_template_part('templates/home/featured'); ?>
