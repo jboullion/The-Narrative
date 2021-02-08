@@ -15,15 +15,12 @@ header('Cache-Control: max-age=0'); //prevent returning cached data
 header("Content-Type: application/json; charset=UTF-8");
 
 
-
-
 //By using a SHORTINIT and loading WP we are ONLY loading our database object ($wpdb).
 if(! empty($full_load)){
 	define('WP_USE_THEMES', false);
 }else{
 	define('SHORTINIT', true);
 }
-
 
 require_once dirname(__FILE__) .'/../wp-load.php';
 
@@ -32,7 +29,6 @@ require_once dirname(__FILE__).'/vendor/autoload.php';
 date_default_timezone_set("America/Chicago");
 
 require_once('api-functions.php');
-
 
 global $blog_id, $wpdb, $yt_key;
 
@@ -49,4 +45,8 @@ $wpdb->channel_styles = 'jb_channel_styles';
 $wpdb->channel_topics = 'jb_channel_topics';
 $wpdb->channel_views = 'jb_channel_views';
 $wpdb->video_views = 'jb_video_views';
+$wpdb->watch_later = 'jb_watch_later';
 
+
+// The default number of videos to return when loading
+$DEFAULT_VID_LIMIT = 30;

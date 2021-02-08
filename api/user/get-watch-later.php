@@ -17,8 +17,8 @@ if ($user_id) {
 	$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$DEFAULT_VID_LIMIT;
 	$offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']*$limit:0;
 
-	$video_query = $wpdb->prepare("SELECT V.*, L.created AS likedDate FROM {$wpdb->videos} AS V 
-					LEFT JOIN {$wpdb->liked} AS L USING(video_id) 
+	$video_query = $wpdb->prepare("SELECT V.*, WL.created AS savedDate FROM {$wpdb->videos} AS V 
+					LEFT JOIN {$wpdb->watch_later} AS WL USING(video_id) 
 					WHERE `user_id` = %s ", $user_id);
 		
 	if(! empty($_GET['s'])){
@@ -26,7 +26,7 @@ if ($user_id) {
 	}
 
 
-	$video_query .= $wpdb->prepare(" ORDER BY L.liked_id DESC
+	$video_query .= $wpdb->prepare(" ORDER BY WL.watch_id DESC
 					LIMIT %d, %d", $offset, $limit);
 
 

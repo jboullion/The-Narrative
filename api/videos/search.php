@@ -2,9 +2,7 @@
 
 require_once('../api-setup.php');
 
-$initial_video_limit = 20;
-
-$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$initial_video_limit;
+$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$DEFAULT_VID_LIMIT;
 $offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']*$limit:0;
 
 $search_query = "SELECT * FROM {$wpdb->videos} AS V ";

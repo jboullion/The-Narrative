@@ -14,9 +14,7 @@ $user_id = jb_get_user_id($_GET['token']);
 
 if ($user_id) {
 
-	$initial_video_limit = 20;
-
-	$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$initial_video_limit;
+	$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$DEFAULT_VID_LIMIT;
 	$offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']*$limit:0;
 
 
@@ -34,9 +32,6 @@ if ($user_id) {
 
 
 	$videos = $wpdb->get_results($video_query);
-
-	// print_r($wpdb->last_error);
-	// print_r($wpdb->last_query);
 
 	echo json_encode($videos);
 	exit;

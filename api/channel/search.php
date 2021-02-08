@@ -2,9 +2,7 @@
 
 require_once('../api-setup.php');
 
-$initial_video_limit = 20;
-
-$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$initial_video_limit;
+$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$DEFAULT_VID_LIMIT;
 $offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']*$limit:0;
 
 $search_query = "SELECT * FROM {$wpdb->channels} AS C ";
@@ -45,7 +43,7 @@ $channels = $wpdb->get_results($search_query);
 $channels->videos = [];
 if(! empty($channels)){
 	foreach($channels as $key => &$channel){
-		$channels[$key]->videos = $wpdb->get_results("SELECT * FROM {$wpdb->videos} WHERE channel_id = {$channel->channel_id} LIMIT {$initial_video_limit}");
+		$channels[$key]->videos = $wpdb->get_results("SELECT * FROM {$wpdb->videos} WHERE channel_id = {$channel->channel_id} LIMIT {$DEFAULT_VID_LIMIT}");
 	}
 }
 
