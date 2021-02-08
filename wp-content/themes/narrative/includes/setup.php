@@ -214,7 +214,7 @@ function jb_set_channel_videos($post_id){
 	//$channel_videos = get_post_meta($post_id,'cached_video_list', true);
 	$channel_id = get_field('channel_id', $post_id);
 
-	if(empty($channel_videos) && ! empty($channel_id)){
+	if(! empty($channel_id)){
 		$yt_id = jb_get('yt-api-key');
 
 		$done = false;
@@ -233,7 +233,7 @@ function jb_set_channel_videos($post_id){
 				$url .= '&pageToken='.$channel_obj->nextPageToken;
 			}
 
-			$result = @file_get_contents($url);
+			$result = file_get_contents($url);
 
 			if($result){
 
@@ -241,8 +241,6 @@ function jb_set_channel_videos($post_id){
 
 				$videos = jb_channel_items_to_videos($channel_obj->items);
 
-				// jb_print($videos);
-				// die();
 				if(count($videos) >= $max_videos
 				|| $count > $safety
 				|| $result){
@@ -281,7 +279,7 @@ function jb_set_channel_thumbnail($post_id){
 
 	//if(! has_post_thumbnail( $post_id ) ){
 		//https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=UCxzC4EngIsMrPmbm6Nxvb-A&key=
-		$url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&id='.$channel_id.'&key='.$yt_id;
+		$url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&id='.$channel_id.'&key='.$yt_id;
 
 		$result = @file_get_contents($url);
 
