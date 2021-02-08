@@ -15,7 +15,7 @@ header('Cache-Control: max-age=0'); //prevent returning cached data
 header("Content-Type: application/json; charset=UTF-8");
 
 
-date_default_timezone_set("America/Chicago");
+
 
 //By using a SHORTINIT and loading WP we are ONLY loading our database object ($wpdb).
 if(! empty($full_load)){
@@ -25,13 +25,11 @@ if(! empty($full_load)){
 }
 
 
-error_reporting(E_ALL ^ E_NOTICE);
-@ini_set('display_errors', 1);
-
 require_once dirname(__FILE__) .'/../wp-load.php';
 
 require_once dirname(__FILE__).'/vendor/autoload.php';
 
+date_default_timezone_set("America/Chicago");
 
 require_once('api-functions.php');
 

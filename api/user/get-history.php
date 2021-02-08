@@ -22,7 +22,7 @@ if ($user_id) {
 
 	$video_query = $wpdb->prepare("SELECT V.*, H.created AS watchedDate FROM {$wpdb->videos} AS V 
 					LEFT JOIN {$wpdb->history} AS H USING(video_id) 
-					WHERE `user_id` = %d ", $user_id);
+					WHERE `user_id` = %s ", $user_id);
 		
 	if(! empty($_GET['s'])){
 		$video_query .= $wpdb->prepare(" AND ( title LIKE %s OR tags LIKE %s) ", '%'.$_GET['s'].'%', '%#'.$_GET['s'].',%');
