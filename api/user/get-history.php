@@ -1,25 +1,46 @@
 <?php 
+/**
+ * Get all the videos this user has watched
+ */
 
 require_once('../api-setup.php');
 
-if(empty($_GET['user_id']) || ! is_numeric($_GET['user_id'])){
+if(empty($_GET['token'])){
 	echo json_encode(array('error'=> 'Missing Information'));
 	exit;
 }
 
-$initial_video_limit = 20;
+$user_id = jb_get_user_id($_GET['token']);
 
-$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$initial_video_limit;
-$offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']*$limit:0;
+if ($user_id) {
 
-$video_query = $wpdb->prepare("SELECT V.*, H.created AS watchedDate FROM {$wpdb->videos} AS V 
-				LEFT JOIN {$wpdb->history} AS H USING(video_id) 
-				WHERE `user_id` = %d 
-				ORDER BY H.last_watched DESC
-				LIMIT %d, %d", $_GET['user_id'], $offset, $limit);
+	$initial_video_limit = 20;
+
+	$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$initial_video_limit;
+	$offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']*$limit:0;
 
 
-$videos = $wpdb->get_results($video_query);
+	$video_query = $wpdb->prepare("SELECT V.*, H.created AS watchedDate FROM {$wpdb->videos} AS V 
+					LEFT JOIN {$wpdb->history} AS H USING(video_id) 
+					WHERE `user_id` = %d ", $user_id);
+		
+	if(! empty($_GET['s'])){
+		$video_query .= $wpdb->prepare(" AND ( title LIKE %s OR tags LIKE %s) ", '%'.$_GET['s'].'%', '%#'.$_GET['s'].',%');
+	}
 
-echo json_encode($videos);
-exit;
+
+	$video_query .= $wpdb->prepare(" ORDER BY H.last_watched DESC
+					LIMIT %d, %d", $offset, $limit);
+
+
+	$videos = $wpdb->get_results($video_query);
+
+	// print_r($wpdb->last_error);
+	// print_r($wpdb->last_query);
+
+	echo json_encode($videos);
+	exit;
+}else{
+	echo json_encode(array('error' => 'Invalid Token'));
+	exit;
+}

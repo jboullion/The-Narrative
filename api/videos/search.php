@@ -7,7 +7,7 @@ $initial_video_limit = 20;
 $limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$initial_video_limit;
 $offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']*$limit:0;
 
-$search_query = "SELECT * FROM {$wpdb->videos} AS C ";
+$search_query = "SELECT * FROM {$wpdb->videos} AS V ";
 
 // if(! empty($_GET['style'])){
 // 	$search_query .= " LEFT JOIN {$wpdb->channel_styles} AS CS ON CS.channel_id = C.channel_id ";
@@ -46,12 +46,6 @@ $videos = $wpdb->get_results($search_query);
 // print_r($wpdb->last_error);
 // print_r($wpdb->last_query);
 
-// $channels->videos = [];
-// if(! empty($channels)){
-// 	foreach($channels as $key => &$channel){
-// 		$channels[$key]->videos = $wpdb->get_results("SELECT * FROM {$wpdb->videos} WHERE channel_id = {$channel->channel_id} LIMIT {$initial_video_limit}");
-// 	}
-// }
 
-echo json_encode($channels);
+echo json_encode($videos);
 exit;

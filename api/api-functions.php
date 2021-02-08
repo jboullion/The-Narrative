@@ -1,6 +1,48 @@
 <?php 
 
+/**
+ * Return the Google User ID based on a token passed from the client
+ *
+ * @param [type] $token
+ * @return void
+ */
+function jb_get_user_id($token){
+	$LOGIN_CLIENT_ID = '310021421846-4atakhdcfm62jj95u4193fu2ri8h9q40.apps.googleusercontent.com';
 
+	try{
+		$client = new Google_Client(['client_id' => $LOGIN_CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
+
+		$payload = $client->verifyIdToken($token);
+		
+		if ($payload && $payload['sub']) {
+			return $payload['sub'];
+		}
+
+		return false;
+	}catch (exception $e) {
+		return false;
+		//print_r($e);
+	}
+
+	return false;
+}
+
+
+/**
+ * Get a single video row
+ * 
+ * @param int $video_id The ID of the video in question
+ * @param string $columns The columns in question
+ * 
+ * @return object Video row
+ */
+function jb_get_video_info($video_id, $columns = '*'){
+	global $wpdb;
+
+	$results = $wpdb->get_row($wpdb->prepare("SELECT {$columns} FROM {$wpdb->videos} WHERE video_id = %d", $video_id));
+
+	return $results;
+}
 
 /**
  * Get this Channels thumbnail and set it

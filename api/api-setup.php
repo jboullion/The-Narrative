@@ -2,14 +2,18 @@
 /**
  * This script will setup everything we need for our individual API endpoints. Mostly the $wpdb object and the api-functions
  */
+// error_reporting(E_ALL ^ E_NOTICE);
+// @ini_set('display_errors', 1);
 
 header("Access-Control-Allow-Origin: *");
 //header('Access-Control-Allow-Methods: GET, POST');
 header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 
-header("Content-Type: application/json; charset=UTF-8");
 header('Cache-Control: max-age=0'); //prevent returning cached data
+
+header("Content-Type: application/json; charset=UTF-8");
+
 
 date_default_timezone_set("America/Chicago");
 
@@ -20,22 +24,22 @@ if(! empty($full_load)){
 	define('SHORTINIT', true);
 }
 
-require_once(dirname(__FILE__) .'/../wp-load.php');
 
-// error_reporting(E_ALL ^ E_NOTICE);
-// @ini_set('display_errors', 1);
+error_reporting(E_ALL ^ E_NOTICE);
+@ini_set('display_errors', 1);
+
+require_once dirname(__FILE__) .'/../wp-load.php';
+
+require_once dirname(__FILE__).'/vendor/autoload.php';
+
 
 require_once('api-functions.php');
-// require_once('setup-jwt.php');
 
-// NOTE: Could probably just load jwt not on full load, but would need to test to make sure not breaking anything
-//if($full_load){
-//	require_once('setup-jwt.php');
-//}
 
 global $blog_id, $wpdb, $yt_key;
 
 $yt_key = 'AIzaSyAiXvrjHqYkVxC4y1U1neEYGsTFQE2rvzY';
+
 
 $wpdb->channels = 'jb_channels';
 $wpdb->videos = 'jb_videos';
@@ -45,3 +49,6 @@ $wpdb->styles = 'jb_styles';
 $wpdb->topics = 'jb_topics';
 $wpdb->channel_styles = 'jb_channel_styles';
 $wpdb->channel_topics = 'jb_channel_topics';
+$wpdb->channel_views = 'jb_channel_views';
+$wpdb->video_views = 'jb_video_views';
+
