@@ -17,7 +17,7 @@ export default {
 		let googleUser = getters.getGoogleUser;
 
 		if(googleUser && googleUser.Token){
-			fetch(getters.getApiUrl+'/api/videos/watched.php', {
+			fetch(process.env.VUE_APP_URL+'api/videos/watched.php', {
 				//mode: 'no-cors',
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -31,7 +31,7 @@ export default {
 		let googleUser = getters.getGoogleUser;
 
 		if(googleUser && googleUser.Token){
-			fetch(getters.getApiUrl+'/api/videos/liked.php', {
+			fetch(process.env.VUE_APP_URL+'api/videos/liked.php', {
 				//mode: 'no-cors',
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -45,7 +45,7 @@ export default {
 		let googleUser = getters.getGoogleUser;
 
 		if(googleUser && googleUser.Token){
-			fetch(getters.getApiUrl+'/api/videos/watch-later.php', {
+			fetch(process.env.VUE_APP_URL+'api/videos/watch-later.php', {
 				//mode: 'no-cors',
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },

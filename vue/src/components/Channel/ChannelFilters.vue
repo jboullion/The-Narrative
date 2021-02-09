@@ -15,7 +15,7 @@
 					<div class="mt-style">
 						<select name="topic" class="form-control" @change="searchChannels()" v-model="topic">
 							<option value="">Topic</option>
-							<option v-for="topic in topics" :key="topic.id" v-bind:value="topic.id">{{ topic.name }}</option>
+							<option v-for="topic in topics" :key="topic.term_id" :value="topic.term_id">{{ topic.name }}</option>
 						</select>
 					</div>
 				</div>
@@ -23,7 +23,7 @@
 					<div class="mt-style">
 						<select name="style" class="form-control"  @change="searchChannels()" v-model="style">
 							<option value="">Style</option>
-							<option v-for="style in styles" :key="style.id" v-bind:value="style.id">{{ style.name }}</option>
+							<option v-for="style in styles" :key="style.term_id" :value="style.term_id">{{ style.name }}</option>
 						</select>
 					</div>
 				</div>
@@ -68,10 +68,30 @@ export default {
 		};
 	},
 	created(){
-		this.styles = this.$store.getters.getStyles;
-		this.topics = this.$store.getters.getTopics;
+		this.setupFilters();
 	},
 	methods: {
+		setupFilters(){
+			fetch(process.env.VUE_APP_URL+'api/ui/get-filters.php', {
+				//mode: 'no-cors',
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' },
+			})
+			.then(response => {
+				if(response.ok){
+					return response.json();
+				}
+			})
+			.then(data => {
+				this.styles = data.styles;
+				console.log(this.styles);
+				this.topics = data.topics;
+				this.$store.dispatch('setStylesAndTopics', data);
+			})
+			.catch(error => {
+				console.error('There was an error!', error);
+			});
+		},
 		searchChannels(){
 
 			this.channelsLoading = true;
