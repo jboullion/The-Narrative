@@ -1,0 +1,44 @@
+
+2. Setup PWA?
+	a. Ran "vue pwa", I don't see service worker in deevlopment but haven't tested the build version yet.
+	b. If this works also need to make sure to set it up in WordPress
+3. History, Liked, WatchLater
+	a. Try to reuse code between them?
+	b. Setup autoloading when reached bottom of page
+4. DRY code
+	a. A lot of fetch requests could be moved to the store and clean up our components
+
+5. Search Functionality
+	a. Style / Topic
+		i. If running with wordpress update the script to save taxonomies as styles and topics
+		ii. OR update the search to use the WordPress taxonomy tables
+		iii. Also, make sure to populate the search / topic selects with the database
+	e. Order?
+		i. Order channels or videos
+		ii. Alpha Order / Popularity? We could track the videos watched of users to learn which channels are most popular
+7. MISC
+	a. On Hover over a video you can add to "Watch Later"?
+	b. Video Descriptions
+		i. Make sure the saving and displaying of video descriptions look nice and avoids HTML entities
+		ii. Style the Video Description section
+		iii. Show a "More / Less" description Functionality
+X. Decide to move this into WordPress OR build a Symfony API
+	0. TEST if the build version works as expected when used in a theme.
+	a. WordPress would be much quicker and allows piggybacking off of a lot of features
+		i. Caching the HTML should provide initial load times comparable to Symfony.
+		ii. Investigate how much a PITA WordPress routes would be.
+		iii. Perhaps WordPress should be headless? Move it into an "Admin" or "WordPress" folder?
+		iv. https://snipcart.com/blog/wordpress-vue-headless
+	b. Symfony would be much less bloat and Ultimately smaller and faster, though with fewer features
+
+Y. Upload to jboullion.com under a subdomain
+	a. mytube.jboullion.com?
+Z. (OPTIONAL)
+	a. Better Animations!
+		i. Favorite should pulse / "beat" like a heart
+	b. Update Styling
+		i. Find a designer and have them give tips on typography, colors, and everything else
+
+	a. Analytics
+		i. Watch Time
+		ii. Videos per session?
