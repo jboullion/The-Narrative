@@ -25,3 +25,16 @@
 
 	// // Return FA SVG icons
 	// include('includes/bs-icons.php');
+
+
+
+
+	add_action( 'init', 'jb_set_vars' );
+	function jb_set_vars() {
+		$options = get_fields('options');
+		jb_set('options', $options);
+
+		jb_set('yt-api-key', 'AIzaSyAiXvrjHqYkVxC4y1U1neEYGsTFQE2rvzY');// 'AIzaSyB2Tczkqj-yEx0_bAOZrDo6Exec7VMi970');
+
+	}
+
