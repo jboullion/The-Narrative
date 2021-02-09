@@ -27,7 +27,12 @@
 // include('includes/bs-icons.php');
 
 
-
+// prints out an array with <pre> tags
+function jb_print($input, $force = false) { 
+	if(ENVIRONMENT != 'live' || $force === true){
+		echo '<pre class="pk-print">'.print_r($input, true).'</pre>'; 
+	}
+}
 
 add_action( 'init', 'jb_set_vars' );
 function jb_set_vars() {
@@ -52,6 +57,33 @@ function jb_register_cpts() {
 
 	//unregister_taxonomy_for_object_type('post_tag', 'post');
 	//unregister_taxonomy_for_object_type('product_tag', 'product');
+}
+
+add_action('add_meta_boxes', 'wpse_add_custom_meta_box_2');
+//making the meta box (Note: meta box != custom meta field)
+function wpse_add_custom_meta_box_2() {
+	add_meta_box(
+		'channel-videos',       // $id
+		'Videos',                  // $title
+		'jb_show_channel_videos',  // $callback
+		'channels',                 // $page
+		'normal',                  // $context
+		'low'                     // $priority
+	);
+ }
+
+//showing custom form fields
+function jb_show_channel_videos() {
+    global $post;
+
+	$channel_videos = json_decode(get_post_meta($post->ID,'cached_video_list', true));
+
+	foreach($channel_videos as $vkey => $video){
+		if(empty($video->video_id)) continue;
+
+		jb_print($video);
+	}
+
 }
 
 // register a custom post type: ex: jb_register_cpt(array('name' => 'FAQ', 'icon' => 'dashicons-format-status', 'position' => 5, 'is_singular' => true));
@@ -181,6 +213,23 @@ if(function_exists('acf_add_options_page')) {
 	acf_add_options_sub_page(array('title'=>'Website Options', 'parent'=>'themes.php', 'capability'=>'edit_theme_options'));
 }
 
+/**
+ * On Channel Save find videos and normalize
+ *
+ * @return object
+ */
+add_action( 'save_post_channels', 'jb_set_yt_channel_info', 100, 3 );
+function jb_set_yt_channel_info($post_id, $post, $update){
+
+	// Get this channel's image and most recent videos from YouTube
+	jb_set_channel_videos($post_id);
+	jb_set_channel_thumbnail($post_id);
+
+	// Add these channels to the normalized database
+	jb_add_normalized_channel($post, true);
+}
+
+
 
 
 /**
@@ -194,10 +243,10 @@ function jb_set_channel_videos($post_id){
 	$channel_id = get_field('channel_id', $post_id);
 
 	if(! empty($channel_id)){
-		$yt_id = jb_get('yt-api-key');
+		$yt_id = get_field('yt_api_key', 'option');
 
 		$done = false;
-		$max_videos = 100;
+		$max_videos = 20;
 		$safety = 6;
 		$videos = array();
 		$channel_obj = null;
@@ -206,7 +255,7 @@ function jb_set_channel_videos($post_id){
 		while(! $done){
 			$count++;
 
-			$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet,id&order=date&maxResults=20';
+			$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet&order=date&maxResults=20';
 
 			if($channel_obj && ! empty($channel_obj->nextPageToken)){
 				$url .= '&pageToken='.$channel_obj->nextPageToken;
@@ -221,8 +270,7 @@ function jb_set_channel_videos($post_id){
 				$videos = jb_channel_items_to_videos($channel_obj->items);
 
 				if(count($videos) >= $max_videos
-				|| $count > $safety
-				|| $result){
+				|| $count > $safety){
 					$done = true;
 					break;
 				}
@@ -254,9 +302,9 @@ function jb_set_channel_thumbnail($post_id){
 
 	if(empty($channel_id )) return;
 
-	$yt_id = jb_get('yt-api-key');
+	$yt_id = get_field('yt_api_key', 'option');
 
-	//if(! has_post_thumbnail( $post_id ) ){
+	if(! has_post_thumbnail( $post_id ) ){
 		//https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=UCxzC4EngIsMrPmbm6Nxvb-A&key=
 		$url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&id='.$channel_id.'&key='.$yt_id;
 
@@ -286,7 +334,174 @@ function jb_set_channel_thumbnail($post_id){
 
 			return jb_set_featured_image_from_url($channel_img, get_the_title($post_id), $post_id);
 		}
-	//}
+	}
 
 	return '';
+}
+
+
+/**
+ * Get the image for this channel about this channel
+ * TODO: We really only need the image so possibly just take image and convert it to featured image? It is only the logos which are 88px so shouldn't take up too much space.
+ * @param int $channel_post_id
+ * @return void
+ */
+function jb_get_yt_channel_img($channel_post_id){
+	$channel_img = get_the_post_thumbnail_url( $channel_post_id, 'thumbnail' );
+	// get_post_meta($channel_post_id,'cached_channel_image', true);
+
+	if(! empty($channel_img)) {
+		return $channel_img;
+	}
+
+	return jb_set_channel_thumbnail($channel_post_id);
+
+}
+
+
+/**
+ * Add a channel to our normalized channel table for easier searching
+ *
+ * @param object $channel The $post object for the channel in question
+ * @param boolean $videos Do you also want to normalize this channels videos?
+ * @return void
+ */
+function jb_add_normalized_channel($channel, $videos = false){
+	global $wpdb;
+
+	$channel_table = 'jb_channels';
+
+	$c_fields = get_fields($channel->ID);
+	$channel_img = jb_get_yt_channel_img($channel->ID);
+	$channel_videos = jb_get_yt_channel_videos($c_fields['channel_id'], $channel->ID);
+
+	$wpdb->insert(
+		$channel_table,
+		array(
+			'youtube_id' => $c_fields['channel_id'],
+			'title' => $channel->post_title,
+			'description' => $channel->post_content,
+			'img_url' => $channel_img,
+			'facebook' => $c_fields['facebook'],
+			'instagram' => $c_fields['instagram'],
+			'patreon' => $c_fields['patreon'],
+			'tiktok' => $c_fields['tiktok'],
+			'twitter' => $c_fields['twitter'],
+			'twitch' => $c_fields['twitch'],
+			'website' => $c_fields['website'],
+			//'tags' => '',
+		)
+	);
+
+	if($wpdb->insert_id === 0){
+		$wpdb->update(
+			$channel_table,
+			array(
+				'title' => $channel->post_title,
+				'description' => $channel->post_content,
+				'img_url' => $channel_img,
+				'facebook' => $c_fields['facebook'],
+				'instagram' => $c_fields['instagram'],
+				'patreon' => $c_fields['patreon'],
+				'tiktok' => $c_fields['tiktok'],
+				'twitter' => $c_fields['twitter'],
+				'twitch' => $c_fields['twitch'],
+				'website' => $c_fields['website'],
+				//'tags' => '',
+			),
+			array(
+				'youtube_id' => $c_fields['channel_id'],
+			)
+		);
+	}else if($wpdb->insert_id === false){
+		// Error
+	}
+
+	// Also normalize this channel's videos
+	if($videos){
+		$channel_id = $wpdb->get_var(
+			$wpdb->prepare("SELECT channel_id FROM {$channel_table} WHERE youtube_id = %s", $c_fields['channel_id'])
+		);
+
+		if(! empty($channel_videos) && ! empty($channel_id)){
+			foreach($channel_videos as $video){
+				jb_add_normalized_video($video, $channel_id);
+			}
+		}
+	}
+
+}
+
+
+/**
+ * Add a video to our normalized tables for easier searching from front end
+ *
+ * @param object $video The video object from the cached_video_list meta_data
+ * @param int $channel_id The channel_id of the normalized channel related to this video
+ * @return void
+ */
+function jb_add_normalized_video($video, $channel_id){
+	global $wpdb;
+
+	if(empty($video->video_id)) return;
+
+	$video_table = 'jb_videos';
+
+	// This query works but the insert above does not. Weird
+	$wpdb->query(
+		$wpdb->prepare("INSERT INTO {$video_table} (`youtube_id`, `channel_id`, `title`, `tags`, `description`, `date`) 
+						VALUES (%s, %d, %s, %s)
+						ON DUPLICATE KEY UPDATE
+						`youtube_id` = %s, 
+						`channel_id` = %d,
+						`title` = %s,
+						`tags` = %s,
+						`description` = %s,
+						`date` = %s", 
+						$video->video_id, 
+						$channel_id, 
+						$video->title, 
+						$video->tags, 
+						$video->description, 
+						date('Y-m-d', strtotime($video->date)), 
+						$video->video_id, 
+						$channel_id,
+						$video->title, 
+						$video->tags, 
+						$video->description, 
+						date('Y-m-d', strtotime($video->date))
+			
+		)
+	);
+
+	//jb_print($wpdb->last_query);
+	//jb_print($wpdb->last_error);
+
+}
+
+
+/**
+ * Convert the returned channel items into video arrays for saving
+ *
+ * @param array $items An array of channel_obj->items returned from youtube API
+ * @return array An array of videos
+ */
+function jb_channel_items_to_videos($items){
+	
+	$videos = array();
+
+	if($items){
+		foreach($items as $item){
+			//jb_print($item);
+			$videos[] = array(
+				'video_id' => $item->id->videoId,
+				'title' => $item->snippet->title,
+				'description' => sanitize_text_field(addslashes($item->snippet->description)),
+				//'tags' => '#'.implode(',#',$item->snippet->tags).',',
+				'date' => date('F j, Y', strtotime($item->snippet->publishTime)),
+			);
+		}
+	}
+
+	return $videos;
 }

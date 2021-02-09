@@ -25,7 +25,6 @@ export default {
 	},
 	mounted(){
 		//this.setupUser();
-		this.$store.dispatch('setStylesAndFocus');
 	},
 	methods: {
 		// setupUser(){

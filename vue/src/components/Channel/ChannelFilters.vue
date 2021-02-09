@@ -2,15 +2,6 @@
 	<div class="row mt-4">
 		<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
 			<form class="form-inline d-flex" method="get" action="" @submit.prevent="searchChannels()">
-				<!-- <div class="form-flex">
-					<div class="mt-style">
-						<select name="type" class="form-control" @change="searchChannels()">
-							<option value="">Type</option>
-							<option value="channel">Channel</option>
-							<option value="video">Video</option>
-						</select>
-					</div>
-				</div> -->
 				<div class="form-flex">
 					<div class="mt-style">
 						<select name="topic" class="form-control" @change="searchChannels()" v-model="topic">
@@ -35,12 +26,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- <div class="col-md-6 col-lg-5th mb-3">
-					<button type="button" class="active btn btn-primary" name="order" value=""><span>Title</span></button>
-				</div> -->
-				<!-- <div class="col-lg-3">
-					<button type="submit" class="active btn btn-primary" name="find" value="1"><span>Find</span></button>
-				</div> -->
 			</form>
 		
 		</div>
@@ -84,7 +69,6 @@ export default {
 			})
 			.then(data => {
 				this.styles = data.styles;
-				console.log(this.styles);
 				this.topics = data.topics;
 				this.$store.dispatch('setStylesAndTopics', data);
 			})

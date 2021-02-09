@@ -10,7 +10,7 @@ import BaseDialog from './components/UI/BaseDialog';
 import BaseModal from './components/UI/BaseModal';
 import Tabs from './components/UI/Tabs/Tabs';
 
-import TheAdmin from './components/Admin/TheAdmin';
+//import TheAdmin from './components/Admin/TheAdmin';
 import TheChannelList from './components/Channel/TheChannelList';
 import AccountPage from './components/Users/AccountPage';
 import VideoPage from './components/Video/VideoPage';
@@ -30,7 +30,7 @@ const router = createRouter({
 		{ path: '/account', name: "Account", component: AccountPage },
 		//{ path: '/login', name: "Login", component: LoginPage },
 		//{ path: '/createaccount', name: "Create Account", component: CreateAccountPage },
-		{ path: '/admin', name: "Admin", component: TheAdmin },
+		//{ path: '/admin', name: "Admin", component: TheAdmin },
 		{ path: '/:notFound(.*)', name: "404", redirect: '/' } // 404 Error
 	],
 	scrollBehavior() { // to, from, savedPosition

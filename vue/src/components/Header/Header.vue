@@ -9,7 +9,7 @@
 			</transition>
 		</div>
 
-		<router-link to="/admin" class="admin-area"><i class="fas fa-fw fa-user-shield"></i></router-link>
+		<!-- <router-link to="/admin" class="admin-area"><i class="fas fa-fw fa-user-shield"></i></router-link> -->
 
 		<div id="my-signin2" v-if="! googleUser"></div>
 		<router-link to="/account" v-else><span class="account-image"><img :src="googleUser.Image" width="36" height="36" /></span></router-link>
@@ -35,9 +35,7 @@ export default {
 		//...mapGetters(['getGoogleUser'])
 	},
 	mounted(){
-		console.log(process.env.NODE_ENV)
-		console.log(process.env.VUE_APP_TITLE)
-		console.log(process.env.VUE_APP_URL)
+
 	},
 	created(){
 		this.darkmode = localStorage.getItem('darkmode');
