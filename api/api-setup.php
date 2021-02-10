@@ -16,13 +16,24 @@ header("Content-Type: application/json; charset=UTF-8");
 
 
 //By using a SHORTINIT and loading WP we are ONLY loading our database object ($wpdb).
-if(! empty($full_load)){
-	define('WP_USE_THEMES', false);
-}else{
-	define('SHORTINIT', true);
-}
+// if(! empty($full_load)){
+ 	define('WP_USE_THEMES', false);
+// }else{
+// 	define('SHORTINIT', true);
+// }
 
 require_once dirname(__FILE__) .'/../wp-load.php';
+
+// require_once ( ABSPATH . WPINC . '/post.php' );
+// require( ABSPATH . WPINC . '/taxonomy.php' );
+// require_once ( ABSPATH . WPINC . '/shortcodes.php' );
+// require_once ( ABSPATH . WPINC . '/media.php' );
+// require_once ( ABSPATH . WPINC . '/query.php' );
+// require_once ( ABSPATH . WPINC . '/class-wp-post.php' );
+// require_once ( ABSPATH . WPINC . '/class-wp-query.php' );
+// require_once ( ABSPATH . WPINC . '/class-wp-tax-query.php' );
+// require_once ( ABSPATH . WPINC . '/user.php' );
+// require_once ( ABSPATH . WPINC . '/capabilities.php' );
 
 require_once dirname(__FILE__).'/vendor/autoload.php';
 

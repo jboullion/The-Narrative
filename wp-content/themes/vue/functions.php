@@ -2,14 +2,9 @@
 // // includes all flags for certain theme support
 // include('includes/theme-support.php');
 
-// // includes all of the default powderkeg functions and functionality
-// include('pk/functions.php');
 
-// // Track our custom fields in PHP so they sync correctly accross all sites
-// include('includes/acf.php');
-
-// // Include all our custom functionality
-// include('includes/setup.php');
+// Include all our custom functionality
+include('includes/setup.php');
 
 // // Various functions which help with tasks around the site
 // include('includes/helpers.php');
@@ -17,35 +12,17 @@
 // // Get stuff
 // include('includes/getters.php');
 
-// // Display stuff. Functional Components basically
-// include('includes/display.php');
-
 // // Modify queries
 // include('includes/queries.php');
 
-// // Return FA SVG icons
-// include('includes/bs-icons.php');
-
-
-// prints out an array with <pre> tags
-function jb_print($input, $force = false) { 
-	if(ENVIRONMENT != 'live' || $force === true){
-		echo '<pre class="pk-print">'.print_r($input, true).'</pre>'; 
-	}
-}
-
-add_action( 'init', 'jb_set_vars' );
-function jb_set_vars() {
-
-}
 
 add_action('init', 'jb_register_cpts');
 function jb_register_cpts() {
 
-	jb_register_cpt(array('name' => 'channel', 'icon' => 'dashicons-format-video', 'position' => 30 ));
+	jb_register_cpt(array('name' => 'channel', 'icon' => 'dashicons-id', 'position' => 30, 'public' => false )); // , 'show_in_rest' => true,
 	//jb_register_cpt(array('name' => 'voice', 'icon' => 'dashicons-megaphone', 'position' => 31 ));
 	
-	//jb_register_cpt(array('name' => 'video', 'icon' => 'dashicons-format-video', 'position' => 30 ));
+	jb_register_cpt(array('name' => 'video', 'icon' => 'dashicons-format-video', 'position' => 31, 'public' => false )); // , 'show_in_rest' => true,
 
 	//jb_register_taxonomy('genre', array('channels', 'voices'), 'Genre');
 	jb_register_taxonomy('style', array('channels'), 'Style');
@@ -70,163 +47,55 @@ function wpse_add_custom_meta_box_2() {
 		'normal',                  // $context
 		'low'                     // $priority
 	);
- }
+}
 
 //showing custom form fields
 function jb_show_channel_videos() {
-    global $post;
+	global $post;
 
-	$channel_videos = json_decode(get_post_meta($post->ID,'cached_video_list', true));
+	$cached_list = str_replace("\'","'",get_post_meta($post->ID,'cached_video_list', true));
 
+	$channel_videos = json_decode($cached_list);
+
+	echo '<table>
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>ID</th>
+					<th>Date</th>
+				</tr>
+			</thead>';
 	foreach($channel_videos as $vkey => $video){
 		if(empty($video->video_id)) continue;
 
-		jb_print($video);
+		echo '<tr>
+				<td>'.$video->title.'</td>
+				<td>'.$video->video_id.'</td>
+				<td>'.$video->date.'</td>
+			</tr>';
 	}
+	
+	echo '</table>';
 
 }
 
-// register a custom post type: ex: jb_register_cpt(array('name' => 'FAQ', 'icon' => 'dashicons-format-status', 'position' => 5, 'is_singular' => true));
-function jb_register_cpt($cpt_array = array()){ 
-	$default_cpt = array( 'name' => '', 
-						'icon' => 'dashicons-admin-post', 
-						'position' => 4, 
-						'description' => '', 
-						'is_singular' => false, 
-						'exclude_from_search' => false, 
-						'supports' => array('title','editor','thumbnail','page-attributes'), 
-						'taxonomies' => array(), 
-						'has_archive' => false, 
-						'rewrite' => array(), 
-						'public' => true, 
-						'hierarchical' => false 
-					);	
-	if(! empty($cpt_array)){
-		$cpt_array = wp_parse_args( $cpt_array, $default_cpt );
-		$slug = strtolower($cpt_array['name']);
-		$plural = (substr($slug, -1) == 's') ? 'es' : 's';
-		
-		if(substr($slug, -1) == 'y' && ! $cpt_array['is_singular']){
-			$slug = rtrim($slug, 'y');
-			$plural = 'ies';
-		}
-		
-		$plural_slug = ($cpt_array['is_singular']) ? $slug : $slug.$plural;
-		$plural_slug = str_replace(" ", "-", $plural_slug);
-		$label = ucwords(str_replace("-", " ", $cpt_array['name']));
 
-		$is_y = false;
-		if(substr($label, -1) == 'y' && ! $cpt_array['is_singular']){
-			$label = rtrim($label, 'y');
-			$is_y = true;
-		}
-
-		$plural_label = ($cpt_array['is_singular']) ? $label : $label.$plural;
-		
-		//we removed the y from the label to put on an ies...now let's add the Y back.
-		if($is_y){
-			$label .= 'y';
-		}
-		
-		register_post_type( $plural_slug, array(
-							'label' => $plural_label,
-							'description' => $cpt_array['description'],
-							'public' => $cpt_array['public'],
-							'show_ui' => true,
-							'show_in_menu' => true,
-							'exclude_from_search' => $cpt_array['exclude_from_search'],
-							'capability_type' => 'post',
-							'map_meta_cap' => true,
-							'hierarchical' => $cpt_array['hierarchical'],
-							'has_archive' => $cpt_array['has_archive'],
-							'rewrite' => $cpt_array['rewrite'],
-							'query_var' => true,
-							'taxonomies' => $cpt_array['taxonomies'],
-							'menu_position' => $cpt_array['position'],
-							'menu_icon' => $cpt_array['icon'],
-							'supports' => $cpt_array['supports'],
-							'labels' => array (
-								'name' => $plural_label,
-								'singular_name' => $label,
-								'menu_name' => $plural_label,
-								'add_new' => 'Add '.$label,
-								'add_new_item' => 'Add New '.$label,
-								'edit' => 'Edit',
-								'edit_item' => 'Edit '.$label,
-								'new_item' => 'New '.$label,
-								'view' => 'View '.$plural_label,
-								'view_item' => 'View '.$label,
-								'search_items' => 'Search '.$plural_label,
-								'not_found' => 'No '.$plural_label.' Found',
-								'not_found_in_trash' => 'No '.$plural_label.' Found in Trash',
-								'parent' => 'Parent '.$label
-							)
-						)); 
-	}
-}
-
-/**
- * Helper function for registering a taxonomy
- *
- * @param string $tax_name  	A url safe taxonomy name / slug
- * @param string $post_type 	What post type this taxonomy will be applied to
- * @param string $menu_title 	The title of the taxonomy. Human Readable.
- * @param array  $rewrite 	 	Overwrite the rewrite
- */
-function jb_register_taxonomy($tax_name = '', $post_type = '', $menu_title = '', $public = true, $rewrite = array()){
-
-	if(empty($rewrite)){
-		$rewrite = array( 'slug' => $tax_name );
-	}
-
-	register_taxonomy(
-		$tax_name,
-		$post_type,
-		array(
-			'label' => __( $menu_title ),
-			'rewrite' => $rewrite, 
-			'capabilities' => array(
-				'manage_terms' => 'manage_categories',
-				'assign_terms' => 'manage_categories',
-				'edit_terms' => 'manage_categories',
-				'delete_terms' => 'manage_categories'
-			),
-			'hierarchical' => true,
-			'publicly_queryable' => $public
-		)
-	);
-}
-
-
-// change where acf json files are saved
-add_filter('acf/settings/save_json', 'jb_acf_save_json');
-function jb_acf_save_json($path) { return get_template_directory().'/includes/acf-json'; }
-
-// add our custom folder to places acf json are loaded from
-add_filter('acf/settings/load_json', 'jb_acf_load_json');
-function jb_acf_load_json($paths) { 
-	return array_merge($paths, array(get_template_directory().'/includes/acf-json')); 
-}
-
-// acf options pages
-if(function_exists('acf_add_options_page')) {
-	acf_add_options_sub_page(array('title'=>'Website Options', 'parent'=>'themes.php', 'capability'=>'edit_theme_options'));
-}
 
 /**
  * On Channel Save find videos and normalize
  *
  * @return object
  */
-add_action( 'save_post_channels', 'jb_set_yt_channel_info', 100, 3 );
-function jb_set_yt_channel_info($post_id, $post, $update){
+//add_action( 'save_post', 'jb_set_yt_channel_info', 100, 3 );
+add_action( 'acf/save_post', 'jb_set_yt_channel_info', 100, 3 );
+function jb_set_yt_channel_info($post_id){ // , $post, $update
 
 	// Get this channel's image and most recent videos from YouTube
 	jb_set_channel_videos($post_id);
 	jb_set_channel_thumbnail($post_id);
 
 	// Add these channels to the normalized database
-	jb_add_normalized_channel($post, true);
+	// jb_add_normalized_channel($post, true);
 }
 
 
@@ -240,6 +109,13 @@ function jb_set_yt_channel_info($post_id, $post, $update){
  */
 function jb_set_channel_videos($post_id){
 	//$channel_videos = get_post_meta($post_id,'cached_video_list', true);
+	$last_update = get_field( 'last_updated', $post_id);
+
+	// Only update a channel if it hasn't been updated for a day
+	if($last_update && (int)$last_update >= (int)date('Ymd')) return;
+
+	update_field( 'field_60236ff01e466', date('Ymd'), $post_id );
+
 	$channel_id = get_field('channel_id', $post_id);
 
 	if(! empty($channel_id)){
@@ -267,7 +143,9 @@ function jb_set_channel_videos($post_id){
 
 				$channel_obj = json_decode( $result );
 
-				$videos = jb_channel_items_to_videos($channel_obj->items);
+				$videos = array_merge($videos, $channel_obj->items);
+
+				//$videos = jb_channel_items_to_videos($channel_obj->items);
 
 				if(count($videos) >= $max_videos
 				|| $count > $safety){
@@ -282,7 +160,44 @@ function jb_set_channel_videos($post_id){
 
 		// If we have a result, cache the info for 1 day
 		if(! empty($videos)){
-			update_post_meta( $post_id, 'cached_video_list', json_encode($videos) );
+
+			foreach($videos as $video){
+				$exists = get_posts(array(
+					'post_type' => 'videos',
+					'meta_key' => 'youtube_id',
+					'meta_value' => $video->id->videoId
+				));
+				
+				// Don't create duplicate videos
+				if($exists) continue;
+				/*
+					'video_id' => $item->id->videoId,
+					'title' => $item->snippet->title,
+					'description' => sanitize_text_field(addslashes($item->snippet->description)),
+					//'tags' => '#'.implode(',#',$item->snippet->tags).',',
+					'date' => date('F j, Y', strtotime($item->snippet->publishTime)),
+				*/
+
+				$video_post = array(
+					'post_title'    => wp_strip_all_tags( $video->snippet->title ),
+					'post_content'  => $video->snippet->description,
+					'post_status'   => 'publish',
+					'post_type' 	=> 'videos'
+				);
+				
+				// Insert the post into the database
+				$video_id = wp_insert_post( $video_post );
+				
+				if($video_id){
+					update_post_meta($video_id, 'channel', $post_id);
+					update_post_meta($video_id, 'youtube_id', $video->id->videoId);
+				}
+
+			}
+
+			//update_post_meta( $post_id, 'cached_video_list', json_encode($videos) );
+			// last_updated
+			
 		}
 	}
 }
@@ -418,7 +333,7 @@ function jb_add_normalized_channel($channel, $videos = false){
 	}
 
 	// Also normalize this channel's videos
-	if($videos){
+	if($channel_videos){
 		$channel_id = $wpdb->get_var(
 			$wpdb->prepare("SELECT channel_id FROM {$channel_table} WHERE youtube_id = %s", $c_fields['channel_id'])
 		);
@@ -450,7 +365,7 @@ function jb_add_normalized_video($video, $channel_id){
 	// This query works but the insert above does not. Weird
 	$wpdb->query(
 		$wpdb->prepare("INSERT INTO {$video_table} (`youtube_id`, `channel_id`, `title`, `tags`, `description`, `date`) 
-						VALUES (%s, %d, %s, %s)
+						VALUES (%s, %d, %s, %s, %s, %s)
 						ON DUPLICATE KEY UPDATE
 						`youtube_id` = %s, 
 						`channel_id` = %d,
@@ -473,9 +388,6 @@ function jb_add_normalized_video($video, $channel_id){
 			
 		)
 	);
-
-	//jb_print($wpdb->last_query);
-	//jb_print($wpdb->last_error);
 
 }
 
@@ -504,4 +416,111 @@ function jb_channel_items_to_videos($items){
 	}
 
 	return $videos;
+}
+
+
+/**
+ * Get the next X videos from a specific channel
+ *
+ * @param string $channel_id The YT ID for this channel
+ * @param int $channel_post_id The WP Post ID for this channel
+ * @param int $max_results The max results to return
+ * @param string $nextPageToken The nextPageToken returned from the last set of results (NOT IN USE)
+ * @return object
+ */
+function jb_get_yt_channel_videos($channel_id, $channel_post_id, $max_results = 20, $nextPageToken = ''){
+
+	$channel_videos = str_replace("\'","'",get_post_meta($channel_post_id,'cached_video_list', true));
+
+	if(! empty($channel_videos)) {
+		if(is_string($channel_videos)){
+			return json_decode($channel_videos);
+		}else{
+			// If the channel videos were saved as something other than a string, just delete that meta for now and we will build it later
+			delete_post_meta($channel_post_id,'cached_video_list');
+		}
+		
+	}
+
+	//return array();
+
+	// $yt_id = jb_get('yt-api-key');
+
+	// $url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$channel_id.'&part=snippet&order=date&maxResults='.$max_results;
+
+	// // if(! empty($nextPageToken)){
+	// // 	$url = '&pageToken='.$nextPageToken;
+	// // }
+
+	// $result = @file_get_contents($url);
+
+	// // If we have a result, cache the info for 1 day
+	// if(! empty($result)){
+	// 	$channel_obj = json_decode( $result );
+	// 	$videos = jb_channel_items_to_videos($channel_obj->items);
+
+	// 	// If we have a result, cache the info for 1 day
+	// 	if(! empty($videos)){
+	// 		update_post_meta( $channel_post_id, 'cached_video_list', json_encode($videos) );
+	// 		return $videos;
+	// 	}
+
+	// }
+
+	// return array();
+}
+
+
+/**
+ * Download an image from a URL and assign it as the featured image for a post
+ *
+ * @param string $image_url The url to find the image at
+ * @param string $image_name The name to give this image
+ * @param int $post_id the Post ID to assign this image to
+ * @return void
+ */
+function jb_set_featured_image_from_url($image_url, $image_name, $post_id){
+	// Add Featured Image to Post
+	$upload_dir       = wp_upload_dir(); // Set upload folder
+	$image_data       = file_get_contents($image_url); // Get image data
+	$unique_file_name = wp_unique_filename( $upload_dir['path'], $image_name ); // Generate unique name
+	$filename         = basename( $unique_file_name ).'.png'; // Create image file name
+
+	// Check folder permission and define file location
+	if( wp_mkdir_p( $upload_dir['path'] ) ) {
+		$file = $upload_dir['path'] . '/' . $filename;
+	} else {
+		$file = $upload_dir['basedir'] . '/' . $filename;
+	}
+
+	// Create the image  file on the server
+	file_put_contents( $file, $image_data );
+
+	// Check image file type
+	$wp_filetype = wp_check_filetype( $filename, null );
+
+	// Set attachment data
+	$attachment = array(
+		'post_mime_type' => $wp_filetype['type'],
+		'post_title'     => sanitize_file_name( $filename ),
+		'post_content'   => '',
+		'post_status'    => 'inherit'
+	);
+
+	// Create the attachment
+	$attach_id = wp_insert_attachment( $attachment, $file, $post_id );
+
+	// Include image.php
+	require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+	// Define attachment metadata
+	$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
+
+	// Assign metadata to attachment
+	wp_update_attachment_metadata( $attach_id, $attach_data );
+
+	// And finally assign featured image to post
+	set_post_thumbnail( $post_id, $attach_id );
+
+	return wp_get_attachment_url( $attach_id );
 }

@@ -38,6 +38,23 @@
             "maxlength": ""
         },
         {
+            "key": "field_60236ff01e466",
+            "label": "Last Updated",
+            "name": "last_updated",
+            "type": "date_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "F j, Y",
+            "return_format": "Ymd",
+            "first_day": 0
+        },
+        {
             "key": "field_5fcc880337a35",
             "label": "Active?",
             "name": "active",
@@ -262,6 +279,22 @@
             },
             "default_value": "",
             "placeholder": ""
+        },
+        {
+            "key": "field_6022f7a413810",
+            "label": "LinkedIn",
+            "name": "linkedin",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
         }
     ],
     "location": [
@@ -281,5 +314,5 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "modified": 1611278970
+    "modified": 1612935194
 }
