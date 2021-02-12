@@ -5,12 +5,12 @@
 				<img loading="lazy" width="320" height="180" 
 				:src="'https://img.youtube.com/vi/'+video.youtube_id+'/mqdefault.jpg'" 
 				class="lazyload"
-				:alt="video.post_title">
+				:alt="video.title">
 			<!-- <i class="fas fa-play-circle"></i> -->
 			</div>
 		</router-link>
 		<div class="card-body">
-			<p class="ellipsis">{{ video.post_title }}</p>
+			<p class="ellipsis">{{ video.title }}</p>
 			<router-link :to="'/channel/'+video.channel_youtube" v-if="showChannel">
 				<span class="channel">{{ video.channel_title }}</span>
 			</router-link>
@@ -36,8 +36,7 @@ export default {
 		};
 	},
 	created(){
-		//console.log(this.video.post_date);
-		this.videoDate = moment(this.video.post_date).format('MMM D, YYYY');
+		this.videoDate = moment(this.video.date).format('MMM D, YYYY');
 
 		if(this.video.watchedDate){
 			this.watchedDate = moment(this.video.watchedDate).format('MMM D, YYYY'); // h:mm a

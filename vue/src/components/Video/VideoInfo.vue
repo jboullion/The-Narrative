@@ -3,20 +3,20 @@
 		<div v-if="tags" class="tags">
 			<span v-for="tag in tags" :key="tag">{{ tag }}</span>
 		</div>
-		<h3>{{ video.title }}</h3>
-		<p>{{ video.date }}</p>
+		<h3>{{ video.post_title }}</h3>
+		<p>{{ videoDate }}</p>
 		<div class="video-actions">
 			<i class="fas fa-clock" @click="toggleWatchLater" v-bind:class="{active: isSaved}"></i>
 			<i class="fas fa-heart" @click="toggleLiked" v-bind:class="{active: isLiked}"></i>
 		</div>
-		<div class="video-description">
-			{{ video.description }}
-		</div>
+		<div class="video-description" v-html="video.content"></div>
 	</div>
 </template>
 
 
 <script>
+import moment from 'moment'
+
 export default {
 	props: ['video'],
 	data() {
@@ -27,25 +27,25 @@ export default {
 			//videoDate: null
 		};
 	},
-	created(){
+	created() {
 		this.isLiked = this.video.isLiked?true:false;
 		this.isSaved = this.video.isSaved?true:false;
 		this.tags = this.video.tags?this.video.tags.split(','):'';
 		
-		//this.videoDate = moment(this.video.date).format('MMM D, YYYY');
+		this.videoDate = moment(this.video.post_date).format('MMM D, YYYY');
 	},
-	watch: { 
+	watch: {
 		video: function(newVal) { 
 			this.isLiked = newVal.isLiked?true:false;
 			this.isSaved = newVal.isSaved?true:false;
 		}
 	},
 	methods: {
-		toggleLiked(){
+		toggleLiked() {
 			this.$store.dispatch('toggleLiked', { video: this.video });
 			this.isLiked = !this.isLiked;
 		},
-		toggleWatchLater(){
+		toggleWatchLater() {
 			this.$store.dispatch('toggleWatchLater', { video: this.video });
 			this.isSaved = !this.isSaved;
 		},

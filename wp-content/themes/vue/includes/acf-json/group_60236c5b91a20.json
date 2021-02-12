@@ -61,6 +61,23 @@
             "maxlength": "",
             "rows": "",
             "new_lines": ""
+        },
+        {
+            "key": "field_6025e6e39de27",
+            "label": "Date",
+            "name": "date",
+            "type": "date_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "F j, Y",
+            "return_format": "Ymd",
+            "first_day": 0
         }
     ],
     "location": [
@@ -80,5 +97,5 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "modified": 1612966838
+    "modified": 1613097621
 }

@@ -55,6 +55,7 @@ export default {
 			.then(data => {
 				this.channelsLoading = false;
 
+				//console.log(data);
 				if(this.$store.getters.getChannels.length){
 					this.$store.dispatch('updateChannels', data);
 				}else{

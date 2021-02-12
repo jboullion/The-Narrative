@@ -56,13 +56,12 @@ export default {
 		loadVideo(){
 			this.videoLoading = true;
 
-			
 			let tokenString = '';
 			if(this.$store.getters.getGoogleUser && this.$store.getters.getGoogleUser.Token){
 				tokenString += '&token='+this.$store.getters.getGoogleUser.Token;
 			}
 
-			fetch(process.env.VUE_APP_URL+'api/videos/get.php?limit=1&youtube_id='+this.youtube_id+tokenString, {
+			fetch(process.env.VUE_APP_URL+'api/videos/get.php?youtube_id='+this.youtube_id+tokenString, {
 				//mode: 'no-cors',
 				method: 'GET',
 				headers: { 'Content-Type': 'application/json' }

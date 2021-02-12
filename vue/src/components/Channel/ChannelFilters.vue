@@ -92,13 +92,9 @@ export default {
 				searchString += '&s='+this.search.replace('#','');
 			}
 
-			console.log('this.style: '+this.style);
-
 			if(this.style){
 				searchString += '&style='+this.style;
 			}
-
-			console.log('this.topic: '+this.topic);
 
 			if(this.topic){
 				searchString += '&topic='+this.topic;

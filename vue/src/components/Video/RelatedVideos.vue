@@ -51,6 +51,8 @@ export default {
 
 			this.relatedVideosLoading = true;
 
+			console.log(this.video);
+
 			fetch(process.env.VUE_APP_URL+'api/videos/related.php?channel_id='+this.video.channel_id, { // +'&offset='+this.relatedVideoPage
 				//mode: 'no-cors',
 				method: 'GET',

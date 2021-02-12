@@ -1,5 +1,18 @@
 <?php 
 
+
+// function jb_get_video_meta($video){
+// 	if(! empty($video)){
+// 		$video = $videos[0];
+// 		$video->post_title = html_entity_decode($video->post_title, ENT_QUOTES);
+// 		$video->youtube_id = get_post_meta($video->ID, 'youtube_id', true);
+// 		//$video->date = get_post_meta($video->ID, 'date', true);
+// 		$video->channel_youtube = $channel->meta->channel_id;
+// 		$video->channel_title = $channel->post_title;
+// 	}
+// }
+
+
 /**
  * Return the Google User ID based on a token passed from the client
  *

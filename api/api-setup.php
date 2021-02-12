@@ -17,12 +17,13 @@ header("Content-Type: application/json; charset=UTF-8");
 
 //By using a SHORTINIT and loading WP we are ONLY loading our database object ($wpdb).
 // if(! empty($full_load)){
- 	define('WP_USE_THEMES', false);
+	define('WP_USE_THEMES', false);
 // }else{
 // 	define('SHORTINIT', true);
 // }
 
 require_once dirname(__FILE__) .'/../wp-load.php';
+
 
 // require_once ( ABSPATH . WPINC . '/post.php' );
 // require( ABSPATH . WPINC . '/taxonomy.php' );
