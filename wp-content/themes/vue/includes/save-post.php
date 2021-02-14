@@ -42,7 +42,7 @@ function jb_set_channel_videos($post_id){
 		$yt_id = get_field('yt_api_key', 'option');
 
 		$done = false;
-		$max_videos = 20; // TODO: Increase this number? OR Setup some other "Full Import"
+		$max_videos = 120; // TODO: Increase this number? OR Setup some other "Full Import"
 		$safety = 6;
 		$videos = array();
 		$channel_obj = null;

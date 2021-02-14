@@ -12,7 +12,7 @@ if(empty($_GET['channel_id']) ) {
 }
 
 $limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$DEFAULT_VID_LIMIT;
-$offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']*$limit:0;
+$offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']:0;
 
 $user_id = $_GET['user_id']?:0;
 

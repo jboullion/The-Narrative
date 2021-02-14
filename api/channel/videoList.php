@@ -8,14 +8,14 @@ if(empty($_GET['channel_id']) ) {
 }
 
 
-$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:10;
-$offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']*$limit:0;
+$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$DEFAULT_VID_LIMIT;
+$offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']:0;
 
 
 
 $video_args = array(
 	'posts_per_page' => $limit,
-	'paged' => $offset?$offset+1:1,
+	'paged' => $offset?$offset + 1:1,
 	'post_type' => 'videos',
 	'meta_key' => 'channel',
 	'meta_value' => $_GET['channel_id']
