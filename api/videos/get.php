@@ -13,11 +13,11 @@ $video_args = array(
 );
 
 if(! empty($_GET['channel_id']) ) {
-	$channel_args['meta_key'] = 'channel';
-	$channel_args['meta_value'] = $_GET['channel_id'];
+	$video_args['meta_key'] = 'channel';
+	$video_args['meta_value'] = $_GET['channel_id'];
 }else if(! empty($_GET['youtube_id'])){
-	$channel_args['meta_key'] = 'youtube_id';
-	$channel_args['meta_value'] = $_GET['youtube_id'];
+	$video_args['meta_key'] = 'youtube_id';
+	$video_args['meta_value'] = $_GET['youtube_id'];
 }
 
 $videos = get_posts($video_args);
@@ -27,7 +27,11 @@ if(! empty($videos)){
 	$video->post_title = html_entity_decode($video->post_title, ENT_QUOTES);
 	$video->youtube_id = get_post_meta($video->ID, 'youtube_id', true);
 	$video->channel_id = (int)get_post_meta($video->ID, 'channel', true);
-	$video->content = apply_filters('the_content', $video->post_content);
+	
+
+	$video->content = displayTextWithLinks($video->post_content);
+	
+	$video->content = apply_filters('the_content', $video->content);
 }
 
 

@@ -29,6 +29,7 @@ function jb_register_cpts() {
 	//jb_register_taxonomy('genre', array('channels', 'voices'), 'Genre');
 	jb_register_taxonomy('style', array('channels'), 'Style');
 	jb_register_taxonomy('topic', array('channels'), 'Topic');
+	jb_register_taxonomy('tags', array('channels'), 'Tags');
 
 	//unregister_taxonomy_for_object_type('post_tag', 'post');
 	//unregister_taxonomy_for_object_type('product_tag', 'product');

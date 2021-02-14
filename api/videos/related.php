@@ -11,30 +11,66 @@ if(empty($_GET['channel_id']) ) {
 	exit;
 }
 
-$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:20;
+$limit = ! empty($_GET['limit']) && is_numeric($_GET['limit'])?$_GET['limit']:$DEFAULT_VID_LIMIT;
+$offset = ! empty($_GET['offset']) && is_numeric($_GET['offset'])?$_GET['offset']*$limit:0;
 
 $user_id = $_GET['user_id']?:0;
 
+$styles = get_the_terms($_GET['channel_id'], 'style');
+$topics = get_the_terms($_GET['channel_id'], 'topic');
 
+$channel_args = array(
+	'posts_per_page' => -1,
+	'orderby' => 'rand',
+	'post_type' => 'channels',
+	'tax_query' => array(
+		'relation' => 'AND'
+	)
+);
+
+if(! empty($styles)){
+	$style_ids = array_column($styles, 'term_id');
+	$channel_args['tax_query'][] = array(
+									'taxonomy' => 'style',
+									'field'    => 'term_id',
+									'terms'    => array( $style_ids ),
+									);
+}
+
+if(! empty($topics)){
+	$topic_ids = array_column($styles, 'term_id');
+
+	$channel_args['tax_query'][] = array(
+									'taxonomy' => 'topic',
+									'field'    => 'term_id',
+									'terms'    => array( $topic_ids ),
+									);
+}
+
+
+$channels = get_posts($channel_args);
+
+
+$channel_ids = array_column($channels, 'ID');
+
+
+
+// TODO: Orderby 'date' always returns same order of related videos...is that good?
 $video_args = array(
 	'posts_per_page' => $limit,
 	'paged' => $offset?$offset+1:1,
 	'post_type' => 'videos',
+	//'orderby' => 'rand',
+	'orderby' => 'date',
+	'order' => 'DESC',
+	'meta_query' => array(
+		array(
+			'key'		=> 'channel',
+			'value'    	=> $channel_ids,
+			'compare'   => 'IN',
+		)
+	)
 );
-
-
-if(! empty($_GET['s'])){
-	$video_args['s'] = $_GET['s'];
-}
-
-if(! empty($_GET['channel_id']) ) {
-	$video_args['meta_key'] = 'channel';
-	$video_args['meta_value'] = $_GET['channel_id'];
-}else if(! empty($_GET['youtube_id'])){
-	$video_args['meta_key'] = 'youtube_id';
-	$video_args['meta_value'] = $_GET['youtube_id'];
-}
-
 
 $videos = get_posts($video_args);
 

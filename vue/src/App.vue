@@ -85,6 +85,10 @@ export default {
 		color: #f8f8f8;
 	}
 
+	body a {
+		color: var(--bs-blue);
+	}
+
 
 	body.darkmode .card h1,
 	body.darkmode .card h2,

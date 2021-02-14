@@ -12,6 +12,16 @@
 // 	}
 // }
 
+/**
+ * Seach a text string and convert all urls with links
+ *
+ * @param string $s
+ * @return string
+ */
+function displayTextWithLinks($s) {
+	return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1" target="_blank" rel="nofollow">$1</a>', $s);
+}
+
 
 /**
  * Return the Google User ID based on a token passed from the client

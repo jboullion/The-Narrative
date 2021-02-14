@@ -1,4 +1,15 @@
 
+WordPress Move TODOS
+1. Setup taxonomy searching / related videos
+2. Dry some of the API code. Ex: Getting meta data for a video.
+
+
+
+
+
+
+
+
 2. Setup PWA?
 	a. Ran "vue pwa", I don't see service worker in deevlopment but haven't tested the build version yet.
 	b. If this works also need to make sure to set it up in WordPress

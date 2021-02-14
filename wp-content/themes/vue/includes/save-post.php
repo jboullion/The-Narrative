@@ -42,7 +42,7 @@ function jb_set_channel_videos($post_id){
 		$yt_id = get_field('yt_api_key', 'option');
 
 		$done = false;
-		$max_videos = 20;
+		$max_videos = 20; // TODO: Increase this number? OR Setup some other "Full Import"
 		$safety = 6;
 		$videos = array();
 		$channel_obj = null;
@@ -98,12 +98,16 @@ function jb_set_channel_videos($post_id){
 					'date' => date('F j, Y', strtotime($item->snippet->publishTime)),
 				*/
 
+				// Query YouTube to get full description / tags
+				// NOTE: This consumes a lot of our quota since it runs X times per channel
+				$video_info = jb_get_yt_video_info($video->id->videoId);
+
 				$video_post = array(
-					'post_title'    => html_entity_decode(wp_strip_all_tags( $video->snippet->title ), ENT_QUOTES),
-					'post_content'  => $video->snippet->description,
+					'post_title'    => html_entity_decode(wp_strip_all_tags( $video_info->title ), ENT_QUOTES),
+					'post_content'  => $video_info->description,
 					'post_status'   => 'publish',
 					'post_type' 	=> 'videos',
-					'post_date' 	=> $video->snippet->publishTime
+					'post_date' 	=> $video_info->publishedAt // $video->snippet->publishTime
 				);
 
 				// Insert the post into the database
@@ -114,6 +118,9 @@ function jb_set_channel_videos($post_id){
 					//update_post_meta($video_id, 'youtube_id', $video->id->videoId);
 					update_field('field_60236c624d18c', $post_id, $video_id); // channel
 					update_field('field_60236de9dad65', $video->id->videoId, $video_id); // youtube id
+					if($video_info->tags){
+						update_field('field_6023ebabe2758', '#'.implode(',#',$video_info->tags).',', $video_id); // youtube id
+					}
 					//update_field('field_6025e6e39de27', date('Ymd', strtotime($video->snippet->publishTime)), $video_id); // publish date
 				}
 
@@ -126,6 +133,23 @@ function jb_set_channel_videos($post_id){
 	}
 }
 
+
+
+function jb_get_yt_video_info($video_id){
+	$yt_id = get_field('yt_api_key', 'option');
+
+	$url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&id='.$video_id.'&key='.$yt_id;
+
+	$result = file_get_contents($url);
+
+	if($result){
+		$result_obj = json_decode( $result );
+		// TODO: setup check on what we return?
+		return $result_obj->items[0]->snippet;
+	}else{
+		return false;
+	}
+}
 
 
 /**
