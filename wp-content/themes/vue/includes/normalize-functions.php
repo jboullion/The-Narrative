@@ -12,13 +12,28 @@
 function jb_add_normalized_video($video, $channel_id){
 	global $wpdb;
 
-	if(empty($video->video_id)) return;
+	//jb_print($video);
 
-	$video_table = 'jb_videos';
+	if(empty($video->id) || empty($video->id->videoId)) return;
+
+	$video_info = jb_get_yt_video_info($video->id->videoId);
+
+	//jb_print($video_info);
+
+	$tag_string = '';
+	if($video_info->tags){
+		$tag_string = '#'.implode(',#',$video_info->tags).',';
+	}
+	
+	$video_info->title = html_entity_decode($video_info->title, ENT_QUOTES);
+	$video_info->description = displayTextWithLinks( html_entity_decode($video_info->description, ENT_QUOTES));
+
+	$prepared_description = apply_filters('the_content', $video_info->description); //sanitize_text_field(addslashes($video_info->description));
+
 
 	// This query works but the insert above does not. Weird
 	$wpdb->query(
-		$wpdb->prepare("INSERT INTO {$video_table} (`youtube_id`, `channel_id`, `title`, `tags`, `description`, `date`) 
+		$wpdb->prepare("INSERT INTO {$wpdb->videos} (`youtube_id`, `channel_id`, `title`, `tags`, `description`, `date`) 
 						VALUES (%s, %d, %s, %s, %s, %s)
 						ON DUPLICATE KEY UPDATE
 						`youtube_id` = %s, 
@@ -27,21 +42,24 @@ function jb_add_normalized_video($video, $channel_id){
 						`tags` = %s,
 						`description` = %s,
 						`date` = %s", 
-						$video->video_id, 
+						$video->id->videoId, 
 						$channel_id, 
-						$video->title, 
-						$video->tags, 
-						$video->description, 
-						date('Y-m-d', strtotime($video->date)), 
-						$video->video_id, 
+						$video_info->title, 
+						$tag_string,
+						$prepared_description, 
+						date('Y-m-d', strtotime($video_info->publishedAt)), 
+						$video->id->videoId, 
 						$channel_id,
-						$video->title, 
-						$video->tags, 
-						$video->description, 
-						date('Y-m-d', strtotime($video->date))
+						$video_info->title, 
+						$tag_string, 
+						$prepared_description, 
+						date('Y-m-d', strtotime($video_info->publishedAt))
 			
 		)
 	);
+
+	jb_print($wpdb->last_error);
+	jb_print($wpdb->last_query);
 
 }
 
@@ -56,21 +74,27 @@ function jb_add_normalized_video($video, $channel_id){
  * @param boolean $videos Do you also want to normalize this channels videos?
  * @return void
  */
-function jb_add_normalized_channel($channel, $videos = false){
+function jb_add_normalized_channel($channel_ID){
 	global $wpdb;
 
-	$channel_table = 'jb_channels';
+	$c_fields = get_fields($channel_ID);
 
-	$c_fields = get_fields($channel->ID);
-	$channel_img = jb_get_yt_channel_img($channel->ID);
-	$channel_videos = jb_get_yt_channel_videos($c_fields['channel_id'], $channel->ID);
+	//
+	if($c_fields['last_update'] && (int)$c_fields['last_update'] >= (int)date('Ymd')) return;
+
+	$channel_img = jb_get_yt_channel_img($channel_ID);
+	//$channel_videos = jb_get_yt_channel_videos($c_fields['channel_id'], $channel->ID);
+
+	$youtube_id = $c_fields['channel_id'];
+
+	if(empty($youtube_id)) return false;
 
 	$wpdb->insert(
-		$channel_table,
+		$wpdb->channels,
 		array(
-			'youtube_id' => $c_fields['channel_id'],
-			'title' => $channel->post_title,
-			'description' => $channel->post_content,
+			'youtube_id' => $youtube_id,
+			'title' => get_the_title($channel_ID),
+			'description' => get_the_content($channel_ID),
 			'img_url' => $channel_img,
 			'facebook' => $c_fields['facebook'],
 			'instagram' => $c_fields['instagram'],
@@ -85,10 +109,10 @@ function jb_add_normalized_channel($channel, $videos = false){
 
 	if($wpdb->insert_id === 0){
 		$wpdb->update(
-			$channel_table,
+			$wpdb->channels,
 			array(
-				'title' => $channel->post_title,
-				'description' => $channel->post_content,
+				'title' => get_the_title($channel_ID),
+				'description' => get_the_content($channel_ID),
 				'img_url' => $channel_img,
 				'facebook' => $c_fields['facebook'],
 				'instagram' => $c_fields['instagram'],
@@ -100,28 +124,111 @@ function jb_add_normalized_channel($channel, $videos = false){
 				//'tags' => '',
 			),
 			array(
-				'youtube_id' => $c_fields['channel_id'],
+				'youtube_id' => $youtube_id,
 			)
 		);
 	}else if($wpdb->insert_id === false){
 		// Error
 	}
 
+	
+	// Add this channel's videos
+	jb_add_channel_videos($youtube_id);
+
 	// Also normalize this channel's videos
-	if($channel_videos){
-		$channel_id = $wpdb->get_var(
-			$wpdb->prepare("SELECT channel_id FROM {$channel_table} WHERE youtube_id = %s", $c_fields['channel_id'])
-		);
 
-		if(! empty($channel_videos) && ! empty($channel_id)){
-			foreach($channel_videos as $video){
-				jb_add_normalized_video($video, $channel_id);
-			}
-		}
-	}
+	// if($channel_videos){
+	// 	$channel_id = $wpdb->get_var(
+	// 		$wpdb->prepare("SELECT channel_id FROM {$channel_table} WHERE youtube_id = %s", $c_fields['channel_id'])
+	// 	);
 
+	// 	if(! empty($channel_videos) && ! empty($channel_id)){
+	// 		foreach($channel_videos as $video){
+	// 			jb_add_normalized_video($video, $channel_id);
+	// 		}
+	// 	}
+	// }
+
+	update_field( 'field_60236ff01e466', date('Ymd'), $channel_ID );
 }
 
+/**
+ * Add videos from a youtube channel based on the channel's youtube ID
+ *
+ * @param string $channel_id AKA YouTube ID
+ * @return void
+ */
+function jb_add_channel_videos($youtube_id){
+	global $wpdb;
+
+	$yt_id = get_field('yt_api_key', 'option');
+
+	$done = false;
+	$max_videos = 120; // TODO: Increase this number? OR Setup some other "Full Import"
+	$page_limit = 6;
+	$channel_obj = null;
+	$count = 0;
+
+	$channel_id = $wpdb->get_var($wpdb->prepare("SELECT channel_id FROM {$wpdb->channels} WHERE youtube_id = %s", $youtube_id));
+
+	
+	while(! $done){
+		$count++;
+
+		$url = 'https://www.googleapis.com/youtube/v3/search?key='.$yt_id.'&channelId='.$youtube_id.'&part=snippet&order=date&maxResults=20';
+
+		if($channel_obj && ! empty($channel_obj->nextPageToken)){
+			$url .= '&pageToken='.$channel_obj->nextPageToken;
+		}
+
+		$result = file_get_contents($url);
+
+		if($result){
+
+			$channel_obj = json_decode( $result );
+			
+			jb_print($channel_obj);
+
+			// Does the FIRST video exist?
+			$video_exists = $wpdb->get_var(
+							$wpdb->prepare("SELECT video_id FROM {$wpdb->videos} WHERE youtube_id = %s", $channel_obj->items[0]->id->videoId));
+			
+			// If we already have these videos we don't need to waste quota importing them
+			if($video_exists){
+				$done = true;
+				break;
+			}
+
+			// Does the last video exist?
+			$video_exists = $wpdb->get_var(
+				$wpdb->prepare("SELECT video_id FROM {$wpdb->videos} WHERE youtube_id = %s", $channel_obj->items[count($channel_obj->items)-1]->id->videoId));
+
+			// If we already have these videos we don't need to waste quota importing them
+			if($video_exists){
+				$done = true;
+				// we don't want to break here because we still want to import some channel videos, but this will be the only batch we need
+			}
+			
+			jb_print('Inserting Videos...');
+
+
+			if(! empty($channel_obj->items)){
+				foreach($channel_obj->items as $video){
+					jb_add_normalized_video($video, $channel_id);
+				}
+				
+			}
+
+			if($count > $page_limit){
+				$done = true;
+				break;
+			}
+		}else{
+			$done = true;
+			break;
+		}
+	}
+}
 
 
 add_action('add_meta_boxes', 'wpse_add_custom_meta_box_2');
@@ -179,7 +286,7 @@ function jb_create_normal_tables(){
 
 	$channel_table = "CREATE TABLE `{$wpdb->prefix}channels` (
 						`channel_id` INT(11) NOT NULL AUTO_INCREMENT,
-						`youtube_id` VARCHAR(50) NULL DEFAULT NULL,
+						`youtube_id` VARCHAR(50) NOT NULL DEFAULT NULL,
 						`title` VARCHAR(100) NULL DEFAULT NULL,
 						`description` TEXT NULL,
 						`img_url` TEXT NULL,
@@ -294,8 +401,8 @@ function jb_create_normal_tables(){
 
 	$videos_table = "CREATE TABLE `{$wpdb->prefix}videos` (
 						`video_id` INT(11) NOT NULL AUTO_INCREMENT,
-						`youtube_id` VARCHAR(50) NULL DEFAULT NULL,
-						`channel_id` INT(11) NULL DEFAULT NULL,
+						`youtube_id` VARCHAR(50) NOT NULL DEFAULT NULL,
+						`channel_id` INT(11) NOT NULL DEFAULT NULL,
 						`title` VARCHAR(50) NOT NULL,
 						`description` TEXT NOT NULL,
 						`tags` MEDIUMTEXT NOT NULL,

@@ -3,7 +3,7 @@
 		<div v-if="tags" class="tags">
 			<span v-for="tag in tags" :key="tag">{{ tag }}</span>
 		</div>
-		<h3>{{ video.title }}</h3>
+		<h3>{{ video.post_title }}</h3>
 		<p>{{ videoDate }}</p>
 		<div class="video-actions">
 			<i class="fas fa-clock" @click="toggleWatchLater" v-bind:class="{active: isSaved}"></i>
@@ -32,7 +32,7 @@ export default {
 		this.isSaved = this.video.isSaved?true:false;
 		this.tags = this.video.tags?this.video.tags.split(','):'';
 		
-		this.videoDate = moment(this.video.date).format('MMM D, YYYY');
+		this.videoDate = moment(this.video.post_date).format('MMM D, YYYY');
 	},
 	watch: {
 		video: function(newVal) { 

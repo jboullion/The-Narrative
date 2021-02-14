@@ -1,6 +1,39 @@
 <?php 
 
 
+function jb_setup_wpdb_tables(){
+	global $wpdb;
+
+	$wpdb->channels = $wpdb->prefix.'channels';
+	$wpdb->videos = $wpdb->prefix.'videos';
+	$wpdb->history = $wpdb->prefix.'history';
+	$wpdb->liked = $wpdb->prefix.'liked';
+	$wpdb->styles = $wpdb->prefix.'styles';
+	$wpdb->topics = $wpdb->prefix.'topics';
+	$wpdb->channel_styles = $wpdb->prefix.'channel_styles';
+	$wpdb->channel_topics = $wpdb->prefix.'channel_topics';
+	$wpdb->channel_views = $wpdb->prefix.'channel_views';
+	$wpdb->video_views = $wpdb->prefix.'video_views';
+	$wpdb->watch_later = $wpdb->prefix.'watch_later';
+}
+
+function jb_get_post_meta($post_id){
+	global $wpdb;
+
+	$all_meta = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}postmeta WHERE post_id = %d",$post_id));
+	
+	$meta_arr = array();
+	if(! empty($all_meta) && ! empty($all_meta)){
+		foreach($all_meta as $meta){
+			$meta_arr[$meta->meta_key] = $meta->meta_value;
+		}
+		
+		return $meta_arr;
+	}
+
+	return array();
+}
+
 // function jb_get_video_meta($video){
 // 	if(! empty($video)){
 // 		$video = $videos[0];

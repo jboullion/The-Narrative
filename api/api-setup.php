@@ -16,25 +16,34 @@ header("Content-Type: application/json; charset=UTF-8");
 
 
 //By using a SHORTINIT and loading WP we are ONLY loading our database object ($wpdb).
-// if(! empty($full_load)){
+if(! empty($full_load)){
+	//define('DOING_AJAX', true);
 	define('WP_USE_THEMES', false);
-// }else{
-// 	define('SHORTINIT', true);
-// }
+}else{
+	define('SHORTINIT', true);
+}
 
 require_once dirname(__FILE__) .'/../wp-load.php';
 
 
-// require_once ( ABSPATH . WPINC . '/post.php' );
-// require( ABSPATH . WPINC . '/taxonomy.php' );
-// require_once ( ABSPATH . WPINC . '/shortcodes.php' );
-// require_once ( ABSPATH . WPINC . '/media.php' );
-// require_once ( ABSPATH . WPINC . '/query.php' );
-// require_once ( ABSPATH . WPINC . '/class-wp-post.php' );
-// require_once ( ABSPATH . WPINC . '/class-wp-query.php' );
-// require_once ( ABSPATH . WPINC . '/class-wp-tax-query.php' );
-// require_once ( ABSPATH . WPINC . '/user.php' );
-// require_once ( ABSPATH . WPINC . '/capabilities.php' );
+
+
+//  require( ABSPATH . WPINC . '/class-wp-user.php' );
+//  require( ABSPATH . WPINC . '/class-wp-query.php' );
+//  require( ABSPATH . WPINC . '/query.php' );
+//  require( ABSPATH . WPINC . '/user.php' );
+//  require( ABSPATH . WPINC . '/post.php' );
+//  require( ABSPATH . WPINC . '/class-wp-post-type.php' );
+//  require( ABSPATH . WPINC . '/class-wp-post.php' );
+//  require( ABSPATH . WPINC . '/category.php' );
+//  require( ABSPATH . WPINC . '/taxonomy.php' );
+//  require( ABSPATH . WPINC . '/class-wp-taxonomy.php' );
+//  require( ABSPATH . WPINC . '/class-wp-term.php' );
+//  require( ABSPATH . WPINC . '/class-wp-term-query.php' );
+//  require( ABSPATH . WPINC . '/class-wp-tax-query.php' );
+
+
+
 
 require_once dirname(__FILE__).'/vendor/autoload.php';
 
@@ -47,17 +56,19 @@ global $blog_id, $wpdb, $yt_key;
 $yt_key = 'AIzaSyAiXvrjHqYkVxC4y1U1neEYGsTFQE2rvzY';
 
 
-$wpdb->channels = 'jb_channels';
-$wpdb->videos = 'jb_videos';
-$wpdb->history = 'jb_history';
-$wpdb->liked = 'jb_liked';
-$wpdb->styles = 'jb_styles';
-$wpdb->topics = 'jb_topics';
-$wpdb->channel_styles = 'jb_channel_styles';
-$wpdb->channel_topics = 'jb_channel_topics';
-$wpdb->channel_views = 'jb_channel_views';
-$wpdb->video_views = 'jb_video_views';
-$wpdb->watch_later = 'jb_watch_later';
+// $wpdb->channels = 'jb_channels';
+// $wpdb->videos = 'jb_videos';
+// $wpdb->history = 'jb_history';
+// $wpdb->liked = 'jb_liked';
+// $wpdb->styles = 'jb_styles';
+// $wpdb->topics = 'jb_topics';
+// $wpdb->channel_styles = 'jb_channel_styles';
+// $wpdb->channel_topics = 'jb_channel_topics';
+// $wpdb->channel_views = 'jb_channel_views';
+// $wpdb->video_views = 'jb_video_views';
+// $wpdb->watch_later = 'jb_watch_later';
+
+jb_setup_wpdb_tables();
 
 
 // The default number of videos to return when loading

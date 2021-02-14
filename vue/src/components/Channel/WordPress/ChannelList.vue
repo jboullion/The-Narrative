@@ -86,7 +86,7 @@ export default {
 			this.channelVideos = [];
 			this.channelVideosLoading = true;
 			
-			let searchString = '?channel_id='+this.channel.channel_id;
+			let searchString = '?channel_id='+this.channel.ID;
 
 			if(this.order){
 				searchString += '&offset='+this.channelsPage+'&order='+this.order;
@@ -132,7 +132,7 @@ export default {
 
 			//console.log(this.channel);
 
-			fetch(process.env.VUE_APP_URL+'api/channel/videoList.php?channel_id='+this.channel.channel_id+'&offset='+this.channelVideoPage, {
+			fetch(process.env.VUE_APP_URL+'api/channel/videoList.php?channel_id='+this.channel.ID+'&offset='+this.channelVideoPage, {
 				//mode: 'no-cors',
 				method: 'GET',
 				headers: { 'Content-Type': 'application/json' }

@@ -63,34 +63,34 @@ export default {
 		this.width = this.videos?(this.videos.length * this.sliderSize):0;
 	},
 	methods: {
-		loadVideos(){
-			//var limit = 10;
+		// loadVideos(){
+		// 	//var limit = 10;
 
-			this.videosLoading = true;
+		// 	this.videosLoading = true;
 
-			fetch(process.env.VUE_APP_URL+'api/channel/videoList.php?channel_id='+this.channel.channel_id+'&offset='+this.videoPage, {
-				//mode: 'no-cors',
-				method: 'GET',
-				headers: { 'Content-Type': 'application/json' }
-			})
-			.then(response => {
-				if(response.ok){
-					this.videoPage++;
-					return response.json();
-				}
-			})
-			.then(data => {
-				this.videosLoading = false;
+		// 	fetch(process.env.VUE_APP_URL+'api/channel/videoList.php?channel_id='+this.channel.channel_id+'&offset='+this.videoPage, {
+		// 		//mode: 'no-cors',
+		// 		method: 'GET',
+		// 		headers: { 'Content-Type': 'application/json' }
+		// 	})
+		// 	.then(response => {
+		// 		if(response.ok){
+		// 			this.videoPage++;
+		// 			return response.json();
+		// 		}
+		// 	})
+		// 	.then(data => {
+		// 		this.videosLoading = false;
 				
-				this.videos = this.videos.concat(data);
+		// 		this.videos = this.videos.concat(data);
 
-			})
-			.catch(error => {
-				//this.errorMessage = error;
-				this.videosLoading = false;
-				console.error('There was an error!', error);
-			});
-		},
+		// 	})
+		// 	.catch(error => {
+		// 		//this.errorMessage = error;
+		// 		this.videosLoading = false;
+		// 		console.error('There was an error!', error);
+		// 	});
+		// },
 		getTouches(evt) {
 			return evt.touches || // browser API
 				evt.originalEvent.touches; // jQuery
@@ -99,10 +99,8 @@ export default {
 			const firstTouch = this.getTouches(evt)[0];
 			this.xDown = firstTouch.clientX;
 			this.yDown = firstTouch.clientY;
-			
 		},
 		handleTouchEnd() {
-
 			// Direction
 			if(this.moveLeft){
 				this.moveChannel(true);
@@ -146,9 +144,8 @@ export default {
 				this.moveRight = false;
 			}
 
-
 		},
-		moveChannel(left){
+		moveChannel(left) {
 
 			let videosOnScreen = this.$refs.videoList.clientWidth / this.sliderSize;
 			let videosToShow = Math.floor(videosOnScreen);
@@ -173,7 +170,13 @@ export default {
 			}
 
 			this.moveTranslate = this.translate;
-			
+
+		}
+	},
+	watch: {
+		channel: function() { 
+			this.videos = this.channel.videos;
+			this.width = this.videos?(this.videos.length * this.sliderSize):0;
 		}
 	}
 }

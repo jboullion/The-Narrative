@@ -81,11 +81,11 @@ export default {
 		},
 		loadChannelVideo(){
 
-			if(! this.channel.channel_id) return;
+			if(! this.channel.ID) return;
 
 			this.channelVideosLoading = true;
 
-			fetch(process.env.VUE_APP_URL+'api/channel/videoList.php?channel_id='+this.channel.channel_id+'&limit=1', {
+			fetch(process.env.VUE_APP_URL+'api/videos/get.php?channel_id='+this.channel.ID, {
 				//mode: 'no-cors',
 				method: 'GET',
 				headers: { 'Content-Type': 'application/json' }
@@ -97,8 +97,8 @@ export default {
 			})
 			.then(data => {
 				this.channelVideosLoading = false;
-				if(data.length){
-					this.fullVideo = data[0];
+				if(data){
+					this.fullVideo = data
 					this.fullVideo.date = moment(this.fullVideo.date).format('MMM D, YYYY');
 					this.addToHistory();
 				}
