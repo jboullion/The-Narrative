@@ -12,13 +12,9 @@
 function jb_add_normalized_video($video, $channel_id){
 	global $wpdb;
 
-	//jb_print($video);
-
 	if(empty($video->id) || empty($video->id->videoId)) return;
 
 	$video_info = jb_get_yt_video_info($video->id->videoId);
-
-	//jb_print($video_info);
 
 	$tag_string = '';
 	if($video_info->tags){
@@ -58,8 +54,8 @@ function jb_add_normalized_video($video, $channel_id){
 		)
 	);
 
-	jb_print($wpdb->last_error);
-	jb_print($wpdb->last_query);
+	// jb_print($wpdb->last_error);
+	// jb_print($wpdb->last_query);
 
 }
 
@@ -81,6 +77,7 @@ function jb_add_normalized_channel($channel_ID){
 
 	//
 	if($c_fields['last_update'] && (int)$c_fields['last_update'] >= (int)date('Ymd')) return;
+
 
 	$channel_img = jb_get_yt_channel_img($channel_ID);
 	//$channel_videos = jb_get_yt_channel_videos($c_fields['channel_id'], $channel->ID);
@@ -131,34 +128,102 @@ function jb_add_normalized_channel($channel_ID){
 		// Error
 	}
 
+
+	$c_id = jb_get_channel_id_by_yt_id($youtube_id);
+
 	
 	// Add this channel's videos
-	jb_add_channel_videos($youtube_id);
+	jb_add_channel_videos($youtube_id, $c_id);
 
-	// Also normalize this channel's videos
+	jb_set_channel_styles($channel_ID, $c_id);
 
-	// if($channel_videos){
-	// 	$channel_id = $wpdb->get_var(
-	// 		$wpdb->prepare("SELECT channel_id FROM {$channel_table} WHERE youtube_id = %s", $c_fields['channel_id'])
-	// 	);
+	jb_set_channel_topics($channel_ID, $c_id);
 
-	// 	if(! empty($channel_videos) && ! empty($channel_id)){
-	// 		foreach($channel_videos as $video){
-	// 			jb_add_normalized_video($video, $channel_id);
-	// 		}
-	// 	}
-	// }
+
 
 	update_field( 'field_60236ff01e466', date('Ymd'), $channel_ID );
 }
 
 /**
- * Add videos from a youtube channel based on the channel's youtube ID
+ * Get the normalized channel_id based on the channel's YT ID
  *
- * @param string $channel_id AKA YouTube ID
+ * @param string $youtube_id
+ * @return int
+ */
+function jb_get_channel_id_by_yt_id($youtube_id){
+	global $wpdb;
+
+	return $wpdb->get_var($wpdb->prepare("SELECT channel_id FROM {$wpdb->channels} WHERE youtube_id = %s", $youtube_id));
+}
+
+/**
+ * Set the styles for this channel
+ *
+ * @param int $post_id The post ID of the channel in the admin
+ * @param int $channel_id The row ID of the
  * @return void
  */
-function jb_add_channel_videos($youtube_id){
+function jb_set_channel_styles($post_id, $channel_id){
+	global $wpdb;
+
+	$styles = get_the_terms($post_id, 'style');
+
+	if(! empty($styles)){
+		$style_ids = array_column($styles, 'term_id');
+
+		foreach($style_ids as $style_id){
+			$wpdb->insert(
+				$wpdb->channel_styles,
+				array(
+					'channel_id' => $channel_id,
+					'style_id' => $style_id,
+				)
+			);
+		}
+		
+	}
+}
+
+
+
+/**
+ * Set the styles for this channel
+ *
+ * @param int $post_id The post ID of the channel in the admin
+ * @param int $channel_id The row ID of the
+ * @return void
+ */
+function jb_set_channel_topics($post_id, $channel_id){
+	global $wpdb;
+
+	$topics = get_the_terms($post_id, 'topic');
+
+	if(! empty($topics)){
+		$topic_ids = array_column($topics, 'term_id');
+
+		foreach($topic_ids as $topic_id){
+			$wpdb->insert(
+				$wpdb->channel_topics,
+				array(
+					'channel_id' => $channel_id,
+					'topic_id' => $topic_id,
+				)
+			);
+		}
+		
+	}
+}
+
+
+
+/**
+ * Add videos from a youtube channel based on the channel's youtube ID
+ *
+ * @param string $youtube_id YouTube ID
+ * @param int $channel_id The table ID of the channel
+ * @return void
+ */
+function jb_add_channel_videos($youtube_id, $channel_id){
 	global $wpdb;
 
 	$yt_id = get_field('yt_api_key', 'option');
@@ -168,8 +233,6 @@ function jb_add_channel_videos($youtube_id){
 	$page_limit = 6;
 	$channel_obj = null;
 	$count = 0;
-
-	$channel_id = $wpdb->get_var($wpdb->prepare("SELECT channel_id FROM {$wpdb->channels} WHERE youtube_id = %s", $youtube_id));
 
 	
 	while(! $done){
@@ -187,7 +250,7 @@ function jb_add_channel_videos($youtube_id){
 
 			$channel_obj = json_decode( $result );
 			
-			jb_print($channel_obj);
+			// jb_print($channel_obj);
 
 			// Does the FIRST video exist?
 			$video_exists = $wpdb->get_var(
@@ -208,9 +271,6 @@ function jb_add_channel_videos($youtube_id){
 				$done = true;
 				// we don't want to break here because we still want to import some channel videos, but this will be the only batch we need
 			}
-			
-			jb_print('Inserting Videos...');
-
 
 			if(! empty($channel_obj->items)){
 				foreach($channel_obj->items as $video){
@@ -375,28 +435,28 @@ function jb_create_normal_tables(){
 	$wpdb->query($user_liked);
 
 
-	$styles = "CREATE TABLE `{$wpdb->prefix}styles` (
-				`style_id` INT(11) NOT NULL AUTO_INCREMENT,
-				`style_name` VARCHAR(50) NOT NULL,
-				PRIMARY KEY (`style_id`)
-			)
-			COLLATE='latin1_swedish_ci'
-			ENGINE=InnoDB
-			AUTO_INCREMENT=1;";
+	// $styles = "CREATE TABLE `{$wpdb->prefix}styles` (
+	// 			`style_id` INT(11) NOT NULL AUTO_INCREMENT,
+	// 			`style_name` VARCHAR(50) NOT NULL,
+	// 			PRIMARY KEY (`style_id`)
+	// 		)
+	// 		COLLATE='latin1_swedish_ci'
+	// 		ENGINE=InnoDB
+	// 		AUTO_INCREMENT=1;";
 
-	$wpdb->query($styles);
+	// $wpdb->query($styles);
 
 
-	$topics = "CREATE TABLE `{$wpdb->prefix}topics` (
-					`topic_id` INT(11) NOT NULL AUTO_INCREMENT,
-					`topic_name` VARCHAR(255) NULL DEFAULT NULL,
-					PRIMARY KEY (`topic_id`)
-				)
-				COLLATE='latin1_swedish_ci'
-				ENGINE=InnoDB
-				AUTO_INCREMENT=1;";
+	// $topics = "CREATE TABLE `{$wpdb->prefix}topics` (
+	// 				`topic_id` INT(11) NOT NULL AUTO_INCREMENT,
+	// 				`topic_name` VARCHAR(255) NULL DEFAULT NULL,
+	// 				PRIMARY KEY (`topic_id`)
+	// 			)
+	// 			COLLATE='latin1_swedish_ci'
+	// 			ENGINE=InnoDB
+	// 			AUTO_INCREMENT=1;";
 
-	$wpdb->query($topics);
+	// $wpdb->query($topics);
 
 
 	$videos_table = "CREATE TABLE `{$wpdb->prefix}videos` (

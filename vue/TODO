@@ -1,15 +1,15 @@
 
-WordPress Move TODOS
-xxx1. Setup taxonomy searching / related videos
-2. Dry some of the API code. Ex: Getting meta data for a video.
-3. Like and History updated to wordpress
-4. Channel Page. Should channel page really just be the latest video page?
 
 
 
 
 
 
+
+
+
+
+1. Transfer taxonomy to normalized tables? OR just use the taxonomy table as our table
 2. Setup PWA?
 	a. Ran "vue pwa", I don't see service worker in deevlopment but haven't tested the build version yet.
 	b. If this works also need to make sure to set it up in WordPress
@@ -53,3 +53,19 @@ Z. (OPTIONAL)
 	a. Analytics
 		i. Watch Time
 		ii. Videos per session?
+
+
+
+
+
+
+
+
+
+
+
+WordPress Move TODOS
+xxx1. Setup taxonomy searching / related videos
+2. Dry some of the API code. Ex: Getting meta data for a video.
+3. Like and History updated to wordpress
+4. Channel Page. Should channel page really just be the latest video page?

@@ -38,7 +38,7 @@ $user_id = $_GET['user_id']?:0;
 // }
 
 // if(! empty($topics)){
-// 	$topic_ids = array_column($styles, 'term_id');
+// 	$topic_ids = array_column($topics, 'term_id');
 
 // 	$channel_args['tax_query'][] = array(
 // 									'taxonomy' => 'topic',
